@@ -1,0 +1,61 @@
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply font-notosans;
+}
+
+.menu li span {
+  @apply text-white;
+}
+
+.header-text {
+  @apply text-blue-800 font-black capitalize;
+}
+
+@layer components {
+  .primary-btn {
+    @apply btn bg-blue-800 text-white rounded-lg hover:bg-blue-600 disabled:opacity-65;
+  }
+
+  .google-btn {
+    @apply btn bg-red-700 text-white rounded-lg hover:bg-red-500 disabled:opacity-65;
+  }
+
+  .green-btn {
+    @apply btn bg-green-700 text-white rounded-lg hover:bg-green-900 disabled:opacity-65;
+  }
+
+  .front-img {
+    @apply w-auto hover:opacity-65 border-2 p-5 rounded-lg object-center;
+  }
+
+  .menu-img {
+    @apply object-fill rounded-lg lg:hover:rotate-6 transition-all duration-300;
+  }
+
+  .appointment-btn {
+    @apply btn bg-transparent outline-none border-none shadow-none hover:bg-blue-100;
+  }
+}
+
+.leaflet-container {
+  height: 100vh;
+  width: 100%;
+}
+
+.cluster-icon {
+  background-color: #333;
+  height: 2em;
+  width: 2em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: 0 0 0px 5px #fff;
+}
