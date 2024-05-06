@@ -1,7 +1,7 @@
 import CreateNote from '@/components/CreateNote';
 import Note from '@/components/Note';
 import { Button } from '@/components/ui/button';
-import { fetchNotes } from '@/hooks/useNotesData';
+import { deleteNote, fetchNotes } from '@/hooks/useNotesData';
 import { Note as NoteModel } from '@/models/Notes';
 import { PlusIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect, useState } from 'react';
@@ -31,7 +31,15 @@ const Notes = () => {
         <ReloadIcon className="animate-spin size-6" /> <p className="text-sm italic">Loading...</p>
       </div>
     );
-  if (data && data?.length === 0) return <p>No notes found....</p>;
+
+  const onDeleteNote = async (id: string) => {
+    try {
+      await deleteNote(id);
+      setData(data.filter((note) => note._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col gap-4">
@@ -43,6 +51,7 @@ const Notes = () => {
           <PlusIcon /> Add Note
         </Button>
       </div>
+
       <CreateNote
         showDialog={showDialog}
         setShowDialog={setShowDialog}
@@ -50,11 +59,22 @@ const Notes = () => {
           setData([...data, addedNote]);
         }}
       />
-      <div className="flex flex-wrap gap-4 justify-center items-center">
-        {data?.map((note) => (
-          <Note key={note._id} noteProps={note} />
-        ))}
-      </div>
+      {data && data.length > 0 ? (
+        <div className="flex flex-wrap flex-col md:flex-row gap-4 justify-center items-center w-full">
+          {data?.map((note) => (
+            <Note
+              key={note._id}
+              noteProps={note}
+              onDeleteNoteClicked={onDeleteNote}
+              onNoteAdded={(updatedNote) =>
+                setData(data.map((note) => (note._id === updatedNote._id ? updatedNote : note)))
+              }
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="text-center">No notes found</p>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import * as NotesController from '../controllers/Notes.Controller';
-
 import express from 'express';
+
+import * as NotesController from '../controllers/Notes.Controller';
 
 const router = express.Router();
 

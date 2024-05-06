@@ -1,69 +1,63 @@
-import { Note } from '@/models/Notes';
-import React, { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from './ui/dialog';
-
-import { updateNote } from '@/hooks/useNotesData';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
 
-interface UpdateProps {
-  showDialog: boolean;
-  setShowDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  noteProps: Note;
-  onNoteAdded: (note: Note) => void;
+const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
+
+interface UserInteraction {
+  showInteraction: boolean;
+  setShowInteraction: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const formSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  text: z.string().min(0),
+const userSchema = z.object({
+  email: z
+    .string({
+      required_error: 'Email is required',
+    })
+    .email({
+      message: 'Must be a valid email',
+    }),
+  username: z
+    .string({
+      required_error: 'Username is required',
+    })
+    .min(8, 'Must be at least 8 characters')
+    .max(14, 'Must be at most 14 characters'),
+  password: z
+    .string({
+      required_error: 'Password is required',
+    })
+    .min(8, 'Must be at least 8 characters')
+    .max(24, 'Must be at most 24 characters')
+    .regex(passwordValidation, {
+      message: 'Must contain at least one uppercase, one lowercase, one number and one special character',
+    }),
 });
 
-const UpdateNote = ({ showDialog, setShowDialog, noteProps, onNoteAdded }: UpdateProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+const LoginRegister = ({ showInteraction, setShowInteraction }: UserInteraction) => {}) => {
+  const form = useForm<z.infer<typeof userSchema>>({
+    resolver: zodResolver(userSchema),
     defaultValues: {
-      title: noteProps?.title || '',
-      text: noteProps?.text || '',
+      title: '',
+      text: '',
     },
   });
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setIsLoading(true);
-      const res = await updateNote(noteProps._id, values);
-      setShowDialog((prev) => !prev);
-      setIsLoading(false);
-      onNoteAdded(res);
-      return;
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
-
+  const handleSubmit = async (values: z.infer<typeof userSchema>) => {};
   return (
-    <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent>
+    <Dialog open={showInteraction} onOpenChange={setShowInteraction}>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Update Note</DialogTitle>
-          <DialogDescription>Note ID: {noteProps._id.slice(0, 5)}</DialogDescription>
+          <DialogTitle>Create New Note</DialogTitle>
+          <DialogDescription>Create a note and show it on the dashboard</DialogDescription>
         </DialogHeader>
-        {/* FORM */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
             <FormField
@@ -98,15 +92,13 @@ const UpdateNote = ({ showDialog, setShowDialog, noteProps, onNoteAdded }: Updat
               }}
             ></FormField>
             <Button disabled={isLoading}>
-              {isLoading ? <ReloadIcon className="animate-spin size-6" /> : 'Update Note'}
+              {isLoading ? <ReloadIcon className="animate-spin size-6" /> : 'Add Note'}
             </Button>
           </form>
         </Form>
-        {/* FORM */}
-        <DialogFooter></DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default UpdateNote;
+export default LoginRegister;

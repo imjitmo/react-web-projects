@@ -39,7 +39,7 @@ const CreateNote = ({ showDialog, setShowDialog, onNoteAdded }: AddNoteDialogPro
       const res = await addNote(values);
       form.reset({ title: '', text: '' });
       setShowDialog((prev) => !prev);
-      onNoteAdded(res?.note);
+      onNoteAdded(res);
       setIsLoading(false);
       return;
     } catch (error) {

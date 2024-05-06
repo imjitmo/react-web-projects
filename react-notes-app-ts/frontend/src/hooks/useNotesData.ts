@@ -9,15 +9,21 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   } catch (err) {
     console.error(err);
     const errorBody = err;
-    const errorMessage = errorBody?.message;
+    const errorMessage: string = errorBody?.message;
     throw new Error(errorMessage);
   }
 };
 
 export async function fetchNotes(): Promise<Note[]> {
-  const res = await fetchData('/api/notes', { method: 'GET' });
-  const data = res.data;
-  return data;
+  try {
+    const res = await fetchData('/api/notes', { method: 'GET' });
+    const data = res?.data ? res.data : [];
+
+    return data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
 
 export interface NoteInput {
@@ -33,5 +39,21 @@ export async function addNote(note: NoteInput): Promise<Note[]> {
     },
     data: note,
   });
-  return res.data;
+  return res.data.note;
+}
+
+export async function deleteNote(id: string) {
+  await fetchData(`/api/notes/delete/${id}`, { method: 'DELETE' });
+}
+
+export async function updateNote(id: string, note: NoteInput): Promise<Note[]> {
+  const res = await fetchData(`/api/notes/update/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: note,
+  });
+
+  return res.data.noteUpdate;
 }

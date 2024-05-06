@@ -6,10 +6,7 @@ import NoteModel from '../models/Notes';
 export const getNotes: RequestHandler = async (req, res, next) => {
   try {
     const notes = await NoteModel.find().exec();
-
-    if (!notes || notes.length === 0) throw createHttpError(404, 'Notes not found');
-
-    res.status(200).json(notes);
+    return res.status(200).json(notes);
   } catch (err) {
     next(err);
   }
@@ -83,7 +80,7 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
     if (!note) throw createHttpError(404, 'Note not found');
 
     const noteDelete = await NoteModel.findByIdAndDelete(id).exec();
-    noteDelete ? res.status(200).json({ success: true }) : res.status(200).json({ error: true });
+    noteDelete ? res.status(200).json({ success: true, noteDelete }) : res.status(200).json({ error: true });
   } catch (err) {
     next(err);
   }
