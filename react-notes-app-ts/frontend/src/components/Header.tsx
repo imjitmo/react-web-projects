@@ -8,6 +8,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { NavigationMenuItem, NavigationMenuTrigger } from '@radix-ui/react-navigation-menu';
 import { NavLink } from 'react-router-dom';
+import LoginRegister from './LoginRegister';
 
 interface Icon {
   className: string;
@@ -102,7 +103,7 @@ export default function Component() {
         </NavigationMenu>
       </div>
       <div className="ml-auto">
-        <Button className="rounded-2xl">Connect</Button>
+        <LoginRegister />
       </div>
       {/* NAVIGATION MENU */}
     </header>

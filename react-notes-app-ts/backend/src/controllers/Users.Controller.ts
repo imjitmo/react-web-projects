@@ -37,7 +37,6 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
     const newUser = await User.create({ email, username, password: hashedPassword });
 
     req.session.userId = newUser._id;
-
     return res.status(200).json(newUser);
   } catch (error) {
     next(error);

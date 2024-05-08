@@ -1,20 +1,24 @@
+import { login, signUpUser } from '@/hooks/useUsersData';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog';
+import { Button } from './ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 
 const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 
-interface UserInteraction {
-  showInteraction: boolean;
-  setShowInteraction: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const userSchema = z.object({
+const RegisterSchema = z.object({
   email: z
     .string({
       required_error: 'Email is required',
@@ -39,65 +43,146 @@ const userSchema = z.object({
     }),
 });
 
-const LoginRegister = ({ showInteraction, setShowInteraction }: UserInteraction) => {}) => {
+const LoginSchema = z.object({
+  username: z
+    .string({
+      required_error: 'Username is required',
+    })
+    .min(1, 'Username is required'),
+  password: z
+    .string({
+      required_error: 'Password is required',
+    })
+    .min(1, 'Password is required'),
+});
+
+const LoginRegister = () => {
+  const [userInteraction, setUserInteraction] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const userSchema = userInteraction ? RegisterSchema : LoginSchema;
+  const defaultValues = userInteraction
+    ? {
+        email: '',
+        username: '',
+        password: '',
+      }
+    : {
+        username: '',
+        password: '',
+      };
+
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
-    defaultValues: {
-      title: '',
-      text: '',
-    },
+    defaultValues: defaultValues,
   });
+  const handleSubmit = async (values: z.infer<typeof userSchema>) => {
+    try {
+      setIsLoading(true);
+      let res;
+      if (userInteraction) {
+        res = await signUpUser(values);
+      } else {
+        res = await login(values);
+      }
+      console.log(res);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+      throw error;
+    }
+  };
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (values: z.infer<typeof userSchema>) => {};
   return (
-    <Dialog open={showInteraction} onOpenChange={setShowInteraction}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create New Note</DialogTitle>
-          <DialogDescription>Create a note and show it on the dashboard</DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            ></FormField>
+    <>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button className="rounded-2xl">Connect</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Welcome!</DialogTitle>
+            <DialogDescription>
+              {userInteraction ? 'Create' : 'Login to'} your account to enjoy our cool notes app.
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
+              {userInteraction && (
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Email Address</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                ></FormField>
+              )}
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Username" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              ></FormField>
 
-            <FormField
-              control={form.control}
-              name="text"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Content" {...field} rows={5} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="Password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              ></FormField>
+
+              <Button disabled={isLoading}>
+                {isLoading ? (
+                  <ReloadIcon className="animate-spin size-6" />
+                ) : userInteraction ? (
+                  'Sign Up'
+                ) : (
+                  'Sign In'
+                )}
+              </Button>
+            </form>
+          </Form>
+          <DialogDescription>
+            {userInteraction ? 'Already' : "Don't"} have an account?{' '}
+            <span
+              className="text-blue-600 cursor-pointer italic"
+              onClick={() => {
+                setUserInteraction((prev) => !prev);
+                form.reset();
               }}
-            ></FormField>
-            <Button disabled={isLoading}>
-              {isLoading ? <ReloadIcon className="animate-spin size-6" /> : 'Add Note'}
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+            >
+              {userInteraction ? 'Sign in' : 'Sign up'}
+            </span>
+          </DialogDescription>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
