@@ -1,7 +1,7 @@
 import { Note } from '@/models/Notes';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
-const fetchData = async (input: RequestInfo, init?: RequestInit) => {
+const fetchData = async (input: RequestInfo, init?: AxiosRequestConfig) => {
   try {
     const res = await axios(`${input}`, init);
 
@@ -9,7 +9,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   } catch (err) {
     console.error(err);
     const errorBody = err;
-    const errorMessage: string = errorBody?.message;
+    const errorMessage: string = (errorBody as Error).message;
     throw new Error(errorMessage);
   }
 };
