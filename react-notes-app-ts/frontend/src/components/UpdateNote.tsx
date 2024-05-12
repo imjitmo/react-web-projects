@@ -48,7 +48,7 @@ const UpdateNote = ({ showDialog, setShowDialog, noteProps, onNoteAdded }: Updat
       const res = await updateNote(noteProps._id, values);
       setShowDialog((prev) => !prev);
       setIsLoading(false);
-      onNoteAdded(res);
+      onNoteAdded(res[0]);
       return;
     } catch (error) {
       console.error(error);
