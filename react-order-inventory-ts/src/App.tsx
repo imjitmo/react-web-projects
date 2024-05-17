@@ -1,9 +1,10 @@
 import { Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import Loader from './components/Loader';
-import { Root } from './layouts/Root';
+// import { Root } from './layouts/Root';
 
-const router = createBrowserRouter(Root);
+import router from './layouts/Root';
+// const router = createBrowserRouter(Root);
 
 function App() {
   return (

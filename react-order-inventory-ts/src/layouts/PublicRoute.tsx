@@ -1,14 +1,19 @@
-import { PropsWithChildren, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Error from '@/components/Error';
+import { Outlet } from 'react-router-dom';
 
-type PublicRouteProps = PropsWithChildren;
-const PublicRoute = ({ children }: PublicRouteProps) => {
+// const PublicRoute = () => {
+//   const user: boolean = false;
+//   return user ? <Error /> : <Outlet />;
+// };
+// type PublicRouteProps = PropsWithChildren;
+// const PublicRoute = ({ children }: PublicRouteProps) => {
+const PublicRoute = () => {
   const user: boolean = false;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) navigate('/', { replace: true });
-  }, [navigate, user]);
-  return !user ? children : null;
+  // useEffect(() => {
+  //   if (user) navigate('/', { replace: true });
+  // }, [navigate, user]);
+  return !user ? <Outlet /> : <Error />;
 };
 export default PublicRoute;

@@ -1,14 +1,20 @@
-import { PropsWithChildren, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import Error from '@/components/Error';
+import { Outlet } from 'react-router-dom';
 
-type ProtectedRouteProps = PropsWithChildren;
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const user: boolean = true;
-  const navigate = useNavigate();
+// const ProtectedRoute = () => {
+//   const user: boolean = false;
 
-  useEffect(() => {
-    if (!user) navigate('/', { replace: true });
-  }, [navigate, user]);
-  return user ? children : null;
+//   return !user ? <Error /> : <Outlet />;
+// };
+// type ProtectedRouteProps = PropsWithChildren;
+// const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute = () => {
+  const user: boolean = false;
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (!user) navigate('/', { replace: true });
+  // }, [navigate, user]);
+
+  return user ? <Outlet /> : <Error />;
 };
 export default ProtectedRoute;
