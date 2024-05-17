@@ -1,10 +1,15 @@
-import Login from './components/Authentication/Authentication';
+import { Suspense } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Loader from './components/Loader';
+import { Root } from './layouts/Root';
+
+const router = createBrowserRouter(Root);
 
 function App() {
   return (
-    <>
-      <Login />
-    </>
+    <Suspense fallback={<Loader />}>
+      <RouterProvider router={router} />
+    </Suspense>
   );
 }
 

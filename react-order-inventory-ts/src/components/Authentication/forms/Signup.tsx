@@ -106,13 +106,13 @@ const Signup = ({ setAuthenticationType }: SignupProps) => {
 
         <div>
           <Button className="w-full" disabled={isLoading}>
-            Sign In
+            Sign Up
           </Button>
         </div>
         <p>
           Already have an account?{' '}
           <span className="cursor-pointer text-blue-600" onClick={() => setAuthenticationType('signin')}>
-            Sign up
+            Sign in
           </span>
         </p>
       </form>
