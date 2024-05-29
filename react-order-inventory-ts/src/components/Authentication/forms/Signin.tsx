@@ -19,17 +19,20 @@ const LoginSchema = z.object({
     .min(1, 'Password is required'),
 });
 
-interface SigninProps {
-  setAuthenticationType: (value: string) => void;
-}
-const Signin = ({ setAuthenticationType }: SigninProps) => {
+// interface SigninProps {
+//   setAuthenticationType: (value: string) => void;
+// }
+
+const initialValues = {
+  username: '',
+  password: '',
+};
+// const Signin = ({ setAuthenticationType }: SigninProps) => {
+const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      username: '',
-      password: '',
-    },
+    defaultValues: initialValues,
   });
   const handleSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
@@ -75,12 +78,12 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
             Sign In
           </Button>
         </div>
-        <p>
+        {/* <p>
           Don't have an account?{' '}
           <span className="cursor-pointer text-blue-600" onClick={() => setAuthenticationType('signup')}>
             Sign up
           </span>
-        </p>
+        </p> */}
       </form>
     </Form>
   );

@@ -9,7 +9,7 @@ import { Outlet } from 'react-router-dom';
 // type ProtectedRouteProps = PropsWithChildren;
 // const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 const ProtectedRoute = () => {
-  const user: boolean = false;
+  const user: boolean = true;
   // const navigate = useNavigate();
   // useEffect(() => {
   //   if (!user) navigate('/', { replace: true });

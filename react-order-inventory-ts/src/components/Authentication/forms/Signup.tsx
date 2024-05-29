@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useZod } from '@/hooks/use/useZod';
+
 import * as z from 'zod';
 
 const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
@@ -32,25 +31,27 @@ const SignUpSchema = z.object({
       message: 'Must contain at least one uppercase, one lowercase, one number and one special character',
     }),
 });
+
 interface SignupProps {
   setAuthenticationType: (value: string) => void;
 }
-const Signup = ({ setAuthenticationType }: SignupProps) => {
-  const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof SignUpSchema>>({
-    resolver: zodResolver(SignUpSchema),
-    defaultValues: {
-      email: '',
-      username: '',
-      password: '',
-    },
-  });
+const initialValues = {
+  email: '',
+  username: '',
+  password: '',
+};
+const Signup = ({ setAuthenticationType }: SignupProps) => {
+  const { isLoading, form } = useZod(initialValues, SignUpSchema);
+  // const [isLoading, setIsLoading] = useState(false);
+
+  // const form = useForm<z.infer<typeof SignUpSchema>>({
+  //   resolver: zodResolver(SignUpSchema),
+  //   defaultValues: initialValues,
+  // });
 
   const handleSubmit = async (values: z.infer<typeof SignUpSchema>) => {
-    setIsLoading(true);
     console.log(values);
-    setIsLoading(false);
   };
 
   return (

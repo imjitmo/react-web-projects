@@ -3,7 +3,6 @@ import Error from '@/components/Error';
 import { lazy } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import Layout from './Layout';
-import PrivateLayout from './PrivateLayout';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 
@@ -11,7 +10,9 @@ const Home = lazy(() => import('../pages/Home/Home'));
 const About = lazy(() => import('../pages/About/About'));
 const Authentication = lazy(() => import('../components/Authentication/Authentication'));
 const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
-const Products = lazy(() => import('../pages/Dashboard/Products/Products'));
+const Inventory = lazy(() => import('../pages/Inventory/Inventory'));
+const Report = lazy(() => import('../pages/Report/Report'));
+const Setup = lazy(() => import('../pages/Setup/Setup'));
 
 // export const Root = [
 //   {
@@ -56,16 +57,18 @@ const Products = lazy(() => import('../pages/Dashboard/Products/Products'));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} />
-      <Route path="about" element={<About />} />
+    <Route path="/">
       <Route element={<PublicRoute />}>
-        <Route path="auth" element={<Authentication />} />
+        <Route index element={<Authentication />} />
       </Route>
-      <Route element={<ProtectedRoute />}>
-        <Route element={<PrivateLayout />}>
+      <Route element={<Layout />}>
+        <Route element={<ProtectedRoute />}>
+          <Route path="home" element={<Home />} />
+          <Route path="about" element={<About />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="products" element={<Products />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="report" element={<Report />} />
+          <Route path="setup" element={<Setup />} />
         </Route>
       </Route>
       <Route path="*" element={<Error />} />
