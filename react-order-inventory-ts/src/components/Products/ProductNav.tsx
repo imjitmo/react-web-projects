@@ -79,9 +79,7 @@ const ProductNav = ({ title, page, setup }: { title: string; page: string; setup
       </div>
       <div className="flex flex-row flex-wrap justify-center gap-4 my-10">
         {setup}
-        {products.map((product) => (
-          <ListProducts key={product.id} products={product} />
-        ))}
+        <ListProducts render={products} />
       </div>
     </>
   );

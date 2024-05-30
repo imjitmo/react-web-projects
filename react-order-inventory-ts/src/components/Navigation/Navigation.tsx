@@ -1,7 +1,9 @@
 import { AiOutlinePieChart } from 'react-icons/ai';
 import { BiSolidStoreAlt } from 'react-icons/bi';
+import { FiBell } from 'react-icons/fi';
 import { GoHome } from 'react-icons/go';
 import { IoMailOutline, IoSettingsOutline } from 'react-icons/io5';
+import { LiaSignOutAltSolid } from 'react-icons/lia';
 import { LuBadgePercent } from 'react-icons/lu';
 
 import { Link, NavLink } from 'react-router-dom';
@@ -21,7 +23,7 @@ const Navigation = () => {
             <BiSolidStoreAlt className="size-12" style={{ fill: 'url(#blue-gradient)' }} />
           </Link>
         </div>
-        <div className="w-full min-w-[70px] max-w-[80px] mx-auto flex flex-col justify-evenly items-center text-xl gap-16 text-white/50">
+        <div className="w-full min-w-[70px] max-w-[80px] mx-auto flex flex-col justify-evenly items-center text-xl gap-12 text-white/50">
           <NavLink
             end
             to="/dashboard"
@@ -29,7 +31,7 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <GoHome className="size-8" />
+            <GoHome className="size-7" />
           </NavLink>
           <NavLink
             end
@@ -38,7 +40,7 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <LuBadgePercent className="size-8" />
+            <LuBadgePercent className="size-7" />
           </NavLink>
           <NavLink
             end
@@ -47,7 +49,7 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <AiOutlinePieChart className="size-8" />
+            <AiOutlinePieChart className="size-7" />
           </NavLink>
           <NavLink
             end
@@ -56,7 +58,16 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <IoMailOutline className="size-8" />
+            <IoMailOutline className="size-7" />
+          </NavLink>
+          <NavLink
+            end
+            to="/orders"
+            className={({ isActive }) =>
+              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+            }
+          >
+            <FiBell className="size-7" />
           </NavLink>
           <NavLink
             end
@@ -65,7 +76,17 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <IoSettingsOutline className="size-8" />
+            <IoSettingsOutline className="size-7" />
+          </NavLink>
+
+          <NavLink
+            end
+            to="/logout"
+            className={({ isActive }) =>
+              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+            }
+          >
+            <LiaSignOutAltSolid className="size-7" />
           </NavLink>
         </div>
       </div>

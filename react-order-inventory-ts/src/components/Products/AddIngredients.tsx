@@ -55,9 +55,11 @@ const AddIngredients = ({ listIngredients, setListIngredients, handleIngredient,
               <SelectLabel>Unit</SelectLabel>
               <SelectItem value="kg">Kilogram</SelectItem>
               <SelectItem value="g">Gram</SelectItem>
+              <SelectItem value="mg">Milligram</SelectItem>
               <SelectItem value="li">Liter</SelectItem>
               <SelectItem value="ml">Milliliter</SelectItem>
               <SelectItem value="pc/s">Piece/s</SelectItem>
+              <SelectItem value="slc/s">Slice/s</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
