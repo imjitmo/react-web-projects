@@ -48,7 +48,7 @@ const Signin = () => {
           render={({ field }) => {
             return (
               <FormItem className="w-full">
-                <FormLabel>Username</FormLabel>
+                <FormLabel className="text-slate-900">Username</FormLabel>
                 <FormControl>
                   <Input placeholder="Username" {...field} />
                 </FormControl>
@@ -64,7 +64,7 @@ const Signin = () => {
           render={({ field }) => {
             return (
               <FormItem className="w-full">
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="text-slate-900">Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
