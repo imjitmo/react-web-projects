@@ -1,17 +1,19 @@
 /* eslint-disable react-refresh/only-export-components */
 import Error from '@/components/Error';
+import Cook from '@/pages/Cook/Cook';
+import User from '@/pages/User/User';
 import { lazy } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import Layout from './Layout';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 
-const Home = lazy(() => import('../pages/Home/Home'));
-const About = lazy(() => import('../pages/About/About'));
-const Authentication = lazy(() => import('../components/Authentication/Authentication'));
-const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
+const Home = lazy(() => import('@/pages/Home/Home'));
+const About = lazy(() => import('@/pages/About/About'));
+const Authentication = lazy(() => import('@/components/Authentication/Authentication'));
+const Order = lazy(() => import('@/pages/Order/Order'));
 const Inventory = lazy(() => import('../pages/Inventory/Inventory'));
-const Report = lazy(() => import('../pages/Report/Report'));
+const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
 const Setup = lazy(() => import('../pages/Setup/Setup'));
 
 // export const Root = [
@@ -67,8 +69,10 @@ const router = createBrowserRouter(
           <Route path="about" element={<About />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="inventory" element={<Inventory />} />
-          <Route path="report" element={<Report />} />
+          <Route path="order" element={<Order />} />
           <Route path="setup" element={<Setup />} />
+          <Route path="cook" element={<Cook />} />
+          <Route path="user" element={<User />} />
         </Route>
       </Route>
       <Route path="*" element={<Error />} />

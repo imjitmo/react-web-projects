@@ -1,10 +1,10 @@
-import { AiOutlinePieChart } from 'react-icons/ai';
 import { BiSolidStoreAlt } from 'react-icons/bi';
-import { FiBell } from 'react-icons/fi';
 import { GoHome } from 'react-icons/go';
-import { IoMailOutline, IoSettingsOutline } from 'react-icons/io5';
-import { LiaSignOutAltSolid } from 'react-icons/lia';
-import { LuBadgePercent } from 'react-icons/lu';
+import { HiOutlineUserGroup } from 'react-icons/hi';
+import { IoRestaurantOutline } from 'react-icons/io5';
+import { MdOutlineInventory } from 'react-icons/md';
+import { PiCookingPotBold, PiSignOutBold } from 'react-icons/pi';
+import { TbRowInsertTop } from 'react-icons/tb';
 
 import { Link, NavLink } from 'react-router-dom';
 
@@ -35,39 +35,12 @@ const Navigation = () => {
           </NavLink>
           <NavLink
             end
-            to="/inventory"
+            to="/order"
             className={({ isActive }) =>
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <LuBadgePercent className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/report"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <AiOutlinePieChart className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/portfolio"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <IoMailOutline className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/orders"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <FiBell className="size-7" />
+            <IoRestaurantOutline className="size-7" />
           </NavLink>
           <NavLink
             end
@@ -76,7 +49,34 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <IoSettingsOutline className="size-7" />
+            <TbRowInsertTop className="size-7" />
+          </NavLink>
+          <NavLink
+            end
+            to="/cook"
+            className={({ isActive }) =>
+              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+            }
+          >
+            <PiCookingPotBold className="size-7" />
+          </NavLink>
+          <NavLink
+            end
+            to="/inventory"
+            className={({ isActive }) =>
+              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+            }
+          >
+            <MdOutlineInventory className="size-7" />
+          </NavLink>
+          <NavLink
+            end
+            to="/user"
+            className={({ isActive }) =>
+              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+            }
+          >
+            <HiOutlineUserGroup className="size-7" />
           </NavLink>
 
           <NavLink
@@ -86,7 +86,7 @@ const Navigation = () => {
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
-            <LiaSignOutAltSolid className="size-7" />
+            <PiSignOutBold className="size-7" />
           </NavLink>
         </div>
       </div>
