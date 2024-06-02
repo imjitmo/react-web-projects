@@ -5,7 +5,7 @@ const Orders = () => {
     <Card className="w-full lg:max-w-[500px] bg-slate-950 text-slate-50">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <p>Orders</p> <span>#</span>
+          <p>Orders</p> <span>&#127869;</span>
         </CardTitle>
         <CardDescription>Total orders this month</CardDescription>
       </CardHeader>

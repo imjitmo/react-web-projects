@@ -14,7 +14,7 @@ const Recent = () => {
     <Card className="w-full lg:max-w-2xl bg-slate-950 text-slate-50">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <p>Orders</p> <span>#</span>
+          <p>Orders</p> <span>&#9736;</span>
         </CardTitle>
         <CardDescription>Total orders this month</CardDescription>
       </CardHeader>
@@ -38,7 +38,7 @@ const Recent = () => {
             </TableRow>
           </TableBody>
         </Table>
-        <CardDescription>Beat Mi Goreng last onth</CardDescription>
+        <CardDescription>Beat Mi Goreng last month</CardDescription>
       </CardContent>
     </Card>
   );
