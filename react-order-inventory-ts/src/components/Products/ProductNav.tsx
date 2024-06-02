@@ -3,7 +3,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useSearchParams } from 'react-router-dom';
 import ListProducts from './ListProducts';
 
-const ProductNav = ({ title, page, setup }: { title: string; page: string; setup?: JSX.Element }) => {
+interface ProductNavProps {
+  title: string;
+  page: string;
+  setup?: JSX.Element;
+  handleOrder?: (order: Record<string, unknown>) => void;
+}
+
+const ProductNav = ({ title, page, setup, handleOrder }: ProductNavProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = (value: string) => {
@@ -79,7 +86,7 @@ const ProductNav = ({ title, page, setup }: { title: string; page: string; setup
       </div>
       <div className="flex flex-row flex-wrap justify-center gap-4 my-10">
         {setup}
-        <ListProducts render={products} />
+        <ListProducts render={products} handleOrder={handleOrder} />
       </div>
     </>
   );
