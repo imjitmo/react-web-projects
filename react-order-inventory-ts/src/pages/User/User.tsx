@@ -1,4 +1,10 @@
+import List from '@/components/User/List';
+
 const User = () => {
-  return <div>User</div>;
+  return (
+    <div>
+      <List />
+    </div>
+  );
 };
 export default User;
