@@ -14,7 +14,7 @@ const Chart = () => {
     <Card className="w-full lg:max-w-[54rem] bg-slate-950 text-slate-50">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <p>Overview</p> <span>&#9728;</span>
+          <p>Overview</p> <span>&#9776;</span>
         </CardTitle>
         <CardDescription>List of orders this month</CardDescription>
       </CardHeader>
