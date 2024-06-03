@@ -25,7 +25,7 @@ const List = () => {
     filterParams === 'all' ? inventory : item.itemType === filterParams
   );
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
-  const records = inventoryRecords?.slice(firstIndex, lastIndex);
+  const records = inventoryRecords?.slice(filterParams === 'all' ? firstIndex : 0, lastIndex);
   const totalPages = inventoryRecords ? inventoryRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
   const paramValues = [...new Set(inventory?.map((items) => items.itemType))];
@@ -34,7 +34,7 @@ const List = () => {
 
   return (
     <>
-      <SearchParams params={'type'} values={paramValues} />
+      <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
       <p className="text-sm">Total Records: {inventoryRecords?.length}</p>
       <Table>
         <TableCaption>{!records && !isPending && 'A list of your inventory.'}</TableCaption>

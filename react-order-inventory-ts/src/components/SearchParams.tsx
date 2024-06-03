@@ -3,12 +3,14 @@ import { useSearchParams } from 'react-router-dom';
 interface SearchParamsProps {
   params: string;
   values: string[];
+  setCurrentPage?: (number: number) => void;
 }
-const SearchParams = ({ params, values }: SearchParamsProps) => {
+const SearchParams = ({ params, values, setCurrentPage }: SearchParamsProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = (searchParameter: string, parameterValue: string) => {
     searchParams.set(searchParameter, parameterValue);
+    setCurrentPage && setCurrentPage(1);
     setSearchParams(searchParams);
   };
 
