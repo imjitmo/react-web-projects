@@ -47,7 +47,11 @@ const List = () => {
               <TableCell>
                 {item.itemQuantity} {item.itemUnit}
               </TableCell>
-              <TableCell>{item?.itemAvailability ? 'Available' : 'Not Available'}</TableCell>
+              <TableCell
+                className={`capitalize ${item?.itemAvailability ? 'text-green-500' : 'text-red-500'}`}
+              >
+                {item?.itemAvailability ? 'Available' : 'Not Available'}
+              </TableCell>
               <TableCell>
                 <Update data={item} />
               </TableCell>
