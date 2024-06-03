@@ -29,7 +29,7 @@ const AddForm = ({ data }: AddFormProps) => {
   const { createInventory, isCreating } = useCreateInventory();
   const { updatingInventory, isUpdating } = useUpdateInventory();
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(data ? data?.itemQuantity : 1);
 
   const handleQuantity = (type: string) => {
     type === 'add'
