@@ -43,9 +43,8 @@ const AddForm = ({ data }: AddFormProps) => {
 
   const handleSubmit = () => {
     const inventoryData = form.getValues();
+    const itemAvailability = inventoryData.itemQuantity > 0 ? true : false;
     if (data) {
-      const itemAvailability = inventoryData.itemQuantity > 0 ? true : false;
-
       updatingInventory(
         { ...inventoryData, id: data.id, itemAvailability: itemAvailability },
         {
@@ -55,11 +54,14 @@ const AddForm = ({ data }: AddFormProps) => {
         }
       );
     } else {
-      createInventory(inventoryData, {
-        onSuccess: () => {
-          form.reset();
-        },
-      });
+      createInventory(
+        { ...inventoryData, itemAvailability: itemAvailability },
+        {
+          onSuccess: () => {
+            form.reset();
+          },
+        }
+      );
     }
     return;
   };
