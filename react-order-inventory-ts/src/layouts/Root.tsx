@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import Error from '@/components/Error';
 import Cook from '@/pages/Cook/Cook';
-import User from '@/pages/User/User';
 import { lazy } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import Layout from './Layout';
@@ -12,9 +11,11 @@ const Home = lazy(() => import('@/pages/Home/Home'));
 const About = lazy(() => import('@/pages/About/About'));
 const Authentication = lazy(() => import('@/components/Authentication/Authentication'));
 const Order = lazy(() => import('@/pages/Order/Order'));
-const Inventory = lazy(() => import('../pages/Inventory/Inventory'));
-const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
-const Setup = lazy(() => import('../pages/Setup/Setup'));
+const Inventory = lazy(() => import('@/pages/Inventory/Inventory'));
+const Dashboard = lazy(() => import('@/pages/Dashboard/Dashboard'));
+const Setup = lazy(() => import('@/pages/Setup/Setup'));
+const User = lazy(() => import('@/pages/User/User'));
+const Staffs = lazy(() => import('@/pages/Staffs/Staffs'));
 
 // export const Root = [
 //   {
@@ -72,7 +73,8 @@ const router = createBrowserRouter(
           <Route path="order" element={<Order />} />
           <Route path="setup" element={<Setup />} />
           <Route path="cook" element={<Cook />} />
-          <Route path="user" element={<User />} />
+          <Route path="customers" element={<User />} />
+          <Route path="users" element={<Staffs />} />
         </Route>
       </Route>
       <Route path="*" element={<Error />} />

@@ -5,7 +5,8 @@ import { useState } from 'react';
 const Inventory = () => {
   const [onOpen, setOnOpen] = useState(false);
   return (
-    <div className="flex flex-col gap-2 my-4">
+    <div className="flex flex-col gap-4 my-4">
+      <h1>Inventory</h1>
       <Add onOpen={onOpen} setOnOpen={setOnOpen} />
       <List />
     </div>

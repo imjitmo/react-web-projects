@@ -2,6 +2,7 @@ import { BiSolidStoreAlt } from 'react-icons/bi';
 import { GoHome } from 'react-icons/go';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { IoRestaurantOutline } from 'react-icons/io5';
+import { LiaUsersCogSolid } from 'react-icons/lia';
 import { MdOutlineInventory } from 'react-icons/md';
 import { PiCookingPotBold, PiSignOutBold } from 'react-icons/pi';
 import { TbRowInsertTop } from 'react-icons/tb';
@@ -23,7 +24,7 @@ const Navigation = () => {
             <BiSolidStoreAlt className="size-12" style={{ fill: 'url(#blue-gradient)' }} />
           </Link>
         </div>
-        <div className="w-full min-w-[70px] max-w-[80px] mx-auto flex flex-col justify-evenly items-center text-xl gap-12 text-white/50">
+        <div className="w-full min-w-[50px] max-w-[50px] mx-auto flex flex-col justify-evenly items-center text-xl gap-8 text-white/50">
           <NavLink
             end
             to="/dashboard"
@@ -71,14 +72,22 @@ const Navigation = () => {
           </NavLink>
           <NavLink
             end
-            to="/user"
+            to="/customers"
             className={({ isActive }) =>
               `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
             }
           >
             <HiOutlineUserGroup className="size-7" />
           </NavLink>
-
+          <NavLink
+            end
+            to="/users"
+            className={({ isActive }) =>
+              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+            }
+          >
+            <LiaUsersCogSolid className="size-7" />
+          </NavLink>
           <NavLink
             end
             to="/logout"
