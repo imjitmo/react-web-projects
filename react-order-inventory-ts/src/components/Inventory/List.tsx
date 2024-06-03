@@ -35,7 +35,7 @@ const List = () => {
   return (
     <>
       <SearchParams params={'type'} values={paramValues} />
-      <Table className="w-full table-fixed">
+      <Table>
         <TableCaption>{!records && !isPending && 'A list of your inventory.'}</TableCaption>
         <TableHeader>
           <TableRow>
