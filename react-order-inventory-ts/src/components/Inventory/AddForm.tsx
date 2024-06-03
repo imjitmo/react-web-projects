@@ -2,20 +2,27 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { category, type, unit } from '@/hooks/data/selectValues';
+import { useCreateInventory } from '@/hooks/use/useInventory';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMinus } from 'react-icons/fi';
+import { ImSpinner6 } from 'react-icons/im';
 import { IoMdAdd } from 'react-icons/io';
 
 const AddForm = () => {
   const form = useForm({
     defaultValues: {
-      name: '',
-      category: '',
-      quantity: 1,
-      unit: '',
+      itemName: '',
+      itemCategory: '',
+      itemType: '',
+      itemQuantity: 1,
+      itemUnit: '',
     },
   });
+
+  const { createInventory, isCreating } = useCreateInventory();
+
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantity = (type: string) => {
@@ -25,11 +32,16 @@ const AddForm = () => {
       ? setQuantity(1)
       : setQuantity((quantity) => quantity - 1);
 
-    form.setValue('quantity', quantity);
+    form.setValue('itemQuantity', quantity);
   };
 
   const handleSubmit = () => {
-    console.log(form.getValues());
+    const newInventory = form.getValues();
+    createInventory(newInventory, {
+      onSuccess: () => {
+        form.reset();
+      },
+    });
   };
 
   return (
@@ -37,7 +49,7 @@ const AddForm = () => {
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
         <FormField
           control={form.control}
-          name="name"
+          name="itemName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Item Name</FormLabel>
@@ -50,7 +62,7 @@ const AddForm = () => {
         />
         <FormField
           control={form.control}
-          name="category"
+          name="itemCategory"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
@@ -60,9 +72,11 @@ const AddForm = () => {
                     <SelectValue placeholder="Pick a category" onBlur={field.onBlur} ref={field.ref} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-950 text-slate-50">
-                    <SelectItem value="main">Main Ingredient</SelectItem>
-                    <SelectItem value="sub">Sub Ingredient</SelectItem>
-                    <SelectItem value="condements">Condements</SelectItem>
+                    {category.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -73,7 +87,32 @@ const AddForm = () => {
 
         <FormField
           control={form.control}
-          name="quantity"
+          name="itemType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Type</FormLabel>
+              <FormControl>
+                <Select value={field.value} name={field.name} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pick a type" onBlur={field.onBlur} ref={field.ref} />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-950 text-slate-50">
+                    {type.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="itemQuantity"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Quantity</FormLabel>
@@ -95,7 +134,7 @@ const AddForm = () => {
 
         <FormField
           control={form.control}
-          name="unit"
+          name="itemUnit"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Unit</FormLabel>
@@ -105,13 +144,11 @@ const AddForm = () => {
                     <SelectValue placeholder="Pick a unit" onBlur={field.onBlur} ref={field.ref} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-950 text-slate-50">
-                    <SelectItem value="kg">Kilogram</SelectItem>
-                    <SelectItem value="g">Gram</SelectItem>
-                    <SelectItem value="mg">Milligram</SelectItem>
-                    <SelectItem value="li">Liter</SelectItem>
-                    <SelectItem value="ml">Milliliter</SelectItem>
-                    <SelectItem value="pc/s">Piece/s</SelectItem>
-                    <SelectItem value="slc/s">Slice/s</SelectItem>
+                    {unit.map((item) => (
+                      <SelectItem key={item.value} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -119,8 +156,19 @@ const AddForm = () => {
             </FormItem>
           )}
         />
-        <Button className="bg-orange-500 text-slate-50 rounded-xl flex flex-row gap-2 items-center justify-center">
-          <IoMdAdd /> Item
+        <Button
+          className="bg-orange-500 text-slate-50 rounded-xl flex flex-row gap-2 items-center justify-center"
+          disabled={isCreating}
+        >
+          {isCreating ? (
+            <>
+              <ImSpinner6 className="animate-spin text-slate-100" /> Creating...
+            </>
+          ) : (
+            <>
+              <IoMdAdd /> Item
+            </>
+          )}
         </Button>
       </form>
     </Form>
