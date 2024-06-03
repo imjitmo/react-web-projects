@@ -5,4 +5,5 @@ export interface Inventory {
   itemType: string;
   itemQuantity: number;
   itemUnit: string;
+  itemAvailability: boolean;
 }

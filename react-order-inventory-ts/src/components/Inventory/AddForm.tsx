@@ -16,6 +16,7 @@ interface AddFormProps {
 }
 
 const AddForm = ({ data }: AddFormProps) => {
+  const [quantity, setQuantity] = useState(data ? data?.itemQuantity : 0);
   const form = useForm({
     defaultValues: {
       itemName: data ? data?.itemName : '',
@@ -23,19 +24,18 @@ const AddForm = ({ data }: AddFormProps) => {
       itemType: data ? data?.itemType : '',
       itemQuantity: data ? data?.itemQuantity : 1,
       itemUnit: data ? data?.itemUnit : '',
+      itemAvailability: quantity > 0 ? true : false,
     },
   });
 
   const { createInventory, isCreating } = useCreateInventory();
   const { updatingInventory, isUpdating } = useUpdateInventory();
 
-  const [quantity, setQuantity] = useState(data ? data?.itemQuantity : 1);
-
   const handleQuantity = (type: string) => {
     type === 'add'
       ? setQuantity((quantity) => quantity + 1)
-      : quantity <= 1
-      ? setQuantity(1)
+      : quantity < 1
+      ? setQuantity(0)
       : setQuantity((quantity) => quantity - 1);
 
     form.setValue('itemQuantity', quantity);
@@ -44,8 +44,10 @@ const AddForm = ({ data }: AddFormProps) => {
   const handleSubmit = () => {
     const inventoryData = form.getValues();
     if (data) {
+      const itemAvailability = inventoryData.itemQuantity > 0 ? true : false;
+
       updatingInventory(
-        { ...inventoryData, id: data.id },
+        { ...inventoryData, id: data.id, itemAvailability: itemAvailability },
         {
           onSuccess: () => {
             form.reset();
