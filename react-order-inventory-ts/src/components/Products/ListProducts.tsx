@@ -18,7 +18,10 @@ const ListProducts = ({ render, handleOrder }: ListProductsProps) => {
   return (
     <>
       {render.map((products) => (
-        <Card className="min-w-[240px] max-w-[240px] text-center bg-slate-950 border-none my-8 text-slate-50">
+        <Card
+          key={products.id}
+          className="min-w-[240px] max-w-[240px] text-center bg-slate-950 border-none my-8 text-slate-50"
+        >
           <CardHeader>
             <CardTitle className="mx-auto relative -mt-16">
               <img src="/PHO.png" className="size-36" alt="" />
