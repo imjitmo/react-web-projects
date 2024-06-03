@@ -9,9 +9,15 @@ import {
 } from '@/components/ui/table';
 
 import { useGetInventory } from '@/hooks/use/useInventory';
+import Pagination from '@/hooks/utils/Pagination';
 import { ImSpinner6 } from 'react-icons/im';
+import PaginationButtons from '../Pagination/PaginationButtons';
 const List = () => {
   const { inventory, isPending } = useGetInventory();
+  const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
+  const records = inventory?.slice(firstIndex, lastIndex);
+  const totalPages = inventory ? inventory.length : 0;
+  const npage = Math.ceil(totalPages / recordsPerPage);
 
   return (
     <>
@@ -27,8 +33,8 @@ const List = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {inventory?.map((item) => (
-            <TableRow>
+          {records?.map((item) => (
+            <TableRow key={item.id}>
               <TableCell className="font-medium">{item.id}</TableCell>
               <TableCell className="capitalize">{item.itemName}</TableCell>
               <TableCell className="capitalize">{item.itemType}</TableCell>
@@ -40,6 +46,9 @@ const List = () => {
           ))}
         </TableBody>
       </Table>
+      {npage ? (
+        <PaginationButtons setCurrentPage={setCurrentPage} currentPage={currentPage} npage={npage} />
+      ) : null}
       {isPending && (
         <div className="w-full flex flex-wrap items-center justify-center">
           <ImSpinner6 className="size-8 animate-spin" />

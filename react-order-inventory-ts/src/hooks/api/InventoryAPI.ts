@@ -1,4 +1,5 @@
-import supabase, { supabaseUrl } from './supabase';
+import { Inventory } from '../models/Inventory';
+import supabase from './supabase';
 
 export const getInventories = async () => {
   const { data: inventory, error } = await supabase.from('inventory').select();
@@ -10,7 +11,7 @@ export const getInventories = async () => {
   return inventory;
 };
 
-export const addInventory = async (data: any) => {
+export const addInventory = async (data: Inventory) => {
   const { data: inventoryData, error } = await supabase.from('inventory').insert(data);
 
   if (error) {
