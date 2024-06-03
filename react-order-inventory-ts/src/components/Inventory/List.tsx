@@ -12,18 +12,29 @@ import { useGetInventory } from '@/hooks/use/useInventory';
 import Pagination from '@/hooks/utils/Pagination';
 
 import { ImSpinner6 } from 'react-icons/im';
+import { useSearchParams } from 'react-router-dom';
 import PaginationButtons from '../Pagination/PaginationButtons';
+import SearchParams from '../SearchParams';
 import Update from './Update';
 
 const List = () => {
   const { inventory, isPending } = useGetInventory();
+  const [searchParams] = useSearchParams({ type: 'all' });
+  const filterParams = searchParams.get('type');
+  const inventoryRecords = inventory?.filter((item) =>
+    filterParams === 'all' ? inventory : item.itemType === filterParams
+  );
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
-  const records = inventory?.slice(firstIndex, lastIndex);
-  const totalPages = inventory ? inventory.length : 0;
+  const records = inventoryRecords?.slice(firstIndex, lastIndex);
+  const totalPages = inventoryRecords ? inventoryRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
+  const paramValues = [...new Set(inventory?.map((items) => items.itemType))];
+
+  if (records?.length === 0) return <p className="text-center">No items found</p>;
 
   return (
     <>
+      <SearchParams params={'type'} values={paramValues} />
       <Table className="w-full table-fixed">
         <TableCaption>{!records && !isPending && 'A list of your inventory.'}</TableCaption>
         <TableHeader>
