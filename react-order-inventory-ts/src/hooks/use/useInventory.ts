@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { addInventory, getInventories } from '../api/InventoryAPI';
+import { addInventory, getInventories, updateInventory } from '../api/InventoryAPI';
 
 export const useGetInventory = () => {
   const { isPending, data: inventory } = useQuery({
@@ -27,4 +27,22 @@ export const useCreateInventory = () => {
   });
 
   return { isCreating, createInventory };
+};
+
+export const useUpdateInventory = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate: updatingInventory, isPending: isUpdating } = useMutation({
+    mutationFn: updateInventory,
+    onSuccess: () => {
+      toast.success('Inventory Item Updated', { id: 'inventory' });
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'inventory' });
+      console.error(error.message);
+    },
+  });
+
+  return { updatingInventory, isUpdating };
 };

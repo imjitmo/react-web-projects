@@ -3,25 +3,31 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { category, type, unit } from '@/hooks/data/selectValues';
-import { useCreateInventory } from '@/hooks/use/useInventory';
+import { Inventory } from '@/hooks/models/Inventory';
+import { useCreateInventory, useUpdateInventory } from '@/hooks/use/useInventory';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMinus } from 'react-icons/fi';
 import { ImSpinner6 } from 'react-icons/im';
 import { IoMdAdd } from 'react-icons/io';
 
-const AddForm = () => {
+interface AddFormProps {
+  data?: Inventory;
+}
+
+const AddForm = ({ data }: AddFormProps) => {
   const form = useForm({
     defaultValues: {
-      itemName: '',
-      itemCategory: '',
-      itemType: '',
-      itemQuantity: 1,
-      itemUnit: '',
+      itemName: data ? data?.itemName : '',
+      itemCategory: data ? data?.itemCategory : '',
+      itemType: data ? data?.itemType : '',
+      itemQuantity: data ? data?.itemQuantity : 1,
+      itemUnit: data ? data?.itemUnit : '',
     },
   });
 
   const { createInventory, isCreating } = useCreateInventory();
+  const { updatingInventory, isUpdating } = useUpdateInventory();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -36,13 +42,27 @@ const AddForm = () => {
   };
 
   const handleSubmit = () => {
-    const newInventory = form.getValues();
-    createInventory(newInventory, {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
+    const inventoryData = form.getValues();
+    if (data) {
+      updatingInventory(
+        { ...inventoryData, id: data.id },
+        {
+          onSuccess: () => {
+            form.reset();
+          },
+        }
+      );
+    } else {
+      createInventory(inventoryData, {
+        onSuccess: () => {
+          form.reset();
+        },
+      });
+    }
+    return;
   };
+
+  const isLoading = isCreating || isUpdating;
 
   return (
     <Form {...form}>
@@ -158,15 +178,21 @@ const AddForm = () => {
         />
         <Button
           className="bg-orange-500 text-slate-50 rounded-xl flex flex-row gap-2 items-center justify-center"
-          disabled={isCreating}
+          disabled={isLoading}
         >
-          {isCreating ? (
+          {isLoading ? (
             <>
-              <ImSpinner6 className="animate-spin text-slate-100" /> Creating...
+              <ImSpinner6 className="animate-spin text-slate-100" /> {data ? 'Updating...' : 'Creating...'}
             </>
           ) : (
             <>
-              <IoMdAdd /> Item
+              {data ? (
+                'Update Item'
+              ) : (
+                <>
+                  <IoMdAdd /> Item
+                </>
+              )}
             </>
           )}
         </Button>

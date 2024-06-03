@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import DialogTool from '../DialogTool';
 import AddForm from './AddForm';
 
 interface AddDialogProps {
@@ -8,14 +8,16 @@ interface AddDialogProps {
 
 const AddDialog = ({ onOpen, setOnOpen }: AddDialogProps) => {
   return (
-    <Dialog open={onOpen} onOpenChange={setOnOpen}>
-      <DialogContent className="bg-slate-950 text-slate-50 overflow-y-scroll max-h-screen">
-        <DialogHeader>
-          <DialogTitle>Add a new dish</DialogTitle>
-          <AddForm />
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <>
+      <DialogTool
+        onOpen={onOpen}
+        setOnOpen={setOnOpen}
+        header="Add a new dish"
+        description="This item will be added to your inventory list"
+      >
+        <AddForm />
+      </DialogTool>
+    </>
   );
 };
 export default AddDialog;
