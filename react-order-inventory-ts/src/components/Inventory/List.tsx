@@ -35,6 +35,7 @@ const List = () => {
   return (
     <>
       <SearchParams params={'type'} values={paramValues} />
+      <p className="text-sm">Total Records: {inventoryRecords?.length}</p>
       <Table>
         <TableCaption>{!records && !isPending && 'A list of your inventory.'}</TableCaption>
         <TableHeader>
