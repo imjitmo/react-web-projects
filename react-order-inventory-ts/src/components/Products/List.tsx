@@ -43,7 +43,7 @@ const List = ({ pageType }: ListProps) => {
         </div>
       )}
       <h1 className="my-4">{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
-      <div className="flex flex-row flex-wrap gap-4 my-4">
+      <div className="flex flex-row flex-wrap gap-4 my-8">
         {dishesData &&
           dishesData.length > 0 &&
           records?.map((products) => (
