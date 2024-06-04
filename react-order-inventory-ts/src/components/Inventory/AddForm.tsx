@@ -1,7 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { category, type, unit } from '@/hooks/data/selectValues';
 import { Inventory } from '@/hooks/models/Inventory';
 import { useCreateInventory, useUpdateInventory } from '@/hooks/use/useInventory';
@@ -123,11 +131,14 @@ const AddForm = ({ data }: AddFormProps) => {
                     <SelectValue placeholder="Pick a category" onBlur={field.onBlur} ref={field.ref} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-950 text-slate-50">
-                    {category.map((item) => (
-                      <SelectItem key={item.value} value={item.value}>
-                        {item.label}
-                      </SelectItem>
-                    ))}
+                    <SelectGroup>
+                      <SelectLabel>Category</SelectLabel>
+                      {category.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -148,11 +159,14 @@ const AddForm = ({ data }: AddFormProps) => {
                     <SelectValue placeholder="Pick a type" onBlur={field.onBlur} ref={field.ref} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-950 text-slate-50">
-                    {type.map((item) => (
-                      <SelectItem key={item.value} value={item.value}>
-                        {item.label}
-                      </SelectItem>
-                    ))}
+                    <SelectGroup>
+                      <SelectLabel>Type</SelectLabel>
+                      {type.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
                   </SelectContent>
                 </Select>
               </FormControl>

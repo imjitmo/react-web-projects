@@ -1,5 +1,5 @@
-import { products } from '@/components/Products/products';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useGetDishes } from '@/hooks/use/useDishes';
 import { useSearchParams } from 'react-router-dom';
 import ListProducts from './ListProducts';
 
@@ -12,7 +12,7 @@ interface ProductNavProps {
 
 const ProductNav = ({ title, page, setup, handleOrder }: ProductNavProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const { dishesData, isPending } = useGetDishes();
   const handleClick = (value: string) => {
     searchParams.set('dish', value);
     setSearchParams(searchParams);
@@ -20,6 +20,7 @@ const ProductNav = ({ title, page, setup, handleOrder }: ProductNavProps) => {
 
   const filterValue = searchParams.get('dish');
 
+  console.log(dishesData);
   return (
     <>
       <nav className="flex flex-row flex-wrap items-center justify-start gap-12 border-b-2 border-slate-400/20">
@@ -86,7 +87,7 @@ const ProductNav = ({ title, page, setup, handleOrder }: ProductNavProps) => {
       </div>
       <div className="flex flex-row flex-wrap justify-center gap-4 my-10">
         {setup}
-        <ListProducts render={products} handleOrder={handleOrder} />
+        <ListProducts render={dishesData} handleOrder={handleOrder} />
       </div>
     </>
   );
