@@ -6,6 +6,7 @@ import { IoMdAdd } from 'react-icons/io';
 import { Link, useSearchParams } from 'react-router-dom';
 import PaginationButtons from '../Pagination/PaginationButtons';
 import SearchParams from '../SearchParams';
+import TooltipTool from '../TooltipTool';
 
 interface ListProps {
   pageType: string;
@@ -14,16 +15,18 @@ interface ListProps {
 const List = ({ pageType }: ListProps) => {
   const { dishesData, isPending } = useGetDishes();
   const [searchParams] = useSearchParams({ type: 'all' });
+  const allDishData =
+    pageType === 'setup' ? dishesData : dishesData?.filter((dishes) => dishes.dishStatus === true);
   const filterParams = searchParams.get('type');
-  const dishesRecords = dishesData?.filter((dishes) =>
-    filterParams === 'all' ? dishesData : dishes.dishType === filterParams
+  const dishesRecords = allDishData?.filter((dishes) =>
+    filterParams === 'all' ? allDishData : dishes.dishType === filterParams
   );
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
   const records = dishesRecords?.slice(filterParams === 'all' ? firstIndex : 0, lastIndex);
   const totalPages = dishesRecords ? dishesRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
   const paramValues = [...new Set(dishesData?.map((dishes) => dishes.dishType))];
-  console.log(paramValues);
+
   return (
     <div className="my-4">
       {isPending && (
@@ -58,7 +61,7 @@ const List = ({ pageType }: ListProps) => {
                 <p>&#8369; {products.dishPrice}</p>
               </CardContent>
               <CardFooter className="flex flex-col gap-4 items-center justify-center">
-                <CardDescription>
+                <CardDescription className="flex flex-col gap-2">
                   <span
                     className={`bg-orange-300/30 ${
                       products.dishAvailability ? 'text-green-500' : 'text-red-500'
@@ -66,6 +69,15 @@ const List = ({ pageType }: ListProps) => {
                   >
                     {products.dishAvailability ? 'Available' : 'Not Available'}
                   </span>
+                  <TooltipTool
+                    title={
+                      products.dishStatus
+                        ? 'This dish is active'
+                        : 'This dish is inactive, you cannot serve this dish'
+                    }
+                  >
+                    <span className="cursor-pointer">{products.dishStatus ? 'Active' : 'Inactive'}</span>
+                  </TooltipTool>
                 </CardDescription>
                 {pageType === 'order' && (
                   <Button className="bg-orange-500 rounded-full text-slate-50 px-8 flex flex-wrap flex-row gap-2">

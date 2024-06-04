@@ -5,7 +5,7 @@ const TooltipTool = ({ children, title }: { children: JSX.Element; title: string
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent className="rounded-lg bg-slate-700/30">
+        <TooltipContent className="rounded-lg bg-slate-700">
           <p>{title}</p>
         </TooltipContent>
       </Tooltip>
