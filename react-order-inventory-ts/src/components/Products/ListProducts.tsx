@@ -21,7 +21,7 @@ const ListProducts = ({ render, handleOrder }: ListProductsProps) => {
           >
             <CardHeader>
               <CardTitle className="mx-auto relative -mt-16">
-                <img src="/PHO.png" className="size-36" alt="" />
+                <img src={(products?.dishImage as string) || '/PHO.png'} className="size-36" alt="" />
               </CardTitle>
               <CardContent>
                 <h3 className="line-clamp-1">{products.dishName}</h3>
