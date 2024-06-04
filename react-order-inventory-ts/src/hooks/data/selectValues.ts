@@ -36,3 +36,34 @@ export const type = [
   { value: 'cleaning', label: 'Cleaning' },
   { value: 'other', label: 'Other' },
 ];
+
+export const dishType = [
+  {
+    value: 'appetizer',
+    label: 'Appetizer',
+  },
+  {
+    value: 'entree',
+    label: 'Entree',
+  },
+  {
+    value: 'dessert',
+    label: 'Dessert',
+  },
+  {
+    value: 'side',
+    label: 'Side',
+  },
+  {
+    value: 'beverage',
+    label: 'Beverage',
+  },
+  {
+    value: 'hot',
+    label: 'Hot',
+  },
+  {
+    value: 'cold',
+    label: 'Cold',
+  },
+];

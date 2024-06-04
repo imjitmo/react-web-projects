@@ -1,45 +1,22 @@
-import { useState } from 'react';
-
 import { Dish } from '@/hooks/models/Dishes';
-import { IngredientProps } from '@/hooks/models/Ingredients';
+
 import { useCreateDishes } from '@/hooks/use/useDishes';
 
-import AddIngredients from './AddIngredients';
-import ProductInfo from './ProductInfo';
+import { useState } from 'react';
+import AddDish from './AddDish';
 
 const AddForm = () => {
   const { addDish, isCreating } = useCreateDishes();
-  const [onNext, setOnNext] = useState(false);
-  const [dishData, setDishData] = useState({} as Dish);
+  const [addSuccess, setAddSuccess] = useState(false);
   const handleSubmit = (values: Dish) => {
-    setDishData(values);
-    setOnNext((prev) => !prev);
-  };
-  const handleIngredientSubmit = (value: IngredientProps[]) => {
-    setDishData({ ...dishData, dishIngredients: value });
-  };
-
-  const handleCreateDish = () => {
-    addDish(dishData, {
-      onSuccess: () => {
-        setDishData({} as Dish);
-        setOnNext((prev) => !prev);
-      },
+    setAddSuccess(false);
+    addDish(values, {
+      onSuccess: () => setAddSuccess(true),
     });
   };
   return (
     <>
-      {!onNext ? (
-        <ProductInfo handleSubmit={handleSubmit} />
-      ) : (
-        <AddIngredients
-          handleIngredientSubmit={handleIngredientSubmit}
-          handleCreateDish={handleCreateDish}
-          title={'Add Ingredients'}
-          setOnNext={setOnNext}
-          isCreating={isCreating}
-        />
-      )}
+      <AddDish handleSubmit={handleSubmit} isCreating={isCreating} addSuccess={addSuccess} />
     </>
   );
 };
