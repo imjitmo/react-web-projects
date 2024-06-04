@@ -11,20 +11,47 @@ import { FiMinus } from 'react-icons/fi';
 import { ImSpinner6 } from 'react-icons/im';
 import { IoMdAdd } from 'react-icons/io';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const InventorySchema = z.object({
+  itemName: z
+    .string({
+      required_error: 'Item Name is required',
+    })
+    .min(1, 'Item Name is required'),
+  itemCategory: z
+    .string({
+      required_error: 'Category is required',
+    })
+    .min(1, 'Category is required'),
+  itemType: z
+    .string({
+      required_error: 'Type is required',
+    })
+    .min(1, 'Type is required'),
+  itemQuantity: z.string().transform((v) => Number(v) || 0),
+  itemUnit: z
+    .string({
+      required_error: 'Unit is required',
+    })
+    .min(1, 'Unit is required'),
+});
+
 interface AddFormProps {
   data?: Inventory;
 }
 
 const AddForm = ({ data }: AddFormProps) => {
-  const [quantity, setQuantity] = useState(data ? data?.itemQuantity : 0);
-  const form = useForm({
+  const [quantity, setQuantity] = useState(data ? Number(data?.itemQuantity) : 0);
+  const form = useForm<z.infer<typeof InventorySchema>>({
+    resolver: zodResolver(InventorySchema),
     defaultValues: {
       itemName: data ? data?.itemName : '',
       itemCategory: data ? data?.itemCategory : '',
       itemType: data ? data?.itemType : '',
-      itemQuantity: data ? data?.itemQuantity : 1,
+      itemQuantity: data ? Number(data?.itemQuantity) : 0,
       itemUnit: data ? data?.itemUnit : '',
-      itemAvailability: quantity > 0 ? true : false,
     },
   });
 
@@ -33,10 +60,10 @@ const AddForm = ({ data }: AddFormProps) => {
 
   const handleQuantity = (type: string) => {
     type === 'add'
-      ? setQuantity((quantity) => quantity + 1)
+      ? setQuantity((quantity) => Number(quantity) + 1)
       : quantity < 1
       ? setQuantity(0)
-      : setQuantity((quantity) => quantity - 1);
+      : setQuantity((quantity) => Number(quantity) - 1);
 
     form.setValue('itemQuantity', quantity);
   };
@@ -91,7 +118,7 @@ const AddForm = ({ data }: AddFormProps) => {
             <FormItem>
               <FormLabel>Category</FormLabel>
               <FormControl>
-                <Select value={field.value} name={field.name} onValueChange={field.onChange}>
+                <Select value={field.value} name={field.name} onValueChange={field.onChange} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Pick a category" onBlur={field.onBlur} ref={field.ref} />
                   </SelectTrigger>
@@ -116,7 +143,7 @@ const AddForm = ({ data }: AddFormProps) => {
             <FormItem>
               <FormLabel>Type</FormLabel>
               <FormControl>
-                <Select value={field.value} name={field.name} onValueChange={field.onChange}>
+                <Select value={field.value} name={field.name} onValueChange={field.onChange} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Pick a type" onBlur={field.onBlur} ref={field.ref} />
                   </SelectTrigger>
