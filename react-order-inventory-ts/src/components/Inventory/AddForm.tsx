@@ -30,7 +30,7 @@ const InventorySchema = z.object({
       required_error: 'Type is required',
     })
     .min(1, 'Type is required'),
-  itemQuantity: z.string().transform((v) => Number(v) || 0),
+  itemQuantity: z.coerce.number().min(0),
   itemUnit: z
     .string({
       required_error: 'Unit is required',
@@ -60,10 +60,10 @@ const AddForm = ({ data }: AddFormProps) => {
 
   const handleQuantity = (type: string) => {
     type === 'add'
-      ? setQuantity((quantity) => Number(quantity) + 1)
+      ? setQuantity((quantity) => quantity + 1)
       : quantity < 1
       ? setQuantity(0)
-      : setQuantity((quantity) => Number(quantity) - 1);
+      : setQuantity((quantity) => quantity - 1);
 
     form.setValue('itemQuantity', quantity);
   };
@@ -169,7 +169,7 @@ const AddForm = ({ data }: AddFormProps) => {
               <FormLabel>Quantity</FormLabel>
               <FormControl>
                 <div className="flex flex-row gap-2 justify-center">
-                  <Input type="number" placeholder="quantity" {...field} />
+                  <Input type="number" min={0} placeholder="quantity" {...field} />
                   <Button type="button" onClick={() => handleQuantity('sub')}>
                     <FiMinus />
                   </Button>
