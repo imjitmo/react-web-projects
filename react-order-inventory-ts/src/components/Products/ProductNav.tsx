@@ -87,6 +87,7 @@ const ProductNav = ({ title, page, setup, handleOrder }: ProductNavProps) => {
       </div>
       <div className="flex flex-row flex-wrap justify-center gap-4 my-10">
         {setup}
+        {isPending && <p>Loading...</p>}
         <ListProducts render={dishesData} handleOrder={handleOrder} />
       </div>
     </>

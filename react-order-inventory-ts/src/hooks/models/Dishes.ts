@@ -6,4 +6,6 @@ export interface Dish {
   dishPrice: number;
   dishImage: string;
   dishIngredients?: IngredientProps[];
+  dishAvailability?: boolean;
+  dishStatus?: boolean;
 }
