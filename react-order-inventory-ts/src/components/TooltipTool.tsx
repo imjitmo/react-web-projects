@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-const TooltipTool = ({ children, title }: { children: JSX.Element; title: string }) => {
+const TooltipTool = ({ children, title }: { children: JSX.Element | React.ReactNode; title: string }) => {
   return (
     <TooltipProvider>
       <Tooltip>

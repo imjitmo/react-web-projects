@@ -7,6 +7,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import PaginationButtons from '../Pagination/PaginationButtons';
 import SearchParams from '../SearchParams';
 import TooltipTool from '../TooltipTool';
+import UpdateIngredients from './UpdateIngredients';
 
 interface ListProps {
   pageType: string;
@@ -88,10 +89,9 @@ const List = ({ pageType }: ListProps) => {
                   </Button>
                 )}
                 {pageType === 'setup' && (
-                  <Button className="bg-orange-500 rounded-full text-slate-50 px-8 flex flex-wrap flex-row">
-                    <IoMdAdd />
-                    Edit
-                  </Button>
+                  <>
+                    <UpdateIngredients dishData={products} />
+                  </>
                 )}
               </CardFooter>
             </Card>

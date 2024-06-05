@@ -11,7 +11,7 @@ interface DialogProps {
 const DialogTool = ({ onOpen, setOnOpen, children, header, description }: DialogProps) => {
   return (
     <Dialog open={onOpen} onOpenChange={setOnOpen}>
-      <DialogContent className="bg-slate-950 text-slate-50">
+      <DialogContent className="bg-slate-950 text-slate-50 w-auto">
         <DialogHeader>
           <DialogTitle>{header}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
