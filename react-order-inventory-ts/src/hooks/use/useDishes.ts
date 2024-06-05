@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { addIngredients, createDish, getDishes } from '../api/DishAPI';
+import { createDish, getDishes, updateDish } from '../api/DishAPI';
 
 export const useGetDishes = () => {
   const { isPending, data: dishesData } = useQuery({
@@ -33,7 +33,7 @@ export const useUpdateIngredients = () => {
   const queryClient = useQueryClient();
 
   const { mutate: updateIngredients, isPending: isUpdating } = useMutation({
-    mutationFn: addIngredients,
+    mutationFn: updateDish,
     onSuccess: () => {
       toast.success('Dish Updated', { id: 'dishes' });
       queryClient.invalidateQueries({ queryKey: ['dishes'] });

@@ -32,27 +32,8 @@ export const createDish = async (dishData: Dish) => {
   return data;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const addIngredients = async (dishData: any) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dishIngredients = [] as any;
-  const allIngredientsData = dishData?.listIngredients;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await allIngredientsData.forEach((ingredient: any) => {
-    dishIngredients.push({
-      ingredientId: ingredient.dishInformation.split('_')[0],
-      ingredientName: ingredient.dishInformation.split('_')[1],
-      ingredientCategory: ingredient.dishInformation.split('_')[2],
-      ingredientType: ingredient.ingredientType,
-      ingredientQuantity: ingredient.ingredientQuantity,
-      ingredientUnit: ingredient.ingredientUnit,
-    });
-  });
-
-  const { data, error } = await supabase
-    .from('dishes')
-    .update({ dishIngredients: dishIngredients, dishStatus: true })
-    .eq('id', dishData.id);
+export const updateDish = async (dishData: Dish) => {
+  const { data, error } = await supabase.from('dishes').update(dishData).eq('id', dishData.id);
   if (error) {
     console.error(error);
     throw new Error('Dish ingredients could not be added');

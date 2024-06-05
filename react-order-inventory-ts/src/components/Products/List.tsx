@@ -7,7 +7,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import PaginationButtons from '../Pagination/PaginationButtons';
 import SearchParams from '../SearchParams';
 import TooltipTool from '../TooltipTool';
-import UpdateIngredients from './UpdateIngredients';
+import AddIngredients from './AddIngredients';
 
 interface ListProps {
   pageType: string;
@@ -90,7 +90,7 @@ const List = ({ pageType }: ListProps) => {
                 )}
                 {pageType === 'setup' && (
                   <>
-                    <UpdateIngredients dishData={products} />
+                    <AddIngredients dishData={products} />
                   </>
                 )}
               </CardFooter>
