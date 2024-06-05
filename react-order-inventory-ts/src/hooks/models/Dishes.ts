@@ -8,6 +8,11 @@ export interface Dish {
   dishType: string;
 }
 
+export interface DishUpdate {
+  id?: string;
+  dishStatus?: boolean;
+}
+
 export interface DishesModel {
   id?: string;
   dishName: string;

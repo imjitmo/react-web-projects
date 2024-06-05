@@ -21,6 +21,7 @@ import { FiMinus } from 'react-icons/fi';
 import { IoMdAdd } from 'react-icons/io';
 import { useSearchParams } from 'react-router-dom';
 
+import { useUpdateIngredients } from '@/hooks/use/useDishes';
 import { useCreateIngredients, useGetIngredients } from '@/hooks/use/useIngredients';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -64,6 +65,7 @@ interface Ingredients {
 
 const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   const { createIngredients, isCreating } = useCreateIngredients();
+  const { updateIngredients, isUpdating } = useUpdateIngredients();
   const { ingredientsData, isPending } = useGetIngredients();
   const [quantity, setQuantity] = useState(0);
   const { inventory } = useGetInventory();
@@ -97,19 +99,32 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   };
 
   const onSubmitIngredients = (data: Ingredients) => {
-    createIngredients({
-      dishId: dishData.id,
-      inventoryId: data.ingredientsInformation.split('_')[0],
-      ingredientName: data.ingredientsInformation.split('_')[1],
-      ingredientCategory: data.ingredientsInformation.split('_')[2],
-      ingredientType: data.ingredientType,
-      ingredientQuantity: data.ingredientQuantity,
-      ingredientUnit: data.ingredientUnit,
-    });
-    // form.reset();
+    createIngredients(
+      {
+        dishId: dishData.id,
+        inventoryId: data.ingredientsInformation.split('_')[0],
+        ingredientName: data.ingredientsInformation.split('_')[1],
+        ingredientCategory: data.ingredientsInformation.split('_')[2],
+        ingredientType: data.ingredientType,
+        ingredientQuantity: data.ingredientQuantity,
+        ingredientUnit: data.ingredientUnit,
+      },
+      {
+        onSuccess: () => {
+          updateIngredients(
+            { id: dishData.id, dishStatus: true },
+            {
+              onSuccess: () => {
+                searchParams.delete('category');
+                setSearchParams(searchParams);
+                form.reset();
+              },
+            }
+          );
+        },
+      }
+    );
   };
-
-  console.log(ingredientsData);
   return (
     <>
       <TooltipTool title="Add Ingredients to Dish">
@@ -264,8 +279,8 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
               )}
             />
             <div className="flex flex-wrap flex-row justify-end gap-2">
-              <Button className="bg-orange-500" disabled={isCreating}>
-                {isCreating ? 'Adding...' : 'Add'}
+              <Button className="bg-orange-500" disabled={isCreating || isUpdating}>
+                {isCreating || isUpdating ? 'Adding...' : 'Add'}
               </Button>
               <Button
                 className="bg-red-500"

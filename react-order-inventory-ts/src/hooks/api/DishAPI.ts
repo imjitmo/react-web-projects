@@ -1,4 +1,4 @@
-import { Dish } from '../models/Dishes';
+import { Dish, DishUpdate } from '../models/Dishes';
 import supabase, { supabaseUrl } from './supabase';
 
 export const getDishes = async () => {
@@ -32,7 +32,7 @@ export const createDish = async (dishData: Dish) => {
   return data;
 };
 
-export const updateDish = async (dishData: Dish) => {
+export const updateDish = async (dishData: DishUpdate) => {
   const { data, error } = await supabase.from('dishes').update(dishData).eq('id', dishData.id);
   if (error) {
     console.error(error);
