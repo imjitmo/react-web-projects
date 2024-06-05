@@ -53,7 +53,7 @@ const List = ({ pageType }: ListProps) => {
             >
               <CardHeader>
                 <CardTitle className="mx-auto relative -mt-16">
-                  <img src={(products?.dishImage as string) || '/PHO.png'} className="size-36" alt="" />
+                  <img src={(products?.dishImage as string) || '/PHO.png'} className="size-36" alt="image" />
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -76,7 +76,9 @@ const List = ({ pageType }: ListProps) => {
                         : 'This dish is inactive, you cannot serve this dish'
                     }
                   >
-                    <span className="cursor-pointer">{products.dishStatus ? 'Active' : 'Inactive'}</span>
+                    <span className={`cursor-pointer ${products.dishStatus && 'text-green-500'}`}>
+                      {products.dishStatus ? 'Active' : 'Inactive'}
+                    </span>
                   </TooltipTool>
                 </CardDescription>
                 {pageType === 'order' && (
