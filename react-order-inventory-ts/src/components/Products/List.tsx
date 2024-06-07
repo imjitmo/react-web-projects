@@ -8,6 +8,7 @@ import PaginationButtons from '../Pagination/PaginationButtons';
 import SearchParams from '../SearchParams';
 import TooltipTool from '../TooltipTool';
 import AddIngredients from './AddIngredients';
+import UpdateDish from './UpdateDish';
 
 interface ListProps {
   pageType: string;
@@ -89,9 +90,10 @@ const List = ({ pageType }: ListProps) => {
                   </Button>
                 )}
                 {pageType === 'setup' && (
-                  <>
+                  <div className="flex flex-row flex-wrap gap-2">
                     <AddIngredients dishData={products} />
-                  </>
+                    <UpdateDish dishData={products} />
+                  </div>
                 )}
               </CardFooter>
             </Card>

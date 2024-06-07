@@ -16,7 +16,6 @@ export const getIngredients = async () => {
     console.error(error);
     throw new Error('Ingredients could not be retrieved');
   }
-  console.log(ingredientsData);
   return ingredientsData;
 };
 

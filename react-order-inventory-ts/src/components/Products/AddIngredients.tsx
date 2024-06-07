@@ -147,7 +147,9 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
             {ingredientsData
               ?.filter((item) => item.dishId === dishData.id)
               .map((item) => (
-                <li>{`${item.ingredientQuantity} ${item.ingredientUnit} of ${item.ingredientName}`}</li>
+                <li
+                  key={item.id}
+                >{`${item.ingredientQuantity} ${item.ingredientUnit} of ${item.ingredientName}`}</li>
               ))}
           </ul>
         )}

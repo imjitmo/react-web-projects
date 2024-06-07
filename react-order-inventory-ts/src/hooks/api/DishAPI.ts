@@ -1,4 +1,4 @@
-import { Dish, DishUpdate } from '../models/Dishes';
+import { Dish, DishUpdate, EditDish } from '../models/Dishes';
 import supabase, { supabaseUrl } from './supabase';
 
 export const getDishes = async () => {
@@ -38,5 +38,16 @@ export const updateDish = async (dishData: DishUpdate) => {
     console.error(error);
     throw new Error('Dish ingredients could not be added');
   }
+  return data;
+};
+
+export const editDish = async (dishData: EditDish) => {
+  console.log(dishData);
+  const { data, error } = await supabase.from('dishes').update(dishData).eq('id', dishData.id);
+  if (error) {
+    console.error(error);
+    throw new Error('Dish ingredients could not be updated');
+  }
+
   return data;
 };

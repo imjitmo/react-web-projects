@@ -14,14 +14,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { dishType } from '@/hooks/data/selectValues';
-import { Dish } from '@/hooks/models/Dishes';
+import { Dish, EditDish as EditModel } from '@/hooks/models/Dishes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-
 const DishSchema = z.object({
+  id: z.string(),
   dishName: z
     .string({
       required_error: 'Dish Name is required',
@@ -33,31 +31,23 @@ const DishSchema = z.object({
     })
     .min(1, 'Description is required'),
   dishPrice: z.coerce.number().min(0),
-  dishImage: z
-    .instanceof(File, { message: 'Image is required' })
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      'Only .jpg, .jpeg, .png and .webp formats are supported.'
-    ),
   dishType: z.string({ required_error: 'Dish Type is required' }).min(1, 'Dish Type is required'),
 });
 
 interface AddDishProps {
-  handleSubmit: (value: Dish) => void;
+  handleSubmit: (value: EditModel) => void;
   isLoading?: boolean;
   dishData?: Dish;
-  page?: string;
 }
 
-const AddDish = ({ handleSubmit, isLoading, dishData, page }: AddDishProps) => {
+const EditDish = ({ handleSubmit, isLoading, dishData }: AddDishProps) => {
   const form = useForm<z.infer<typeof DishSchema>>({
     resolver: zodResolver(DishSchema),
     defaultValues: {
+      id: dishData?.id || '',
       dishName: dishData?.dishName || '',
       dishDescription: dishData?.dishDescription || '',
       dishPrice: dishData?.dishPrice || 0,
-      dishImage: undefined,
       dishType: dishData?.dishType || '',
     },
     reValidateMode: 'onSubmit',
@@ -111,30 +101,6 @@ const AddDish = ({ handleSubmit, isLoading, dishData, page }: AddDishProps) => {
             );
           }}
         ></FormField>
-        {page !== 'update' && (
-          <FormField
-            control={form.control}
-            name="dishImage"
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render={({ field: { value, onChange, ...fieldProps } }) => {
-              return (
-                <FormItem className="w-full">
-                  <FormLabel>Image</FormLabel>
-                  <FormControl className="text-center bg-slate-800/50">
-                    <Input
-                      type="file"
-                      placeholder="Image"
-                      accept="image/*"
-                      {...fieldProps}
-                      onChange={(e) => onChange(e.target.files && e.target.files[0])}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-        )}
         <FormField
           control={form.control}
           name="dishType"
@@ -163,10 +129,10 @@ const AddDish = ({ handleSubmit, isLoading, dishData, page }: AddDishProps) => {
           )}
         />
         <Button className="w-full bg-orange-500 hover:bg-orange-400" disabled={isLoading}>
-          {isLoading ? 'Adding...' : 'Add Dish'}
+          {isLoading ? 'Updating...' : 'Update Dish'}
         </Button>
       </form>
     </Form>
   );
 };
-export default AddDish;
+export default EditDish;
