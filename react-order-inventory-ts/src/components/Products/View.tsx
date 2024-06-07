@@ -33,8 +33,8 @@ const View = ({ dishData }: ViewProps) => {
       <DialogTool
         onOpen={onOpen}
         setOnOpen={setOnOpen}
-        header={`View Details`}
-        description="This dish's details will be view on this area"
+        header={`Details`}
+        description="This dish's details will be viewed on this area"
       >
         <div className="flex flex-col gap-4 flex-wrap">
           <div className="flex flex-row flex-wrap gap-4 items-center justify-center">
@@ -43,12 +43,11 @@ const View = ({ dishData }: ViewProps) => {
               className="size-24 rounded-full border-4 border-slate-500"
               alt={dishData?.dishName}
             />
-            <div className="text-sm">
+            <div className="text-sm flex flex-col gap-1 cursor-default">
               <div className="flex flex-row items-center gap-2">
                 <h2>{dishData?.dishName}</h2>
                 <p className="capitalize">({dishData?.dishType})</p>
               </div>
-              <p className="italic text-slate-400 text-sm">{dishData?.dishDescription}</p>
               <p>&#8369; {dishData?.dishPrice}</p>
               <div className="flex flex-row gap-2 items-center">
                 <p
@@ -63,6 +62,10 @@ const View = ({ dishData }: ViewProps) => {
                 </p>
               </div>
             </div>
+          </div>
+          <div className="post-line">
+            <h4 className="font-bold">About {dishData?.dishName}</h4>
+            <p className="italic text-slate-400 text-sm">{dishData?.dishDescription}</p>
           </div>
           <div className="">
             <h4>Ingredients</h4>
