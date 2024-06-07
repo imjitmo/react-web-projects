@@ -32,7 +32,7 @@ const List = ({ pageType }: ListProps) => {
   const paramValues = [...new Set(dishesData?.map((dishes) => dishes.dishType))];
 
   const { updateIngredients } = useUpdateIngredients();
-  const handleAvailability = (dishData: { id: string; dishAvailability: boolean }) => {
+  const handleAvailability = (dishData: { id: string; dishAvailability?: boolean; dishStatus?: boolean }) => {
     updateIngredients(dishData);
   };
 
@@ -94,7 +94,12 @@ const List = ({ pageType }: ListProps) => {
                         : 'This dish is inactive, you cannot serve this dish'
                     }
                   >
-                    <span className={`cursor-pointer ${products.dishStatus && 'text-green-500'}`}>
+                    <span
+                      onClick={() =>
+                        handleAvailability({ id: products.id, dishStatus: !products.dishStatus })
+                      }
+                      className={`cursor-pointer ${products.dishStatus && 'text-green-500'}`}
+                    >
                       {products.dishStatus ? 'Active' : 'Inactive'}
                     </span>
                   </TooltipTool>
