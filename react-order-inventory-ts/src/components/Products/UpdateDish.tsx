@@ -10,7 +10,11 @@ const UpdateDish = ({ dishData }: { dishData: Dish }) => {
   const [onOpen, setOnOpen] = useState(false);
   const { updateDish, isUpdating } = useUpdateDish();
   const handleSubmit = (value: EditModel) => {
-    updateDish(value);
+    updateDish(value, {
+      onSuccess: () => {
+        setOnOpen(false);
+      },
+    });
   };
   return (
     <>

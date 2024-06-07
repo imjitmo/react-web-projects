@@ -16,6 +16,7 @@ import {
 import { dishType } from '@/hooks/data/selectValues';
 import { Dish } from '@/hooks/models/Dishes';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import * as z from 'zod';
 
 const MAX_FILE_SIZE = 5000000;
@@ -47,9 +48,10 @@ interface AddDishProps {
   handleSubmit: (value: Dish) => void;
   isLoading?: boolean;
   dishData?: Dish;
+  onReset?: boolean;
 }
 
-const AddDish = ({ handleSubmit, isLoading, dishData }: AddDishProps) => {
+const AddDish = ({ handleSubmit, isLoading, dishData, onReset }: AddDishProps) => {
   const form = useForm<z.infer<typeof DishSchema>>({
     resolver: zodResolver(DishSchema),
     defaultValues: {
@@ -61,7 +63,12 @@ const AddDish = ({ handleSubmit, isLoading, dishData }: AddDishProps) => {
     },
     reValidateMode: 'onSubmit',
   });
-
+  useEffect(() => {
+    if (onReset) {
+      form.reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onReset]);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
