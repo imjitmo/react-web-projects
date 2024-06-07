@@ -2,7 +2,10 @@ import { Dish, DishUpdate, EditDish } from '../models/Dishes';
 import supabase, { supabaseUrl } from './supabase';
 
 export const getDishes = async () => {
-  const { data: dishesData, error } = await supabase.from('dishes').select();
+  const { data: dishesData, error } = await supabase
+    .from('dishes')
+    .select()
+    .order('dishStatus', { ascending: false });
   if (error) {
     console.error(error);
     throw new Error('Dishes could not be retrieved');
