@@ -12,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { unit } from '@/hooks/data/selectValues';
 import { useGetInventory } from '@/hooks/use/useInventory';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -37,12 +36,7 @@ const IngredientSchema = z.object({
       required_error: 'Ingredient is required',
     })
     .min(1, 'Ingredient is required'),
-  ingredientUnit: z
-    .string({
-      required_error: 'Type is required',
-    })
-    .min(1, 'Unit is required'),
-  ingredientQuantity: z.coerce.number().min(0),
+  ingredientQuantity: z.coerce.number().nonnegative('Quantity cannot be negative'),
 });
 
 interface IngredientProps {
@@ -59,7 +53,6 @@ interface IngredientProps {
 interface Ingredients {
   ingredientType: string;
   ingredientsInformation: string;
-  ingredientUnit: string;
   ingredientQuantity: number;
 }
 
@@ -82,7 +75,6 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
     defaultValues: {
       ingredientType: filterParams ? filterParams : '',
       ingredientsInformation: '',
-      ingredientUnit: '',
       ingredientQuantity: 0,
     },
   });
@@ -107,7 +99,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
         ingredientCategory: data.ingredientsInformation.split('_')[2],
         ingredientType: data.ingredientType,
         ingredientQuantity: data.ingredientQuantity,
-        ingredientUnit: data.ingredientUnit,
+        ingredientUnit: data.ingredientsInformation.split('_')[3],
       },
       {
         onSuccess: () => {
@@ -220,9 +212,10 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                             inventoryRecords?.map((item) => (
                               <SelectItem
                                 key={item.id}
-                                value={`${item.id}_${item.itemName}_${item.itemCategory}`}
+                                value={`${item.id}_${item.itemName}_${item.itemCategory}_${item.itemUnit}`}
                               >
-                                {item.itemName}
+                                {item.itemName}/
+                                <span className="font-bold italic text-green-500">({item.itemUnit})</span>
                               </SelectItem>
                             ))}
                         </SelectGroup>
@@ -242,7 +235,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
                     <div className="flex flex-row gap-2 justify-center">
-                      <Input type="number" min={0} placeholder="quantity" {...field} />
+                      <Input type="number" placeholder="quantity" {...field} />
                       <Button type="button" onClick={() => handleQuantity('sub')}>
                         <FiMinus />
                       </Button>
@@ -256,7 +249,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="ingredientUnit"
               render={({ field }) => (
@@ -279,7 +272,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <div className="flex flex-wrap flex-row justify-end gap-2">
               <Button className="bg-orange-500" disabled={isCreating || isUpdating}>
                 {isCreating || isUpdating ? 'Adding...' : 'Add'}

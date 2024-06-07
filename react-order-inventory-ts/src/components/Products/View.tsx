@@ -1,0 +1,89 @@
+import { IngredientProps } from '@/hooks/models/Ingredients';
+import { decimalToFraction } from '@/hooks/utils/ToFraction';
+import { useState } from 'react';
+import DialogTool from '../DialogTool';
+import TooltipTool from '../TooltipTool';
+
+interface ViewProps {
+  dishData: {
+    id: string;
+    dishName: string;
+    dishDescription: string;
+    dishPrice: number;
+    dishImage: string;
+    dishType: string;
+    dishStatus: boolean;
+    dishAvailability: boolean;
+    ingredients: IngredientProps[];
+  };
+}
+
+const View = ({ dishData }: ViewProps) => {
+  const [onOpen, setOnOpen] = useState(false);
+  return (
+    <>
+      <TooltipTool title="View Dish Detail">
+        <p
+          className="cursor-pointer text-xs font-bold text-green-500"
+          onClick={() => setOnOpen((prev) => !prev)}
+        >
+          View
+        </p>
+      </TooltipTool>
+      <DialogTool
+        onOpen={onOpen}
+        setOnOpen={setOnOpen}
+        header={`View Details`}
+        description="This dish's details will be view on this area"
+      >
+        <div className="flex flex-col gap-4 flex-wrap">
+          <div className="flex flex-row flex-wrap gap-4 items-center justify-center">
+            <img
+              src={dishData?.dishImage}
+              className="size-24 rounded-full border-4 border-slate-500"
+              alt={dishData?.dishName}
+            />
+            <div className="text-sm">
+              <div className="flex flex-row items-center gap-2">
+                <h2>{dishData?.dishName}</h2>
+                <p className="capitalize">({dishData?.dishType})</p>
+              </div>
+              <p className="italic text-slate-400 text-sm">{dishData?.dishDescription}</p>
+              <p>&#8369; {dishData?.dishPrice}</p>
+              <div className="flex flex-row gap-2 items-center">
+                <p
+                  className={`${
+                    dishData?.dishAvailability ? 'text-green-500' : 'text-red-500'
+                  } bg-orange-300/30 font-semibold py-1 px-4 rounded-full`}
+                >
+                  {dishData?.dishAvailability ? 'Available' : 'Not Available'}
+                </p>
+                <p className={`${dishData?.dishStatus ? 'text-green-500' : 'text-red-500'}`}>
+                  {dishData?.dishStatus ? 'Active' : 'Inactive'}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="">
+            <h4>Ingredients</h4>
+            <ul>
+              {dishData?.ingredients?.length > 0 ? (
+                dishData?.ingredients?.map((ingredient) => (
+                  <li className="text-sm italic" key={ingredient.id}>
+                    {Number.isInteger(Number(ingredient.ingredientQuantity))
+                      ? ingredient.ingredientQuantity
+                      : decimalToFraction(ingredient.ingredientQuantity)}{' '}
+                    {ingredient.ingredientUnit} of {ingredient.ingredientName}
+                  </li>
+                ))
+              ) : (
+                <li className="text-red-500 text-sm">No Ingredients Found!</li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </DialogTool>
+    </>
+  );
+};
+export default View;

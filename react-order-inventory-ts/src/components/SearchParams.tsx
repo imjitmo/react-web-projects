@@ -18,6 +18,8 @@ const SearchParams = ({ params, values, setCurrentPage }: SearchParamsProps) => 
 
   useEffect(() => {
     if (setCurrentPage) setCurrentPage(1);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   return (

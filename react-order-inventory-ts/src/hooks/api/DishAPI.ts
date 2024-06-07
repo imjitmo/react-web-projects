@@ -4,7 +4,7 @@ import supabase, { supabaseUrl } from './supabase';
 export const getDishes = async () => {
   const { data: dishesData, error } = await supabase
     .from('dishes')
-    .select()
+    .select(`*, ingredients(*)`)
     .order('dishStatus', { ascending: false });
   if (error) {
     console.error(error);

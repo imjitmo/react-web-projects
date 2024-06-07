@@ -10,6 +10,7 @@ import TooltipTool from '../TooltipTool';
 import AddIngredients from './AddIngredients';
 import UpdateDialog from './UpdateDialog';
 import UpdateDish from './UpdateDish';
+import View from './View';
 
 interface ListProps {
   pageType: string;
@@ -64,7 +65,7 @@ const List = ({ pageType }: ListProps) => {
                   <UpdateDialog id={products.id}>
                     <img
                       src={(products?.dishImage as string) || '/PHO.png'}
-                      className="size-36 cursor-pointer"
+                      className="size-[9.5rem] cursor-pointe rounded-full"
                       alt="image"
                     />
                   </UpdateDialog>
@@ -110,6 +111,7 @@ const List = ({ pageType }: ListProps) => {
                     <UpdateDish dishData={products} />
                   </div>
                 )}
+                <View dishData={products} />
               </CardFooter>
             </Card>
           ))}
