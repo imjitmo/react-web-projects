@@ -37,7 +37,7 @@ const View = ({ dishData }: ViewProps) => {
         description="This dish's details will be viewed on this area"
       >
         <div className="flex flex-col gap-4 flex-wrap">
-          <div className="flex flex-row flex-wrap gap-4 items-center justify-center">
+          <div className="flex flex-row flex-wrap gap-4 items-center justify-start">
             <img
               src={dishData?.dishImage}
               className="size-24 rounded-full border-4 border-slate-500"
