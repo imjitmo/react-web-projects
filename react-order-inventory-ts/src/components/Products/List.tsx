@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useGetDishes } from '@/hooks/use/useDishes';
+import { useGetDishes, useUpdateIngredients } from '@/hooks/use/useDishes';
 import Pagination from '@/hooks/utils/Pagination';
 import { IoMdAdd } from 'react-icons/io';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -29,6 +29,11 @@ const List = ({ pageType }: ListProps) => {
   const totalPages = dishesRecords ? dishesRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
   const paramValues = [...new Set(dishesData?.map((dishes) => dishes.dishType))];
+
+  const { updateIngredients } = useUpdateIngredients();
+  const handleAvailability = (dishData: { id: string; dishAvailability: boolean }) => {
+    updateIngredients(dishData);
+  };
 
   return (
     <div className="my-4">
@@ -74,7 +79,10 @@ const List = ({ pageType }: ListProps) => {
                   <span
                     className={`bg-orange-300/30 ${
                       products.dishAvailability ? 'text-green-500' : 'text-red-500'
-                    } font-semibold py-1 px-4 rounded-full`}
+                    } font-semibold py-1 px-4 rounded-full cursor-pointer`}
+                    onClick={() =>
+                      handleAvailability({ id: products.id, dishAvailability: !products.dishAvailability })
+                    }
                   >
                     {products.dishAvailability ? 'Available' : 'Not Available'}
                   </span>

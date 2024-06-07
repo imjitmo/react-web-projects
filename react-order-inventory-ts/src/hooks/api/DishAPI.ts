@@ -36,7 +36,7 @@ export const updateDish = async (dishData: DishUpdate) => {
   const { data, error } = await supabase.from('dishes').update(dishData).eq('id', dishData.id);
   if (error) {
     console.error(error);
-    throw new Error('Dish ingredients could not be added');
+    throw new Error('Dish could not be updated');
   }
   return data;
 };

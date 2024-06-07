@@ -26,4 +26,5 @@ export interface EditDish {
   dishDescription?: string;
   dishPrice?: number;
   dishType?: string;
+  dishAvailability?: boolean;
 }
