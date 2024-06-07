@@ -47,10 +47,9 @@ interface AddDishProps {
   handleSubmit: (value: Dish) => void;
   isLoading?: boolean;
   dishData?: Dish;
-  page?: string;
 }
 
-const AddDish = ({ handleSubmit, isLoading, dishData, page }: AddDishProps) => {
+const AddDish = ({ handleSubmit, isLoading, dishData }: AddDishProps) => {
   const form = useForm<z.infer<typeof DishSchema>>({
     resolver: zodResolver(DishSchema),
     defaultValues: {
@@ -111,30 +110,28 @@ const AddDish = ({ handleSubmit, isLoading, dishData, page }: AddDishProps) => {
             );
           }}
         ></FormField>
-        {page !== 'update' && (
-          <FormField
-            control={form.control}
-            name="dishImage"
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render={({ field: { value, onChange, ...fieldProps } }) => {
-              return (
-                <FormItem className="w-full">
-                  <FormLabel>Image</FormLabel>
-                  <FormControl className="text-center bg-slate-800/50">
-                    <Input
-                      type="file"
-                      placeholder="Image"
-                      accept="image/*"
-                      {...fieldProps}
-                      onChange={(e) => onChange(e.target.files && e.target.files[0])}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-        )}
+        <FormField
+          control={form.control}
+          name="dishImage"
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          render={({ field: { value, onChange, ...fieldProps } }) => {
+            return (
+              <FormItem className="w-full">
+                <FormLabel>Image</FormLabel>
+                <FormControl className="text-center bg-slate-800/50">
+                  <Input
+                    type="file"
+                    placeholder="Image"
+                    accept="image/*"
+                    {...fieldProps}
+                    onChange={(e) => onChange(e.target.files && e.target.files[0])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
         <FormField
           control={form.control}
           name="dishType"

@@ -8,6 +8,7 @@ import PaginationButtons from '../Pagination/PaginationButtons';
 import SearchParams from '../SearchParams';
 import TooltipTool from '../TooltipTool';
 import AddIngredients from './AddIngredients';
+import UpdateDialog from './UpdateDialog';
 import UpdateDish from './UpdateDish';
 
 interface ListProps {
@@ -54,8 +55,14 @@ const List = ({ pageType }: ListProps) => {
               className="min-w-[240px] max-w-[240px] text-center bg-slate-950 border-none my-8 text-slate-50"
             >
               <CardHeader>
-                <CardTitle className="mx-auto relative -mt-16">
-                  <img src={(products?.dishImage as string) || '/PHO.png'} className="size-36" alt="image" />
+                <CardTitle key={products.id} className="mx-auto relative -mt-16">
+                  <UpdateDialog id={products.id}>
+                    <img
+                      src={(products?.dishImage as string) || '/PHO.png'}
+                      className="size-36 cursor-pointer"
+                      alt="image"
+                    />
+                  </UpdateDialog>
                 </CardTitle>
               </CardHeader>
               <CardContent>

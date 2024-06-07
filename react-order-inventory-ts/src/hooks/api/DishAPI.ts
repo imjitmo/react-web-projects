@@ -51,3 +51,33 @@ export const editDish = async (dishData: EditDish) => {
 
   return data;
 };
+
+interface DishImage {
+  id: string;
+  dishImage: File;
+}
+
+export const updateDishImage = async (dishData: DishImage) => {
+  console.log(dishData);
+  const imageArr = dishData.dishImage instanceof File ? dishData.dishImage.name : undefined;
+  const imageArrName = imageArr?.replace(/[^a-zA-Z0-9 -]*/g, '').toLocaleLowerCase();
+  const imageName = `${new Date().getTime()}_${Math.random().toString(36).slice(-8)}_${imageArrName}`;
+  const imagePath = `${supabaseUrl}/storage/v1/object/public/dishes/${imageName}`;
+  const { data, error } = await supabase
+    .from('dishes')
+    .update({ ...dishData, dishImage: imagePath })
+    .eq('id', dishData.id)
+    .select();
+  if (error) {
+    console.error(error);
+    throw new Error('Dish Image could not be updated');
+  }
+  console.log(data);
+  const { error: storageError } = await supabase.storage.from('dishes').upload(imageName, dishData.dishImage);
+  if (storageError) {
+    console.error(storageError);
+    throw new Error('Dish image could not be uploaded and the dish was not created');
+  }
+
+  return data;
+};
