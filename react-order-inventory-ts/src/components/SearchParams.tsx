@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 interface SearchParamsProps {
@@ -10,11 +11,14 @@ const SearchParams = ({ params, values, setCurrentPage }: SearchParamsProps) => 
 
   const handleClick = (searchParameter: string, parameterValue: string) => {
     searchParams.set(searchParameter, parameterValue);
-    setCurrentPage && setCurrentPage(1);
     setSearchParams(searchParams);
   };
 
   const filterValue = searchParams.get(params);
+
+  useEffect(() => {
+    if (setCurrentPage) setCurrentPage(1);
+  }, [searchParams]);
 
   return (
     <nav className="flex flex-row flex-wrap items-center justify-start gap-12 border-b-2 border-slate-400/20">

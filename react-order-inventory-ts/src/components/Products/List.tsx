@@ -25,7 +25,7 @@ const List = ({ pageType }: ListProps) => {
     filterParams === 'all' ? allDishData : dishes.dishType === filterParams
   );
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
-  const records = dishesRecords?.slice(filterParams === 'all' ? firstIndex : 0, lastIndex);
+  const records = dishesRecords?.slice(firstIndex, lastIndex);
   const totalPages = dishesRecords ? dishesRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
   const paramValues = [...new Set(dishesData?.map((dishes) => dishes.dishType))];
@@ -57,7 +57,7 @@ const List = ({ pageType }: ListProps) => {
           records?.map((products) => (
             <Card
               key={products.id}
-              className="min-w-[240px] max-w-[240px] text-center bg-slate-950 border-none my-8 text-slate-50"
+              className="min-w-[280px] max-w-[280px] text-center bg-slate-950 border-none my-8 text-slate-50"
             >
               <CardHeader>
                 <CardTitle key={products.id} className="mx-auto relative -mt-16">
