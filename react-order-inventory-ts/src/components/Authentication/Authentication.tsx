@@ -6,7 +6,7 @@ const Login = () => {
   // const [authenticationType, setAuthenticationType] = useState('signin');
   return (
     <section
-      className="flex items-center justify-center min-h-screen w-full"
+      className="flex items-center justify-center min-h-screen w-full bg-cover bg-no-repeat"
       style={{
         backgroundImage: `linear-gradient(rgba(30, 41, 59 , 0.8), rgba(2,6,23, 0.9)), url('/felicitas_bg.jpg')`,
       }}
