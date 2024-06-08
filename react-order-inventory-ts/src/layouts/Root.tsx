@@ -62,7 +62,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route element={<PublicRoute />}>
-        <Route index element={<Authentication />} />
+        <Route index element={<Home />} />
+        <Route path="auth" element={<Authentication />} />
       </Route>
       <Route element={<Layout />}>
         <Route element={<ProtectedRoute />}>
