@@ -41,8 +41,9 @@ const Drinks = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="text-center"
         >
-          Sip the Unseen. Drink the Possibilities. Flavorful Secrets Unveiled Indulgence Redefined. Raise Your
-          Glass, Embrace the Exceptional. Unlock Your Taste Adventure. Beyond Ordinary, Into Extraordinary.
+          Sip the Unseen. Drink the Possibilities. Flavorful Secrets Unveiled. Indulgence Redefined. Raise
+          Your Glass, Embrace the Exceptional. Unlock Your Taste Adventure. Beyond Ordinary, Into
+          Extraordinary.
         </motion.p>
       </div>
     </div>
