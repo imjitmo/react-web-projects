@@ -22,7 +22,7 @@ const Homepage = () => {
       >
         <h1>FELICITAS STEAKHOUSE.</h1>
         <h1 className="text-5xlz-[4] text-green-600">
-          <span className="text-slate-950">Eat More.</span> Be Healthy
+          <span className="text-slate-950">Eat More.</span> Be Healthy.
         </h1>
         <p>Hundreds of flavors under one roof. Once you try it, you will love it.</p>
       </motion.div>
