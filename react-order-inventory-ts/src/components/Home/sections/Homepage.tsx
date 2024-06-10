@@ -9,7 +9,7 @@ const Homepage = () => {
         initial="hidden"
         whileInView={'show'}
         viewport={{ once: true, amount: 0.3 }}
-        className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/leaves.png')] bg-cover bg-bottom absolute inset-0 z-[0]"
+        className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/leaves.png')] bg-cover bg-bottom absolute opacity-30 inset-0 z-[0]"
       ></motion.div>
       <motion.div
         variants={fadeIn('right', 0.3)}
