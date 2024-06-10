@@ -42,7 +42,7 @@ const Foods = () => {
       >
         <h1 className="uppercase">
           <span className="text-green-600">Nourishing</span> your{' '}
-          <span className="text-orange-300">body</span>, <span className="text-green-600">delighting</span>
+          <span className="text-orange-300">body</span>, <span className="text-green-600">delighting</span>{' '}
           your <span className="text-orange-300">soul</span>
         </h1>
         <p>
