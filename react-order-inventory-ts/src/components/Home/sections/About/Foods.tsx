@@ -42,13 +42,13 @@ const Foods = () => {
       >
         <h1 className="uppercase">
           <span className="text-green-600">Nourishing</span> your{' '}
-          <span className="text-orange-300">body</span>, <span className="text-green-600">delighting</span>{' '}
+          <span className="text-orange-300">body</span>, <span className="text-green-600">delighting</span>
           your <span className="text-orange-300">soul</span>
         </h1>
         <p>
           Fresh flavors for a healthier you. Where taste meets wellness. Serving health, one plate at a time.
           Elevating your dining experience, naturally. Indulge guilt-free, dine with us. A treat for your
-          taste buds, a boost for your health
+          taste buds, a boost for your health.
         </p>
       </motion.div>
     </div>

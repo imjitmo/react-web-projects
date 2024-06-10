@@ -10,6 +10,7 @@ const Drinks = () => {
         initial="hidden"
         whileInView={'show'}
         viewport={{ once: true, amount: 0.3 }}
+        className="w-full text-center"
       >
         A <span className="text-green-600">REFRESHING</span> <span className="text-orange-300">TREAT</span>.
       </motion.h1>
@@ -35,7 +36,7 @@ const Drinks = () => {
       </div>
       <div className="flex flex-col justify-center items-center max-w-xl gap-2  inset-0 z-[1]">
         <motion.h1
-          variants={fadeIn('up', 0.1)}
+          variants={fadeIn('up', 0.3)}
           initial="hidden"
           whileInView={'show'}
           viewport={{ once: true, amount: 0.3 }}
