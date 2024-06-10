@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const Foods = () => {
   return (
-    <div className="w-full min-h-screen flex flex-col flex-wrap gap-10 justify-center items-center relative">
+    <div className="w-full min-h-screen flex flex-col flex-wrap gap-10 justify-center items-center relative p-4 md:p-0">
       <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/full_page_leaves.png')] bg-cover bg-bottom opacity-20 absolute inset-0 z-[0]"></div>
       <motion.div
         variants={fadeIn('down', 0.3)}

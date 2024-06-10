@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const Drinks = () => {
   return (
-    <div className="w-full min-h-screen flex flex-col flex-wrap gap-10 justify-center items-center relative">
+    <div className="w-full min-h-screen flex flex-col flex-wrap gap-10 justify-center items-center relative p-4 md:p-0">
       <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/leaves.png')] bg-cover bg-bottom opacity-40 absolute inset-0 z-[0]"></div>
       <div className="flex flex-col md:flex-row flex-wrap gap-12  inset-0 z-[1]">
         <motion.img
