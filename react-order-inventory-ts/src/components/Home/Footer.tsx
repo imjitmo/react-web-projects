@@ -1,3 +1,5 @@
+import { Link } from 'react-scroll';
+
 const Footer = () => {
   return (
     <>
@@ -13,10 +15,50 @@ const Footer = () => {
           <div className="basis-2/3">
             <h3>Felicitas Steak House</h3>
             <ul>
-              <li>Home</li>
-              <li>About</li>
-              <li>Products</li>
-              <li>Services</li>
+              <li>
+                <Link
+                  to="homepage"
+                  className="cursor-pointer "
+                  activeClass="border-b border-slate-100"
+                  smooth={true}
+                  spy={true}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="about"
+                  className="cursor-pointer "
+                  activeClass="border-b border-slate-100"
+                  smooth={true}
+                  spy={true}
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="products"
+                  className="cursor-pointer "
+                  activeClass="border-b border-slate-100"
+                  smooth={true}
+                  spy={true}
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="services"
+                  className="cursor-pointer "
+                  activeClass="border-b border-slate-100"
+                  smooth={true}
+                  spy={true}
+                >
+                  Services
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

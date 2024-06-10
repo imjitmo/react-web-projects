@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const Homepage = () => {
   return (
-    <section id="home" className="bg-slate-50 relative h-screen">
+    <section id="homepage" className="bg-slate-50 relative h-screen">
       <motion.div
         variants={fadeIn('left', 0.3)}
         initial="hidden"

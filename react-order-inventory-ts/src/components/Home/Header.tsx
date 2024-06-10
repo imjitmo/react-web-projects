@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-scroll';
 
 const Header = () => {
   return (
@@ -11,13 +11,49 @@ const Header = () => {
       />
       <ul className="flex flex-row flex-wrap gap-4 justify-evenly items-center">
         <li>
-          <Link to="/home">Home</Link>
+          <Link
+            to="homepage"
+            className="cursor-pointer "
+            activeClass="border-b border-slate-100"
+            smooth={true}
+            spy={true}
+          >
+            Home
+          </Link>
         </li>
         <li>
-          <Link to="/about">About</Link>
+          <Link
+            to="about"
+            className="cursor-pointer "
+            activeClass="border-b border-slate-100"
+            smooth={true}
+            spy={true}
+          >
+            About
+          </Link>
         </li>
-        <li>Products</li>
-        <li>Services</li>
+        <li>
+          <Link
+            to="products"
+            className="cursor-pointer "
+            activeClass="border-b border-slate-100"
+            smooth={true}
+            spy={true}
+          >
+            Products
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="services"
+            className="cursor-pointer "
+            activeClass="border-b border-slate-100"
+            smooth={true}
+            spy={true}
+          >
+            Services
+          </Link>
+        </li>
         <li>
           <Button className="bg-orange-300 rounded-lg text-slate-900">Rewards</Button>
         </li>
