@@ -13,14 +13,14 @@ const Foods = () => {
         className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/upper_left_dish.png?t=2024-06-10T00%3A02%3A19.146Z')] bg-cover bg-bottom absolute inset-0 z-[1]"
       ></motion.div>
       <motion.div
-        variants={fadeIn('down', 0.3)}
+        variants={fadeIn('down', 0.7)}
         initial="hidden"
         whileInView={'show'}
         viewport={{ once: true, amount: 0.3 }}
         className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/top_center_dish.png?t=2024-06-10T00%3A02%3A56.655Z')] bg-cover bg-bottom absolute inset-0 z-[1]"
       ></motion.div>
       <motion.div
-        variants={fadeIn('down', 0.7)}
+        variants={fadeIn('down', 0.3)}
         initial="hidden"
         whileInView={'show'}
         viewport={{ once: true, amount: 0.3 }}
