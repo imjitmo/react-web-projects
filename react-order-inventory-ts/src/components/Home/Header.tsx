@@ -1,13 +1,8 @@
-import { fadeIn } from '@/anim/variant';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { IoMdMenu } from 'react-icons/io';
-import { IoClose } from 'react-icons/io5';
 import { Link } from 'react-scroll';
+import Sidebar from './sections/MobileMenu/Sidebar';
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState(false);
   return (
     <nav className="flex flex-col flex-wrap items-center justify-center w-full h-auto md:py-2 md:px-6  bg-slate-50 text-slate-950 p-4 top-0 left-0 sticky z-[99]">
       <div className="flex flex-row flex-wrap items-center justify-between w-full h-auto md:py-4 md:px-8">
@@ -68,14 +63,17 @@ const Header = () => {
             </Button>
           </li>
         </ul>
-        <Button
+        {/* <Button
           className="bg-transparent ring-0 hover:bg-transparent outline-none shadow-none border-none focus:border-none active:border-none focus:ring-0 focus:ring-offset-0 text-slate-950 md:hidden"
           onClick={() => setShowMenu((prev) => !prev)}
         >
           {showMenu ? <IoClose className="size-8" /> : <IoMdMenu className="size-8" />}
-        </Button>
+        </Button> */}
+        <div className="md:hidden">
+          <Sidebar />
+        </div>
       </div>
-      <div
+      {/* <div
         className={` ${
           showMenu ? 'transition-all duration-500 ease-in-out min-h-[200px]' : 'min-h-none hidden'
         } text-center`}
@@ -156,7 +154,7 @@ const Header = () => {
             </Button>
           </motion.li>
         </ul>
-      </div>
+      </div> */}
     </nav>
   );
 };
