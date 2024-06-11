@@ -34,12 +34,13 @@ const Drinks = () => {
           className="w-96 rounded-lg drop-shadow-lg shadow-slate-900"
         />
       </div>
-      <div className="flex flex-col justify-center items-center max-w-xl gap-2  inset-0 z-[1]">
+      <div className="flex flex-col justify-center items-center max-w-xl gap-2 inset-0 z-[1]">
         <motion.h1
           variants={fadeIn('up', 0.3)}
           initial="hidden"
           whileInView={'show'}
           viewport={{ once: true, amount: 0.3 }}
+          className="text-center"
         >
           A DRINK TO <span className="text-orange-300">REMEMBER</span>
         </motion.h1>
