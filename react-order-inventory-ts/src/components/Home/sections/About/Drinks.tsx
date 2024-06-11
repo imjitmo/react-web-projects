@@ -5,7 +5,7 @@ const Drinks = () => {
   return (
     <div className="w-full min-h-screen flex flex-col flex-wrap gap-10 justify-center items-center relative overflow-hidden">
       <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/drop_lets.png?t=2024-06-10T03%3A23%3A51.108Z')] bg-cover bg-bottom opacity-20 absolute inset-0 z-[0]"></div>
-      <div className="flex flex-col justify-center items-center max-w-xl gap-2 inset-0 z-[1]">
+      <div className="flex flex-wrap justify-center items-center gap-2 inset-0 z-[1]">
         <motion.h1
           variants={fadeIn('down', 0.3)}
           initial="hidden"
