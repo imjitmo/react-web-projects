@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const DineIn = () => {
   return (
     <div className="w-full min-h-screen flex flex-col md:flex-row relative overflow-hidden">
-      <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/veggie_meat.png?t=2024-06-16T04%3A47%3A43.366Z')] bg-cover bg-bottom opacity-10 absolute inset-0 z-[0]"></div>
+      <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/veggie_meat.png?t=2024-06-16T04%3A47%3A43.366Z')] bg-cover bg-bottom opacity-20 absolute inset-0 z-[0]"></div>
       <span className="flex flex-col flex-wrap gap-4 items-center justify-center text-center p-8 z-1">
         <motion.h1
           variants={fadeIn('down', 0.3)}
