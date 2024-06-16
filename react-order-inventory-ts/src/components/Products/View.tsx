@@ -68,7 +68,7 @@ const View = ({ dishData }: ViewProps) => {
             <p className="italic text-slate-400 text-sm">{dishData?.dishDescription}</p>
           </div>
           <div className="">
-            <h4>Ingredients</h4>
+            <h4>Includes</h4>
             <ul>
               {dishData?.ingredients?.length > 0 ? (
                 dishData?.ingredients?.map((ingredient) => (
@@ -80,7 +80,7 @@ const View = ({ dishData }: ViewProps) => {
                   </li>
                 ))
               ) : (
-                <li className="text-red-500 text-sm">No Ingredients Found!</li>
+                <li className="text-red-500 text-sm">No Includes Found!</li>
               )}
             </ul>
           </div>

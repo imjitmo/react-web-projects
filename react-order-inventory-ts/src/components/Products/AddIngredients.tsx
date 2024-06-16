@@ -119,7 +119,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   };
   return (
     <>
-      <TooltipTool title="Add Ingredients to Dish">
+      <TooltipTool title="Add Includes to Dish">
         <p onClick={() => setOnOpen((prev) => !prev)}>
           <AiOutlineAppstoreAdd className="size-6 text-orange-500 cursor-pointer" />
         </p>
@@ -127,13 +127,13 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
       <DialogTool
         onOpen={onOpen}
         setOnOpen={setOnOpen}
-        header="Add Ingredients"
-        description="This Ingredients will be added to your selected dish"
+        header="Add Includes"
+        description="This Includes will be added to your selected dish and count as inventory item"
       >
         <h3 className="flex gap-4">
           Dish# {dishData.id.slice(0, 5)} - {dishData.dishName}
         </h3>
-        {isPending && 'Loading Ingredients...'}
+        {isPending && 'Loading Includes...'}
         {ingredientsData && ingredientsData.length > 0 && (
           <ul>
             {ingredientsData
@@ -162,7 +162,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                         </SelectTrigger>
                         <SelectContent className="bg-slate-950 text-slate-50 capitalize">
                           <SelectGroup>
-                            <SelectLabel>Pick Ingredient</SelectLabel>
+                            <SelectLabel>Pick Includes</SelectLabel>
                             {!filterParams && <> </>}
                             {paramValues.map((item) => (
                               <SelectItem key={item} value={item}>
@@ -191,7 +191,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
               name="ingredientsInformation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ingredient</FormLabel>
+                  <FormLabel>Includes</FormLabel>
                   <FormControl>
                     <Select value={field.value} name={field.name} onValueChange={field.onChange}>
                       <SelectTrigger>
