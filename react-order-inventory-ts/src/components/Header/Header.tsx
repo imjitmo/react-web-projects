@@ -1,5 +1,5 @@
-import { FiSearch } from 'react-icons/fi';
-import { Input } from '../ui/input';
+// import { FiSearch } from 'react-icons/fi';
+// import { Input } from '../ui/input';
 
 const Header = () => {
   const options: Intl.DateTimeFormatOptions = {
@@ -13,10 +13,10 @@ const Header = () => {
     <div className="flex flex-col gap-2">
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 justify-between">
         <h1>Felicitas Steak House</h1>
-        <label className="relative flex items-center">
+        {/* <label className="relative flex items-center">
           <FiSearch className="absolute size-[1.25rem] left-2" />
           <Input className="pl-10 h-12 bg-slate-500/20 w-full" placeholder="Search..." />
-        </label>
+        </label> */}
       </div>
 
       <p>{today}</p>

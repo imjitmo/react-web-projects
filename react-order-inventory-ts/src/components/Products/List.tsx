@@ -12,6 +12,9 @@ import UpdateDialog from './UpdateDialog';
 import UpdateDish from './UpdateDish';
 import View from './View';
 
+import { useState } from 'react';
+import SearchTerm from '../SearchTerm';
+
 const blankImage =
   'https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/dishes/unknown_dish.png?t=2024-06-16T04%3A11%3A36.264Z';
 
@@ -22,15 +25,19 @@ interface ListProps {
 const List = ({ pageType }: ListProps) => {
   const { dishesData, isPending } = useGetDishes();
   const [searchParams] = useSearchParams({ type: 'all' });
+  const [searchTerm, setSearchTerm] = useState('');
   const allDishData =
     pageType === 'setup' ? dishesData : dishesData?.filter((dishes) => dishes.dishStatus === true);
   const filterParams = searchParams.get('type');
   const dishesRecords = allDishData?.filter((dishes) =>
     filterParams === 'all' ? allDishData : dishes.dishType === filterParams
   );
+  const dishesListRecords = dishesRecords
+    ? dishesRecords?.filter((dishes) => dishes.dishName.toLowerCase().includes(searchTerm))
+    : dishesRecords;
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
-  const records = dishesRecords?.slice(firstIndex, lastIndex);
-  const totalPages = dishesRecords ? dishesRecords.length : 0;
+  const records = dishesListRecords?.slice(firstIndex, lastIndex);
+  const totalPages = dishesListRecords ? dishesListRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
   const paramValues = [...new Set(dishesData?.map((dishes) => dishes.dishType))];
 
@@ -46,16 +53,20 @@ const List = ({ pageType }: ListProps) => {
           <p className="text-center text-slate-50">Loading Dishes...</p>
         </div>
       )}
+      <div className="flex justify-end">
+        <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
+      </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
-      {dishesData && dishesData.length === 0 && (
-        <div className="w-full">
-          <p className="text-center text-slate-50">
-            No Products Found! <Link to="/setup">Add now!</Link>
-          </p>
-        </div>
-      )}
+
       <h1 className="my-4">{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
       <div className="flex flex-row flex-wrap gap-4 my-8">
+        {dishesListRecords && dishesListRecords.length === 0 && (
+          <div className="w-full">
+            <p className="text-center text-slate-50 p-4">
+              No Products Found! <Link to="/setup">Add now!</Link>
+            </p>
+          </div>
+        )}
         {dishesData &&
           dishesData.length > 0 &&
           records?.map((products) => (

@@ -62,8 +62,8 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   const { ingredientsData, isPending } = useGetIngredients();
   const [quantity, setQuantity] = useState(0);
   const { inventory } = useGetInventory();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const filterParams = searchParams.get('category');
+  const [searchParams, setSearchParams] = useSearchParams({ category: '' });
+  const filterParams = searchParams?.get('category');
   const inventoryRecords = inventory?.filter((item) => (filterParams ? item.itemType === filterParams : []));
   const paramValues = [...new Set(inventory?.map((items) => items.itemType))];
   const handleClick = (

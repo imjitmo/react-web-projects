@@ -11,29 +11,36 @@ import {
 import { useGetInventory } from '@/hooks/use/useInventory';
 import Pagination from '@/hooks/utils/Pagination';
 
+import { useState } from 'react';
 import { ImSpinner6 } from 'react-icons/im';
 import { useSearchParams } from 'react-router-dom';
 import PaginationButtons from '../Pagination/PaginationButtons';
 import SearchParams from '../SearchParams';
+import SearchTerm from '../SearchTerm';
 import Update from './Update';
 
 const List = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const { inventory, isPending } = useGetInventory();
   const [searchParams] = useSearchParams({ type: 'all' });
   const filterParams = searchParams.get('type');
   const inventoryRecords = inventory?.filter((item) =>
     filterParams === 'all' ? inventory : item.itemType === filterParams
   );
+  const inventoryListRecords = inventoryRecords
+    ? inventoryRecords?.filter((item) => item.itemName.toLowerCase().includes(searchTerm))
+    : inventoryRecords;
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
-  const records = inventoryRecords?.slice(filterParams === 'all' ? firstIndex : 0, lastIndex);
+  const records = inventoryListRecords?.slice(filterParams === 'all' ? firstIndex : 0, lastIndex);
   const totalPages = inventoryRecords ? inventoryRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
   const paramValues = [...new Set(inventory?.map((items) => items.itemType))];
 
-  if (records?.length === 0) return <p className="text-center">No items found</p>;
-
   return (
     <>
+      <div className="flex justify-end">
+        <SearchTerm placeholder={'Search item name...'} setSearchTerm={setSearchTerm} />
+      </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
       <p className="text-sm">Total Records: {inventoryRecords?.length}</p>
       <Table>
@@ -77,6 +84,11 @@ const List = () => {
       {isPending && (
         <div className="w-full flex flex-wrap items-center justify-center">
           <ImSpinner6 className="size-8 animate-spin" />
+        </div>
+      )}
+      {inventoryListRecords && inventoryListRecords.length === 0 && (
+        <div className="w-full">
+          <p className="text-center text-slate-50 p-4">No Items Found!</p>
         </div>
       )}
     </>
