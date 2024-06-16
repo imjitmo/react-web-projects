@@ -66,7 +66,12 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   const filterParams = searchParams.get('category');
   const inventoryRecords = inventory?.filter((item) => (filterParams ? item.itemType === filterParams : []));
   const paramValues = [...new Set(inventory?.map((items) => items.itemType))];
-  const handleClick = (searchParameter: string, parameterValue: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    searchParameter: string,
+    parameterValue: string
+  ) => {
+    e.preventDefault();
     searchParams.set(searchParameter, parameterValue);
     setSearchParams(searchParams);
   };
@@ -174,7 +179,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                       </Select>
                       <Button
                         type="button"
-                        onClick={() => field?.value && handleClick('category', field.value)}
+                        onClick={(e) => field?.value && handleClick(e, 'category', field.value)}
                         className="bg-orange-500 text-sm"
                       >
                         Apply
