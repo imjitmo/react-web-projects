@@ -40,7 +40,7 @@ const View = ({ dishData }: ViewProps) => {
           <div className="flex flex-row flex-wrap gap-4 items-center justify-start">
             <img
               src={dishData?.dishImage}
-              className="size-24 rounded-full border-4 border-slate-500"
+              className="size-24 rounded-full border-4 border-slate-500 object-cover"
               alt={dishData?.dishName}
             />
             <div className="text-sm flex flex-col gap-1 cursor-default">

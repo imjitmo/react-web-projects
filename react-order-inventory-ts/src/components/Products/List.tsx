@@ -68,7 +68,7 @@ const List = ({ pageType }: ListProps) => {
                   <UpdateDialog id={products.id}>
                     <img
                       src={(products?.dishImage as string) || blankImage}
-                      className="size-[9.5rem] cursor-pointer rounded-full object-fill"
+                      className="size-[9.5rem] cursor-pointer rounded-full object-cover"
                       alt="image"
                     />
                   </UpdateDialog>
