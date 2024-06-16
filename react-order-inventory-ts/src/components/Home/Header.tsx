@@ -17,7 +17,7 @@ const Header = () => {
             <Link
               to="homepage"
               className="cursor-pointer "
-              activeClass="border-b border-slate-100"
+              activeClass="text-orange-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
@@ -28,7 +28,7 @@ const Header = () => {
             <Link
               to="about"
               className="cursor-pointer "
-              activeClass="border-b border-slate-100"
+              activeClass="text-orange-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
@@ -39,7 +39,7 @@ const Header = () => {
             <Link
               to="products"
               className="cursor-pointer "
-              activeClass="border-b border-slate-100"
+              activeClass="text-orange-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
@@ -50,7 +50,7 @@ const Header = () => {
             <Link
               to="services"
               className="cursor-pointer "
-              activeClass="border-b border-slate-100"
+              activeClass="text-orange-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >

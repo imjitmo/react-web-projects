@@ -1,5 +1,5 @@
-import Drinks from './About/Drinks';
-import Foods from './About/Foods';
+import Drinks from './Drinks';
+import Foods from './Foods';
 
 const About = () => {
   return (
