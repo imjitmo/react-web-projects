@@ -48,11 +48,6 @@ const List = ({ pageType }: ListProps) => {
 
   return (
     <div className="my-4">
-      {isPending && (
-        <div className="w-full">
-          <p className="text-center text-slate-50">Loading Dishes...</p>
-        </div>
-      )}
       <div className="flex justify-end">
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
@@ -60,6 +55,11 @@ const List = ({ pageType }: ListProps) => {
 
       <h1 className="my-4">{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
       <div className="flex flex-row flex-wrap gap-4 my-8">
+        {isPending && (
+          <div className="w-full">
+            <p className="text-center text-slate-50">Loading Dishes...</p>
+          </div>
+        )}
         {dishesListRecords && dishesListRecords.length === 0 && (
           <div className="w-full">
             <p className="text-center text-slate-50 p-4">
