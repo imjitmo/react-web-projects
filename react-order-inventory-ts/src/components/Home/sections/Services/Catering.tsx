@@ -20,9 +20,9 @@ const Catering = () => {
           whileInView={'show'}
           viewport={{ once: true, amount: 0.3 }}
         >
-          We'll bring the 'que to you! From backyard cuisine, holiday celebrations or hundred-person events,
-          our catering crew and catering truck can do it all. Serving thoughtfully crafted sides, vegan and
-          vegetarian options, to the BBQ classics from all the regions of Bataan — it’s all here.
+          We'll bring the 'steakhouse to you! From backyard cuisine, holiday celebrations or hundred-person
+          events, our catering crew and catering truck can do it all. Serving thoughtfully crafted sides,
+          vegan and vegetarian options, to the food classics from all the regions of Bataan — it’s all here.
         </motion.p>
       </div>
       <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/catering.png')] bg-cover bg-bottom opacity-80 absolute inset-0 z-[0]"></div>
