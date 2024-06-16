@@ -13,6 +13,8 @@ export const unit = [
   { value: 'each', label: 'Each' },
   { value: 'slc/s', label: 'Slices' },
   { value: 'box/es', label: 'Boxes' },
+  { value: 'bottle/es', label: 'Bottles' },
+  { value: 'case/es', label: 'Cases' },
 ];
 
 export const type = [
