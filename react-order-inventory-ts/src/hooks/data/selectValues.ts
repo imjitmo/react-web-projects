@@ -1,6 +1,6 @@
 export const category = [
-  { value: 'main', label: 'Main Ingredient' },
-  { value: 'sub', label: 'Sub Ingredient' },
+  { value: 'main', label: 'Main' },
+  { value: 'sub', label: 'Sub' },
   { value: 'supply', label: 'Supply' },
 ];
 
@@ -18,6 +18,7 @@ export const unit = [
 export const type = [
   { value: 'meat', label: 'Meat' },
   { value: 'fish', label: 'Fish' },
+  { value: 'beverage', label: 'Beverage' },
   { value: 'vegetable', label: 'Vegetable' },
   { value: 'fruits', label: 'Fruits' },
   { value: 'dairy', label: 'Dairy' },
