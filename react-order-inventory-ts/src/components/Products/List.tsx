@@ -12,6 +12,9 @@ import UpdateDialog from './UpdateDialog';
 import UpdateDish from './UpdateDish';
 import View from './View';
 
+const blankImage =
+  'https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/dishes/unknown_dish.png?t=2024-06-16T04%3A11%3A36.264Z';
+
 interface ListProps {
   pageType: string;
 }
@@ -64,8 +67,8 @@ const List = ({ pageType }: ListProps) => {
                 <CardTitle key={products.id} className="mx-auto relative -mt-16">
                   <UpdateDialog id={products.id}>
                     <img
-                      src={(products?.dishImage as string) || '/PHO.png'}
-                      className="size-[9.5rem] cursor-pointe rounded-full"
+                      src={(products?.dishImage as string) || blankImage}
+                      className="size-[9.5rem] cursor-pointer rounded-full object-fill"
                       alt="image"
                     />
                   </UpdateDialog>
