@@ -48,12 +48,11 @@ const List = ({ pageType }: ListProps) => {
 
   return (
     <div className="my-4">
+      <h1 className="my-4">{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
       <div className="flex justify-end">
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
-
-      <h1 className="my-4">{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
       <div className="flex flex-row flex-wrap gap-4 my-8">
         {isPending && (
           <div className="w-full">
