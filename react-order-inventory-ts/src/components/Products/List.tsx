@@ -94,12 +94,7 @@ const List = ({ pageType }: ListProps) => {
                         : 'This dish is inactive, you cannot serve this dish'
                     }
                   >
-                    <span
-                      onClick={() =>
-                        handleAvailability({ id: products.id, dishStatus: !products.dishStatus })
-                      }
-                      className={`cursor-pointer ${products.dishStatus && 'text-green-500'}`}
-                    >
+                    <span className={`cursor-default ${products.dishStatus && 'text-green-500'}`}>
                       {products.dishStatus ? 'Active' : 'Inactive'}
                     </span>
                   </TooltipTool>
