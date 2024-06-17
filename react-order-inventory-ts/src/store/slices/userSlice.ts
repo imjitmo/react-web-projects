@@ -6,7 +6,11 @@ export type UserState = {
   userType: string | null;
 };
 
-export type UserSlice = UserState;
+export type UserAction = {
+  setUserData: (data: UserState) => void;
+};
+
+export type UserSlice = UserState & UserAction;
 
 export const createUserSlice: StateCreator<
   UserSlice,
@@ -17,4 +21,13 @@ export const createUserSlice: StateCreator<
   id: null,
   email: null,
   userType: null,
+  setUserData: (data) => {
+    if (data) {
+      return {
+        id: data.id,
+        email: data.email,
+        userType: data.userType,
+      };
+    }
+  },
 });
