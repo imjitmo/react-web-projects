@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const Drinks = () => {
   return (
     <div className="w-full min-h-screen flex flex-col flex-wrap gap-10 justify-center items-center relative overflow-hidden">
-      <div className="flex flex-wrap justify-center items-center gap-2 inset-0 z-[1]">
+      <div className="flex flex-wrap justify-center items-center gap-2 inset-0 z-[1] my-8 md:my-0">
         <motion.h1
           variants={fadeIn('down', 0.3)}
           initial="hidden"
