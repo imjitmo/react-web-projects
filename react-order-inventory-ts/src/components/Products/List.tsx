@@ -78,7 +78,7 @@ const List = ({ pageType }: ListProps) => {
             >
               <CardHeader>
                 <CardTitle key={products.id} className="mx-auto relative -mt-16">
-                  <UpdateDialog id={products.id}>
+                  <UpdateDialog id={products.id} pageType={pageType}>
                     <img
                       src={(products?.dishImage as string) || blankImage}
                       className="size-[9.5rem] cursor-pointer rounded-full object-cover"

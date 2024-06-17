@@ -3,11 +3,24 @@ import DialogTool from '../DialogTool';
 import TooltipTool from '../TooltipTool';
 import UpdateImage from './UpdateImage';
 
-const UpdateDialog = ({ id, children }: { id: string; children: React.ReactNode | JSX.Element }) => {
+const UpdateDialog = ({
+  id,
+  children,
+  pageType,
+}: {
+  id: string;
+  children: React.ReactNode | JSX.Element;
+  pageType: string;
+}) => {
   const [onOpen, setOnOpen] = useState(false);
   return (
     <>
-      <span onClick={() => setOnOpen((prev) => !prev)}>
+      <span
+        onClick={() => {
+          if (pageType === 'setup') return;
+          setOnOpen((prev) => !prev);
+        }}
+      >
         <TooltipTool title="Update Dish Image">{children}</TooltipTool>
       </span>
       <DialogTool
