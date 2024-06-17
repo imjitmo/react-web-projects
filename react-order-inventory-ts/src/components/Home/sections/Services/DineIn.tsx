@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 const DineIn = () => {
   return (
     <div className="w-full min-h-screen flex flex-col md:flex-row relative overflow-hidden">
-      <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/veggie_meat.png?t=2024-06-16T04%3A47%3A43.366Z')] bg-cover bg-bottom opacity-20 absolute inset-0 z-[0]"></div>
-      <span className="flex flex-col flex-wrap gap-4 items-center justify-center text-center p-8 z-1">
+      <div className="flex flex-col flex-wrap gap-4 items-center justify-center text-center p-8 z-[3] inset-0 relative my-8 md:my-0">
         <motion.h1
           variants={fadeIn('down', 0.3)}
           initial="hidden"
@@ -33,7 +32,7 @@ const DineIn = () => {
             sampling every flavor combination at Felecitas Steakhouse, and we hope you do.
           </p>
         </motion.span>
-      </span>
+      </div>
       <motion.img
         variants={fadeIn('down', 0.3)}
         initial="hidden"
@@ -43,6 +42,7 @@ const DineIn = () => {
         className="size-[55rem] object-contain hidden md:block z-1"
         alt="dinein_img"
       />
+      <div className="bg-[url('https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/veggie_meat.png?t=2024-06-16T04%3A47%3A43.366Z')] bg-cover bg-bottom opacity-20 absolute inset-0 z-[0]"></div>
     </div>
   );
 };
