@@ -72,7 +72,7 @@ const PaginationButtons = ({ setCurrentPage, currentPage, npage }: PaginationPro
           <PaginationPrevious onClick={() => prePage()} />
         </PaginationItem>
 
-        <PaginationItem>
+        <PaginationItem className="hidden md:block">
           {pageArray.map((page) => (
             <PaginationLink key={page} onClick={() => changeCPage(page)} isActive={page === currentPage}>
               <span className={`${page === currentPage ? 'text-slate-950' : ''}`}>{page}</span>
