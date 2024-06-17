@@ -1,6 +1,8 @@
 // import { FiSearch } from 'react-icons/fi';
 // import { Input } from '../ui/input';
 
+import Cart from '../Cart/Cart';
+
 const Header = () => {
   const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
@@ -17,6 +19,7 @@ const Header = () => {
           <FiSearch className="absolute size-[1.25rem] left-2" />
           <Input className="pl-10 h-12 bg-slate-500/20 w-full" placeholder="Search..." />
         </label> */}
+        <Cart />
       </div>
 
       <p>{today}</p>

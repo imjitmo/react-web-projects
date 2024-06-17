@@ -13,6 +13,9 @@ import UpdateDish from './UpdateDish';
 import View from './View';
 
 import { useState } from 'react';
+
+import { useStore } from '@/store/store';
+import QuantityChangeButtons from '../QuantityChangeButtons';
 import SearchTerm from '../SearchTerm';
 
 const blankImage =
@@ -23,6 +26,8 @@ interface ListProps {
 }
 
 const List = ({ pageType }: ListProps) => {
+  const addToCart = useStore((state) => state.addToCart);
+  const cartDishes = useStore((state) => state.dishes);
   const { dishesData, isPending } = useGetDishes();
   const [searchParams] = useSearchParams({ type: 'all' });
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,7 +53,7 @@ const List = ({ pageType }: ListProps) => {
 
   return (
     <div className="my-4">
-      <h1 className="my-4">{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
+      <h1>{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
       <div className="flex justify-end">
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
@@ -112,12 +117,26 @@ const List = ({ pageType }: ListProps) => {
                     </span>
                   </TooltipTool>
                 </CardDescription>
-                {pageType === 'order' && (
-                  <Button className="bg-orange-500 rounded-full text-slate-50 px-8 flex flex-wrap flex-row gap-2">
-                    <IoMdAdd />
-                    Order
-                  </Button>
-                )}
+                {pageType === 'order' &&
+                  (cartDishes.find((item) => item.id === products.id) ? (
+                    <QuantityChangeButtons dishId={products.id} />
+                  ) : (
+                    <Button
+                      className="bg-orange-500 rounded-full text-slate-50 px-8 flex flex-wrap flex-row gap-2"
+                      onClick={() =>
+                        addToCart({
+                          id: products.id,
+                          dishName: products.dishName,
+                          dishPrice: products.dishPrice,
+                          dishType: products.dishType,
+                          dishImage: products.dishImage,
+                        })
+                      }
+                    >
+                      <IoMdAdd />
+                      Order
+                    </Button>
+                  ))}
                 {pageType === 'setup' && (
                   <div className="flex flex-row flex-wrap gap-2">
                     <AddIngredients dishData={products} />

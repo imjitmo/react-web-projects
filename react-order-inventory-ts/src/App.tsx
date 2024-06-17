@@ -8,6 +8,7 @@ import Loader from './components/Loader';
 // import { Root } from './layouts/Root';
 
 import router from './layouts/Root';
+
 // const router = createBrowserRouter(Root);
 
 const queryClient = new QueryClient({
