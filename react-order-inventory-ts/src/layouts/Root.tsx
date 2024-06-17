@@ -14,7 +14,7 @@ const Order = lazy(() => import('@/pages/Order/Order'));
 const Inventory = lazy(() => import('@/pages/Inventory/Inventory'));
 const Dashboard = lazy(() => import('@/pages/Dashboard/Dashboard'));
 const Setup = lazy(() => import('@/pages/Setup/Setup'));
-const User = lazy(() => import('@/pages/User/User'));
+const User = lazy(() => import('@/pages/Customers/User'));
 const Staffs = lazy(() => import('@/pages/Staffs/Staffs'));
 
 // export const Root = [

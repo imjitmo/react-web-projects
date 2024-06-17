@@ -34,10 +34,9 @@ const List = ({ pageType }: ListProps) => {
   const allDishData =
     pageType === 'setup' ? dishesData : dishesData?.filter((dishes) => dishes.dishStatus === true);
   const filterParams = searchParams.get('type');
-  const dishesRecords = allDishData?.filter((dishes) =>
-    filterParams === 'all' ? allDishData : dishes.dishType === filterParams
-  );
-  const dishesListRecords = dishesRecords
+  const dishesRecords =
+    filterParams === 'all' ? allDishData : allDishData?.filter((dishes) => dishes.dishType === filterParams);
+  const dishesListRecords = searchTerm
     ? dishesRecords?.filter((dishes) => dishes.dishName.toLowerCase().includes(searchTerm))
     : dishesRecords;
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
@@ -54,7 +53,8 @@ const List = ({ pageType }: ListProps) => {
   return (
     <div className="my-4">
       <h1>{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center">
+        <p>Total Dishes: {dishesData ? dishesData.length : 0}</p>
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />

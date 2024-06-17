@@ -24,10 +24,9 @@ const List = () => {
   const { inventory, isPending } = useGetInventory();
   const [searchParams] = useSearchParams({ type: 'all' });
   const filterParams = searchParams.get('type');
-  const inventoryRecords = inventory?.filter((item) =>
-    filterParams === 'all' ? inventory : item.itemType === filterParams
-  );
-  const inventoryListRecords = inventoryRecords
+  const inventoryRecords =
+    filterParams === 'all' ? inventory : inventory?.filter((item) => item.itemType === filterParams);
+  const inventoryListRecords = searchTerm
     ? inventoryRecords?.filter((item) => item.itemName.toLowerCase().includes(searchTerm))
     : inventoryRecords;
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
@@ -38,11 +37,11 @@ const List = () => {
 
   return (
     <>
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center">
+        <p className="text-sm">Total Items: {inventoryRecords?.length}</p>
         <SearchTerm placeholder={'Search item name...'} setSearchTerm={setSearchTerm} />
       </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
-      <p className="text-sm">Total Records: {inventoryRecords?.length}</p>
       <Table>
         <TableCaption>{!records && !isPending && 'A list of your inventory.'}</TableCaption>
         <TableHeader>
@@ -57,25 +56,33 @@ const List = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {records?.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">{`#${item.id.slice(0, 8)}`}</TableCell>
-              <TableCell className="capitalize">{item.itemName}</TableCell>
-              <TableCell className="capitalize">{item.itemType}</TableCell>
-              <TableCell className="capitalize">{item.itemCategory}</TableCell>
-              <TableCell>
-                {item.itemQuantity} {item.itemUnit}
-              </TableCell>
-              <TableCell
-                className={`capitalize ${item?.itemAvailability ? 'text-green-500' : 'text-red-500'}`}
-              >
-                {item?.itemAvailability ? 'Available' : 'Not Available'}
-              </TableCell>
-              <TableCell>
-                <Update data={item} />
+          {records && records.length > 0 ? (
+            records?.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{`#${item.id.slice(0, 8)}`}</TableCell>
+                <TableCell className="capitalize">{item.itemName}</TableCell>
+                <TableCell className="capitalize">{item.itemType}</TableCell>
+                <TableCell className="capitalize">{item.itemCategory}</TableCell>
+                <TableCell>
+                  {item.itemQuantity} {item.itemUnit}
+                </TableCell>
+                <TableCell
+                  className={`capitalize ${item?.itemAvailability ? 'text-green-500' : 'text-red-500'}`}
+                >
+                  {item?.itemAvailability ? 'Available' : 'Not Available'}
+                </TableCell>
+                <TableCell>
+                  <Update data={item} />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={7} className="text-center">
+                No records found!
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
       {npage ? (
@@ -84,11 +91,6 @@ const List = () => {
       {isPending && (
         <div className="w-full flex flex-wrap items-center justify-center">
           <ImSpinner6 className="size-8 animate-spin" />
-        </div>
-      )}
-      {inventoryListRecords && inventoryListRecords.length === 0 && (
-        <div className="w-full">
-          <p className="text-center text-slate-50 p-4">No Items Found!</p>
         </div>
       )}
     </>
