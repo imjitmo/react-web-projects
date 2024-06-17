@@ -1,3 +1,4 @@
+import CreateOrder from '@/components/Products/CreateOrder';
 import List from '@/components/Products/List';
 
 const Order = () => {
@@ -6,9 +7,10 @@ const Order = () => {
   // };
 
   return (
-    <div className="flex flex-col gap-4">
+    <>
+      <CreateOrder />
       <List pageType={'order'} />
-    </div>
+    </>
   );
 };
 export default Order;
