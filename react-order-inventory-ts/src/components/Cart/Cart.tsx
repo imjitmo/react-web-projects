@@ -7,6 +7,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { TbCircleX } from 'react-icons/tb';
 import { useShallow } from 'zustand/react/shallow';
 import QuantityChangeButtons from '../QuantityChangeButtons';
+import TooltipTool from '../TooltipTool';
 
 const Cart = () => {
   const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity } = useStore(
@@ -34,10 +35,12 @@ const Cart = () => {
       <PopoverContent className="overflow-y-scroll space-y-2 w-96 h-[48rem] bg-slate-950 text-slate-50">
         <div className="flex flex-row justify-between">
           <div className="flex gap-2 text-lg items-center">
-            <h1>Cart</h1>
-            <Button variant="destructive" size="icon" onClick={clearCart}>
-              <TbCircleX />
-            </Button>
+            <h1>Orders</h1>
+            <TooltipTool title="Clear Orders">
+              <Button variant="destructive" size="icon" onClick={clearCart}>
+                <TbCircleX />
+              </Button>
+            </TooltipTool>
           </div>
           {totalQuantity > 0 && (
             <Button
@@ -54,9 +57,11 @@ const Cart = () => {
               <Card key={dish.id} className="flex flex-col bg-slate-950 text-slate-50">
                 <CardHeader className="flex flex-row items-center gap-2">
                   <CardTitle>{dish.dishName}</CardTitle>
-                  <Button onClick={() => removeFromCart(dish.id)} size="icon" variant="destructive">
-                    <TrashIcon />
-                  </Button>
+                  <TooltipTool title="Remove from order list">
+                    <Button onClick={() => removeFromCart(dish.id)} size="icon" variant="destructive">
+                      <TrashIcon />
+                    </Button>
+                  </TooltipTool>
                 </CardHeader>
                 <CardContent>
                   <p>&#8369; {dish.dishPrice}</p>
