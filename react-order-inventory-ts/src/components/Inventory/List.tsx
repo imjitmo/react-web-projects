@@ -59,7 +59,7 @@ const List = () => {
           {records && records.length > 0 ? (
             records?.map((item) => (
               <TableRow key={item.id}>
-                <TableCell className="font-medium">{`#${item.id.slice(0, 8)}`}</TableCell>
+                <TableCell className="font-medium uppercase">{`#${item.id.slice(0, 8)}`}</TableCell>
                 <TableCell className="capitalize">{item.itemName}</TableCell>
                 <TableCell className="capitalize">{item.itemType}</TableCell>
                 <TableCell className="capitalize">{item.itemCategory}</TableCell>
