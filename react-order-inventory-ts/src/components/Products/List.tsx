@@ -14,12 +14,10 @@ import View from './View';
 
 import { useState } from 'react';
 
+import { blankImage } from '@/hooks/data/selectValues';
 import { useStore } from '@/store/store';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import SearchTerm from '../SearchTerm';
-
-const blankImage =
-  'https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/dishes/unknown_dish.png?t=2024-06-16T04%3A11%3A36.264Z';
 
 interface ListProps {
   pageType: string;

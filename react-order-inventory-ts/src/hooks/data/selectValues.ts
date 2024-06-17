@@ -70,3 +70,6 @@ export const dishType = [
     label: 'Cold',
   },
 ];
+
+export const blankImage =
+  'https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/dishes/unknown_dish.png?t=2024-06-16T04%3A11%3A36.264Z';

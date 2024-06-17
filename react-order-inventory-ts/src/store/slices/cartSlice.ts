@@ -1,5 +1,6 @@
 import { StateCreator } from 'zustand';
 
+import { useStore } from '../store';
 import { CartDishes } from '../types/cartProduct';
 import { Dishes } from '../types/dishes';
 
@@ -55,7 +56,8 @@ export const createCartSlice: StateCreator<
     }),
   addToCart: (dish) =>
     set((state) => {
-      state.dishes.push({ ...dish, quantity: 1 });
+      const orderId = useStore.getState().orderId;
+      state.dishes.push({ ...dish, quantity: 1, orderId: orderId });
     }),
   removeFromCart: (dishId) =>
     set((state) => {

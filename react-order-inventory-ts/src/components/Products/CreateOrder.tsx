@@ -5,21 +5,26 @@ import { useShallow } from 'zustand/react/shallow';
 import TooltipTool from '../TooltipTool';
 
 const CreateOrder = () => {
-  const { id, clearId } = useStore(
+  const { orderId, clearId, setOrderId } = useStore(
     useShallow((state) => ({
       setOrderId: state.setOrderId,
-      id: state.id,
+      orderId: state.orderId,
       clearId: state.clearId,
     }))
   );
-  console.log(id);
+  console.log(orderId);
   return (
     <>
       <TooltipTool title="Add Product">
-        <Button className="flex flex-row gap-2 bg-orange-500 px-6 py-4" size={'sm'} onClick={clearId}>
+        <Button
+          className="flex flex-row gap-2 bg-orange-500 px-6 py-4"
+          size={'sm'}
+          onClick={() => setOrderId({ orderId: 'asdadasds' })}
+        >
           <PlusIcon /> Order
         </Button>
       </TooltipTool>
+      <Button onClick={clearId}>Clear</Button>
     </>
   );
 };

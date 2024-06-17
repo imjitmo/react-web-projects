@@ -1,22 +1,24 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { blankImage } from '@/hooks/data/selectValues';
 import { useStore } from '@/store/store';
-import { TrashIcon } from '@radix-ui/react-icons';
+import { Cross1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { FaShoppingCart } from 'react-icons/fa';
-import { TbCircleX } from 'react-icons/tb';
+import { MdClearAll } from 'react-icons/md';
 import { useShallow } from 'zustand/react/shallow';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import TooltipTool from '../TooltipTool';
 
 const Cart = () => {
-  const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity } = useStore(
+  const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity, clearId } = useStore(
     useShallow((state) => ({
       clearCart: state.clearCart,
       dishes: state.dishes,
       removeFromCart: state.removeFromCart,
       totalPrice: state.totalPrice,
       totalQuantity: state.totalQuantity,
+      clearId: state.clearId,
     }))
   );
 
@@ -38,36 +40,64 @@ const Cart = () => {
             <h1>Orders</h1>
             <TooltipTool title="Clear Orders">
               <Button variant="destructive" size="icon" onClick={clearCart}>
-                <TbCircleX />
+                <MdClearAll />
               </Button>
             </TooltipTool>
           </div>
           {totalQuantity > 0 && (
-            <Button
-              className="bg-orange-500"
-              onClick={() => console.log({ ...dishes, totalPrice, totalQuantity })}
-            >
-              Place Order
-            </Button>
+            <div className="flex flex-row gap-1">
+              <TooltipTool title="Place Order to Kitchen">
+                <Button
+                  className="bg-orange-500"
+                  onClick={() => console.log({ ...dishes, totalPrice, totalQuantity })}
+                >
+                  Place Order
+                </Button>
+              </TooltipTool>
+              <TooltipTool title="Cancel Order">
+                <Button
+                  variant={'destructive'}
+                  size="icon"
+                  onClick={() => {
+                    clearCart();
+                    clearId();
+                  }}
+                >
+                  <Cross1Icon />
+                </Button>
+              </TooltipTool>
+            </div>
           )}
         </div>
         <div className="space-y-2">
           {dishes.length > 0 ? (
             dishes.map((dish) => (
               <Card key={dish.id} className="flex flex-col bg-slate-950 text-slate-50">
-                <CardHeader className="flex flex-row items-center gap-2">
-                  <CardTitle>{dish.dishName}</CardTitle>
-                  <TooltipTool title="Remove from order list">
-                    <Button onClick={() => removeFromCart(dish.id)} size="icon" variant="destructive">
-                      <TrashIcon />
-                    </Button>
-                  </TooltipTool>
+                <CardHeader>
+                  <CardTitle className="flex flex-row items-center justify-between">
+                    <p className="uppercase">{`item #${dish.id.slice(0, 8)}`}</p>
+                    <TooltipTool title="Remove from order list">
+                      <Button onClick={() => removeFromCart(dish.id)} size="icon" variant="destructive">
+                        <TrashIcon />
+                      </Button>
+                    </TooltipTool>
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p>&#8369; {dish.dishPrice}</p>
+                <CardContent className="flex justify-start">
+                  <div className="flex flex-row gap-2 items-center">
+                    <img
+                      src={(dish.dishImage as string) || blankImage}
+                      alt={dish.dishName}
+                      className="size-16 rounded-full border-2 border-slate-500 object-cover"
+                    />
+                    <span>
+                      <h2>{dish.dishName}</h2>
+                      <p>&#8369; {dish.dishPrice} ea.</p>
+                    </span>
+                  </div>
                 </CardContent>
-                <CardFooter>
-                  <QuantityChangeButtons dishId={dish.id} />
+                <CardFooter className="flex flex-row gap-2">
+                  Quantity: <QuantityChangeButtons dishId={dish.id} />
                 </CardFooter>
               </Card>
             ))

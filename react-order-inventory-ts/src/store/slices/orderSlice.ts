@@ -1,18 +1,19 @@
 import { StateCreator } from 'zustand';
 
 export type OrderState = {
-  id: string;
+  orderId: string;
 };
 
 export type OrderAction = {
   setOrderId: (id: OrderState) => void;
+  getOrderId: () => string;
   clearId: () => void;
 };
 
 export type OrderSlice = OrderState & OrderAction;
 
 const orderInitialState: OrderState = {
-  id: '',
+  orderId: '',
 };
 
 export const createOrderSlice: StateCreator<
@@ -20,14 +21,17 @@ export const createOrderSlice: StateCreator<
   [['zustand/immer', never]],
   [['zustand/persist', unknown]],
   OrderSlice
-> = (set) => ({
+> = (set, get) => ({
   ...orderInitialState,
   setOrderId: (data) => {
     if (data) {
       set((state) => {
-        state.id = data.id;
+        state.orderId = data.orderId;
       });
     }
+  },
+  getOrderId: () => {
+    return get().orderId;
   },
   clearId: () => set(() => orderInitialState),
 });
