@@ -1,4 +1,3 @@
-import { BiSolidStoreAlt } from 'react-icons/bi';
 import { GoHome } from 'react-icons/go';
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { IoRestaurantOutline } from 'react-icons/io5';
@@ -14,14 +13,19 @@ const Navigation = () => {
     <nav className="top-0 left-0 transform-[5rem] bg-slate-950/70 dark:bg-slate-100/20 min-w-[100px] min-h-screen backdrop-blur-2xl">
       <div className="flex flex-col items-center justify-center gap-10">
         <div className="flex items-center justify-center min-w-[70px] max-w-[80px] h-[100px]">
-          <Link to="/dashboard" className="bg-orange-500/30 p-2 rounded-lg">
-            <svg className="size-0">
+          <Link to="/dashboard" className="p-2">
+            {/* <svg className="size-0">
               <linearGradient id="blue-gradient" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop stopColor="#ea580c" offset="10%" />
                 <stop stopColor="#f97316" offset="100%" />
               </linearGradient>
             </svg>
-            <BiSolidStoreAlt className="size-12" style={{ fill: 'url(#blue-gradient)' }} />
+            <BiSolidStoreAlt className="size-12" style={{ fill: 'url(#blue-gradient)' }} /> */}
+            <img
+              src="https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/felicitas_logo.jpg"
+              alt="felicitas_logo"
+              className="w-full h-full object-cover rounded-lg"
+            />
           </Link>
         </div>
         <div className="w-full min-w-[50px] max-w-[50px] mx-auto flex flex-col justify-evenly items-center text-xl gap-8 text-white/50">
