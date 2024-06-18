@@ -103,7 +103,7 @@ const List = ({ pageType }: ListProps) => {
         <p>Total Dishes: {dishesListRecords?.length || 0}</p>
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
-      {onError && <p className="text-center text-sm text-orange-500">Please create at order first!</p>}
+      {onError && <p className="text-center text-sm text-orange-500">Please create an order first!</p>}
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
       <div className="flex flex-row flex-wrap gap-4 my-8">
         {isPending && (

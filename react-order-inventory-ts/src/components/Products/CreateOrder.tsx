@@ -37,7 +37,7 @@ const CreateOrder = () => {
             </>
           ) : (
             <>
-              <PlusIcon /> Order Item
+              <PlusIcon /> Create Order
             </>
           )}
         </Button>
