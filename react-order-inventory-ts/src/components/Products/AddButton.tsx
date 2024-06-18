@@ -14,7 +14,7 @@ const AddButton = () => {
           size={'sm'}
           onClick={() => setOnOpen((prev) => !prev)}
         >
-          <PlusIcon /> Dish
+          <PlusIcon /> Menu Item
         </Button>
       </TooltipTool>
       <AddDialog onOpen={onOpen} setOnOpen={setOnOpen} />

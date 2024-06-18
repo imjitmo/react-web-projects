@@ -44,8 +44,8 @@ const List = ({ pageType }: ListProps) => {
   const paramValues = [
     ...new Set(
       pageType === 'setup'
-        ? dishesListRecords?.map((dishes) => dishes.dishType)
-        : dishesListRecords?.filter((dishes) => dishes.dishStatus === true).map((dishes) => dishes.dishType)
+        ? dishesData?.map((dishes) => dishes.dishType)
+        : dishesData?.filter((dishes) => dishes.dishStatus === true).map((dishes) => dishes.dishType)
     ),
   ];
 
@@ -75,7 +75,7 @@ const List = ({ pageType }: ListProps) => {
   // console.log(new Date().getMonth());
   return (
     <div className="my-4">
-      <h1>{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
+      <h1>{pageType === 'setup' ? 'Add Menu Items' : 'Menu Items'}</h1>
       <div className="flex justify-between items-center">
         <p>Total Dishes: {dishesListRecords?.length || 0}</p>
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
@@ -106,7 +106,7 @@ const List = ({ pageType }: ListProps) => {
                   <UpdateDialog id={products.id} pageType={pageType}>
                     <img
                       src={(products?.dishImage as string) || blankImage}
-                      className="size-[9.5rem] cursor-pointer rounded-full object-cover"
+                      className="size-[9.5rem] cursor-pointer rounded-full object-cover border-2 border-solid border-orange-400/20"
                       alt="image"
                     />
                   </UpdateDialog>

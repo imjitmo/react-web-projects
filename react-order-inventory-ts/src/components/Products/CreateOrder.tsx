@@ -21,7 +21,7 @@ const CreateOrder = () => {
           size={'sm'}
           onClick={() => setOrderId({ orderId: 'asdadasds' })}
         >
-          <PlusIcon /> Order
+          <PlusIcon /> Order Item
         </Button>
       </TooltipTool>
       <Button onClick={clearId}>Clear</Button>
