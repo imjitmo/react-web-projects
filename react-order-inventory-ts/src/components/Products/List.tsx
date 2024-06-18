@@ -41,13 +41,38 @@ const List = ({ pageType }: ListProps) => {
   const records = dishesListRecords?.slice(firstIndex, lastIndex);
   const totalPages = dishesListRecords ? dishesListRecords.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
-  const paramValues = [...new Set(dishesData?.map((dishes) => dishes.dishType))];
+  const paramValues = [
+    ...new Set(
+      pageType === 'setup'
+        ? dishesListRecords?.map((dishes) => dishes.dishType)
+        : dishesListRecords?.filter((dishes) => dishes.dishStatus === true).map((dishes) => dishes.dishType)
+    ),
+  ];
 
   const { updateIngredients } = useUpdateIngredients();
   const handleAvailability = (dishData: { id: string; dishAvailability?: boolean; dishStatus?: boolean }) => {
     updateIngredients(dishData);
   };
 
+  // const currentMonthDishes = dishesListRecords?.filter((dishes) => {
+  //   const date = new Date(dishes.created_at);
+  //   const matches = [date.getMonth() === new Date().getMonth()];
+
+  //   return matches.every((value) => value);
+  // });
+
+  // const oldMonthDishes = dishesListRecords?.filter((dishes) => {
+  //   const date = new Date(dishes.created_at);
+  //   const matches = [date.getMonth() - 1 === new Date().getMonth() - 1];
+
+  //   return matches.every((value) => value);
+  // });
+  // const oldPrice = oldMonthDishes?.reduce((acc, dish) => acc + dish.dishPrice, 0);
+  // const totalPrice = currentMonthDishes?.reduce((acc, dish) => acc + dish.dishPrice, 0);
+  // console.log(`${(((totalPrice - oldPrice) / oldPrice) * 100).toFixed(2)}% from last month `);
+  // console.log(new Date().getFullYear());
+  // console.log(new Date().getMonth() + 1);
+  // console.log(new Date().getMonth());
   return (
     <div className="my-4">
       <h1>{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
