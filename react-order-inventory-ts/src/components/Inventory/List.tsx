@@ -38,7 +38,7 @@ const List = () => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <p className="text-sm">Total Items: {inventoryRecords?.length}</p>
+        <p className="text-sm">Total Items: {inventoryListRecords?.length || 0}</p>
         <SearchTerm placeholder={'Search item name...'} setSearchTerm={setSearchTerm} />
       </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />

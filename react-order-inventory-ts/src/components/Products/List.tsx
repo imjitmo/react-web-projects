@@ -52,7 +52,7 @@ const List = ({ pageType }: ListProps) => {
     <div className="my-4">
       <h1>{pageType === 'setup' ? 'Add Dishes' : 'Add to Order'}</h1>
       <div className="flex justify-between items-center">
-        <p>Total Dishes: {dishesData ? dishesData.length : 0}</p>
+        <p>Total Dishes: {dishesListRecords?.length || 0}</p>
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
