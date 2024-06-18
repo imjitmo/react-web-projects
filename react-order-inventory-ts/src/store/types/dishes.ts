@@ -1,7 +1,7 @@
 export type Dishes = {
-  id: string;
+  dishId: string;
   dishName: string;
-  dishPrice: string;
-  dishType: number;
+  dishPrice: number;
+  dishType: string;
   dishImage: string;
 };

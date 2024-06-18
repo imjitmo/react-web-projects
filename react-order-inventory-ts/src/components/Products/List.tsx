@@ -16,6 +16,7 @@ import { useState } from 'react';
 
 import { blankImage } from '@/hooks/data/selectValues';
 import { useStore } from '@/store/store';
+import { useShallow } from 'zustand/react/shallow';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import SearchTerm from '../SearchTerm';
 
@@ -24,11 +25,21 @@ interface ListProps {
 }
 
 const List = ({ pageType }: ListProps) => {
-  const addToCart = useStore((state) => state.addToCart);
-  const cartDishes = useStore((state) => state.dishes);
+  const { cartDishes, addToCart, orderId } = useStore(
+    useShallow((state) => ({
+      cartDishes: state.dishes,
+      addToCart: state.addToCart,
+      orderId: state.orderId,
+    }))
+  );
+
   const { dishesData, isPending } = useGetDishes();
   const [searchParams] = useSearchParams({ type: 'all' });
+
+  // use states
   const [searchTerm, setSearchTerm] = useState('');
+  const [onError, setOnError] = useState(false);
+
   const allDishData =
     pageType === 'setup' ? dishesData : dishesData?.filter((dishes) => dishes.dishStatus === true);
   const filterParams = searchParams.get('type');
@@ -52,6 +63,18 @@ const List = ({ pageType }: ListProps) => {
   const { updateIngredients } = useUpdateIngredients();
   const handleAvailability = (dishData: { id: string; dishAvailability?: boolean; dishStatus?: boolean }) => {
     updateIngredients(dishData);
+  };
+
+  const handleAddToCart = (dishData: {
+    dishId: string;
+    dishName: string;
+    dishPrice: number;
+    dishType: string;
+    dishImage: string;
+  }) => {
+    setOnError(false);
+    if (!orderId) return setOnError(true);
+    addToCart(dishData);
   };
 
   // const currentMonthDishes = dishesListRecords?.filter((dishes) => {
@@ -80,6 +103,7 @@ const List = ({ pageType }: ListProps) => {
         <p>Total Dishes: {dishesListRecords?.length || 0}</p>
         <SearchTerm placeholder={'Search dish name...'} setSearchTerm={setSearchTerm} />
       </div>
+      {onError && <p className="text-center text-sm text-orange-500">Please create at order first!</p>}
       <SearchParams params={'type'} values={paramValues} setCurrentPage={setCurrentPage} />
       <div className="flex flex-row flex-wrap gap-4 my-8">
         {isPending && (
@@ -141,14 +165,14 @@ const List = ({ pageType }: ListProps) => {
                   </TooltipTool>
                 </CardDescription>
                 {pageType === 'order' &&
-                  (cartDishes.find((item) => item.id === products.id) ? (
+                  (cartDishes.find((item) => item.dishId === products.id) ? (
                     <QuantityChangeButtons dishId={products.id} />
                   ) : (
                     <Button
                       className="bg-orange-500 rounded-full text-slate-50 px-8 flex flex-wrap flex-row gap-2"
                       onClick={() =>
-                        addToCart({
-                          id: products.id,
+                        handleAddToCart({
+                          dishId: products.id,
                           dishName: products.dishName,
                           dishPrice: products.dishPrice,
                           dishType: products.dishType,

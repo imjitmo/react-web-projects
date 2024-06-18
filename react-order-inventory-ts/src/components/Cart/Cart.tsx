@@ -72,12 +72,12 @@ const Cart = () => {
         <div className="space-y-2">
           {dishes.length > 0 ? (
             dishes.map((dish) => (
-              <Card key={dish.id} className="flex flex-col bg-slate-950 text-slate-50">
+              <Card key={dish.dishId} className="flex flex-col bg-slate-950 text-slate-50">
                 <CardHeader>
                   <CardTitle className="flex flex-row items-center justify-between">
-                    <p className="uppercase">{`item #${dish.id.slice(0, 8)}`}</p>
+                    <p className="uppercase">{`item #${dish.dishId.slice(0, 8)}`}</p>
                     <TooltipTool title="Remove from order list">
-                      <Button onClick={() => removeFromCart(dish.id)} size="icon" variant="destructive">
+                      <Button onClick={() => removeFromCart(dish.dishId)} size="icon" variant="destructive">
                         <TrashIcon />
                       </Button>
                     </TooltipTool>
@@ -97,7 +97,7 @@ const Cart = () => {
                   </div>
                 </CardContent>
                 <CardFooter className="flex flex-row gap-2">
-                  Quantity: <QuantityChangeButtons dishId={dish.id} />
+                  Quantity: <QuantityChangeButtons dishId={dish.dishId} />
                 </CardFooter>
               </Card>
             ))

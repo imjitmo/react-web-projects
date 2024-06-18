@@ -38,14 +38,14 @@ export const createCartSlice: StateCreator<
   ...cartInitialState,
   increaseQuantity: (dishId) =>
     set((state) => {
-      const foundProduct = state.dishes.find((dish) => dish.id === dishId);
+      const foundProduct = state.dishes.find((dish) => dish.dishId === dishId);
       if (foundProduct) {
         foundProduct.quantity += 1;
       }
     }),
   decreaseQuantity: (dishId) =>
     set((state) => {
-      const foundIndex = state.dishes.findIndex((dish) => dish.id === dishId);
+      const foundIndex = state.dishes.findIndex((dish) => dish.dishId === dishId);
       if (foundIndex !== -1) {
         if (state.dishes[foundIndex].quantity === 1) {
           state.dishes.splice(foundIndex, 1);
@@ -61,9 +61,9 @@ export const createCartSlice: StateCreator<
     }),
   removeFromCart: (dishId) =>
     set((state) => {
-      state.dishes = state.dishes.filter((dish) => dish.id !== dishId);
+      state.dishes = state.dishes.filter((dish) => dish.dishId !== dishId);
     }),
-  getProductById: (dishId) => get().dishes.find((dish) => dish.id === dishId),
+  getProductById: (dishId) => get().dishes.find((dish) => dish.dishId === dishId),
   setTotal: (total) =>
     set((state) => {
       state.totalPrice = total;

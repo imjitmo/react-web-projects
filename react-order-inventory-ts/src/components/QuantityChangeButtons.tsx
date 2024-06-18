@@ -35,11 +35,11 @@ const QuantityChangeButtons = ({ dishId }: Props) => {
     <>
       {product && (
         <div className="flex gap-2 items-center">
-          <Button onClick={() => decreaseQuantity(product.id)}>
+          <Button onClick={() => decreaseQuantity(product.dishId)}>
             <BiMinus />
           </Button>
           <p>{product.quantity}</p>
-          <Button onClick={() => increaseQuantity(product.id)}>
+          <Button onClick={() => increaseQuantity(product.dishId)}>
             <BiPlus />
           </Button>
         </div>
