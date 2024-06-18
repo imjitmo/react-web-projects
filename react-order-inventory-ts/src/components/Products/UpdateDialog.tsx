@@ -17,7 +17,7 @@ const UpdateDialog = ({
     <>
       <span
         onClick={() => {
-          if (pageType === 'setup') return;
+          if (pageType === 'order') return;
           setOnOpen((prev) => !prev);
         }}
       >
