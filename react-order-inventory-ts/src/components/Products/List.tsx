@@ -164,8 +164,8 @@ const List = ({ pageType }: ListProps) => {
                     </span>
                   </TooltipTool>
                 </CardDescription>
-                {pageType === 'order' &&
-                  (cartDishes.find((item) => item.dishId === products.id) ? (
+                {products.dishAvailability && pageType === 'order' ? (
+                  cartDishes.find((item) => item.dishId === products.id) ? (
                     <QuantityChangeButtons dishId={products.id} />
                   ) : (
                     <Button
@@ -183,7 +183,8 @@ const List = ({ pageType }: ListProps) => {
                       <IoMdAdd />
                       Order
                     </Button>
-                  ))}
+                  )
+                ) : null}
                 {pageType === 'setup' && (
                   <div className="flex flex-row flex-wrap gap-2">
                     <AddIngredients dishData={products} />
