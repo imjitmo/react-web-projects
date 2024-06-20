@@ -123,14 +123,14 @@ const List = ({ pageType }: ListProps) => {
           records?.map((products) => (
             <Card
               key={products.id}
-              className="min-w-[280px] max-w-[280px] text-center bg-slate-950 border-none my-8 text-slate-50"
+              className="min-w-[240px] max-w-[240px] text-center bg-slate-950 border-none my-8 text-slate-50"
             >
               <CardHeader>
                 <CardTitle key={products.id} className="mx-auto relative -mt-16">
                   <UpdateDialog id={products.id} pageType={pageType}>
                     <img
                       src={(products?.dishImage as string) || blankImage}
-                      className="size-[9.5rem] cursor-pointer rounded-full object-cover border-2 border-solid border-orange-400/20"
+                      className="size-[8rem] cursor-pointer rounded-full object-cover border-2 border-solid border-orange-400/20"
                       alt="image"
                     />
                   </UpdateDialog>
