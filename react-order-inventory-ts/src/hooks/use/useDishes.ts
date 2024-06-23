@@ -1,6 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { createDish, deleteDish, editDish, getDishes, updateDish, updateDishImage } from '../api/DishAPI';
+import {
+  createDish,
+  deleteDish,
+  editDish,
+  getDishes,
+  getRandomDish,
+  updateDish,
+  updateDishImage,
+} from '../api/DishAPI';
 
 export const useGetDishes = () => {
   const { isPending, data: dishesData } = useQuery({
@@ -94,4 +102,12 @@ export const useDeleteDish = () => {
     },
   });
   return { isDeleting, removeDish };
+};
+
+export const useGetRandomMenu = () => {
+  const { isPending: isLoading, data: menuData } = useQuery({
+    queryKey: ['menu'],
+    queryFn: getRandomDish,
+  });
+  return { isLoading, menuData };
 };

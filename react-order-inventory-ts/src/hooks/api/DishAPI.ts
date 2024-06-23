@@ -92,3 +92,12 @@ export const deleteDish = async (id: string) => {
   }
   return data;
 };
+
+export const getRandomDish = async () => {
+  const { data, error } = await supabase.from('random_dish').select('*').limit(10);
+  if (error) {
+    console.error(error);
+    throw new Error('Dish could not be retrieved');
+  }
+  return data;
+};

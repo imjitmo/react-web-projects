@@ -37,13 +37,13 @@ const Header = () => {
           </li>
           <li className="hover:text-orange-300">
             <Link
-              to="products"
+              to="menu"
               className="cursor-pointer "
               activeClass="text-orange-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
-              Products
+              Menu
             </Link>
           </li>
           <li className="hover:text-orange-300">
