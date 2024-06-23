@@ -18,7 +18,7 @@ const UpdateDish = ({ dishData }: { dishData: Dish }) => {
   };
   return (
     <>
-      <TooltipTool title="Update Dish">
+      <TooltipTool title={`Update ${dishData.dishName}`}>
         <span onClick={() => setOnOpen((prev) => !prev)}>
           <FaRegEdit className="size-6 text-orange-500 cursor-pointer" />
         </span>

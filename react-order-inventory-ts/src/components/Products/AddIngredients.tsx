@@ -60,25 +60,35 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   const { createIngredients, isCreating } = useCreateIngredients();
   const { updateIngredients, isUpdating } = useUpdateIngredients();
   const { ingredientsData, isPending } = useGetIngredients();
+  const [onType, setOnType] = useState('');
   const [quantity, setQuantity] = useState(0);
   const { inventory } = useGetInventory();
   const [searchParams, setSearchParams] = useSearchParams({ category: '' });
-  const filterParams = searchParams?.get('category');
-  const inventoryRecords = inventory?.filter((item) => (filterParams ? item.itemType === filterParams : []));
+  // const filterParams = searchParams?.get('category');
+  // const inventoryRecords = inventory?.filter((item) => (filterParams ? item.itemType === filterParams : []));
+  const inventoryRecords = inventory?.filter((item) => (onType ? item.itemType === onType : []));
   const paramValues = [...new Set(inventory?.map((items) => items.itemType))];
-  const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    searchParameter: string,
-    parameterValue: string
-  ) => {
-    e.preventDefault();
-    searchParams.set(searchParameter, parameterValue);
-    setSearchParams(searchParams);
-  };
+  // const handleClick = (
+  //   e: React.MouseEvent<HTMLButtonElement>,
+  //   searchParameter: string,
+  //   parameterValue: string
+  // ) => {
+  //   e.preventDefault();
+  //   searchParams.set(searchParameter, parameterValue);
+  //   setSearchParams(searchParams);
+  // };
+  // const form = useForm<z.infer<typeof IngredientSchema>>({
+  //   resolver: zodResolver(IngredientSchema),
+  //   defaultValues: {
+  //     ingredientType: filterParams ? filterParams : '',
+  //     ingredientsInformation: '',
+  //     ingredientQuantity: 0,
+  //   },
+  // });
   const form = useForm<z.infer<typeof IngredientSchema>>({
     resolver: zodResolver(IngredientSchema),
     defaultValues: {
-      ingredientType: filterParams ? filterParams : '',
+      ingredientType: onType ? onType : '',
       ingredientsInformation: '',
       ingredientQuantity: 0,
     },
@@ -124,7 +134,7 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
   };
   return (
     <>
-      <TooltipTool title="Add Includes to Dish">
+      <TooltipTool title={`Add Includes to ${dishData.dishName}`}>
         <p onClick={() => setOnOpen((prev) => !prev)}>
           <AiOutlineAppstoreAdd className="size-6 text-orange-500 cursor-pointer" />
         </p>
@@ -168,22 +178,32 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                         <SelectContent className="bg-slate-950 text-slate-50 capitalize">
                           <SelectGroup>
                             <SelectLabel>Pick Includes</SelectLabel>
-                            {!filterParams && <> </>}
+                            {/* {!filterParams && <> </>} */}
+                            {!onType && <> </>}
                             {paramValues.map((item) => (
-                              <SelectItem key={item} value={item}>
-                                {item}
+                              <SelectItem className="capitalize" key={item} value={item}>
+                                {item.slice(0, 1).toUpperCase() + item.slice(1)}
                               </SelectItem>
                             ))}
                           </SelectGroup>
                         </SelectContent>
                       </Select>
-                      <Button
+                      {!onType && (
+                        <Button
+                          type="button"
+                          onClick={() => field?.value && setOnType(field.value)}
+                          className="bg-orange-500 text-sm"
+                        >
+                          Apply
+                        </Button>
+                      )}
+                      {/* <Button
                         type="button"
                         onClick={(e) => field?.value && handleClick(e, 'category', field.value)}
                         className="bg-orange-500 text-sm"
                       >
                         Apply
-                      </Button>
+                      </Button> */}
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -200,18 +220,36 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
                   <FormControl>
                     <Select value={field.value} name={field.name} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue
+                        {/* <SelectValue
                           placeholder={!filterParams ? 'Pick a type first' : 'Pick an Ingredient'}
+                          onBlur={field.onBlur}
+                          ref={field.ref}
+                        /> */}
+                        <SelectValue
+                          placeholder={!onType ? 'Pick a type first' : 'Pick an Ingredient'}
                           onBlur={field.onBlur}
                           ref={field.ref}
                         />
                       </SelectTrigger>
                       <SelectContent className="bg-slate-950 text-slate-50">
                         <SelectGroup>
-                          <SelectLabel>
+                          {/* <SelectLabel>
                             {!filterParams ? 'Pick a type first' : 'Pick an Ingredient'}
-                          </SelectLabel>
-                          {filterParams &&
+                          </SelectLabel> */}
+                          <SelectLabel>{!onType ? 'Pick a type first' : 'Pick an Ingredient'}</SelectLabel>
+                          {/* {filterParams &&
+                            inventoryRecords &&
+                            inventoryRecords?.length > 0 &&
+                            inventoryRecords?.map((item) => (
+                              <SelectItem
+                                key={item.id}
+                                value={`${item.id}_${item.itemName}_${item.itemCategory}_${item.itemUnit}`}
+                              >
+                                {item.itemName}/
+                                <span className="font-bold italic text-green-500">({item.itemUnit})</span>
+                              </SelectItem>
+                            ))} */}
+                          {onType &&
                             inventoryRecords &&
                             inventoryRecords?.length > 0 &&
                             inventoryRecords?.map((item) => (
@@ -282,12 +320,22 @@ const AddIngredients = ({ dishData }: { dishData: IngredientProps }) => {
               <Button className="bg-orange-500" disabled={isCreating || isUpdating}>
                 {isCreating || isUpdating ? 'Adding...' : 'Add'}
               </Button>
-              <Button
+              {/* <Button
                 className="bg-red-500"
                 type="button"
                 onClick={() => {
                   searchParams.delete('category');
                   setSearchParams(searchParams);
+                  form.reset();
+                }}
+              >
+                Reset
+              </Button> */}
+              <Button
+                className="bg-red-500"
+                type="button"
+                onClick={() => {
+                  setOnType('');
                   form.reset();
                 }}
               >

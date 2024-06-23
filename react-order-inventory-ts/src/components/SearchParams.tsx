@@ -40,7 +40,7 @@ const SearchParams = ({ params, values, setCurrentPage }: SearchParamsProps) => 
           }`}
           onClick={() => handleClick(params, value)}
         >
-          {value}
+          {value.split('-').join(' ')}
         </button>
       ))}
     </nav>

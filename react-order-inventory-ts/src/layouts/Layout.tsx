@@ -1,11 +1,27 @@
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 import Navigation from '@/components/Navigation/Navigation';
-import { Outlet, useNavigation } from 'react-router-dom';
+import { useStore } from '@/store/store';
+import { useEffect } from 'react';
+import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 
 const Layout = () => {
   const navigation = useNavigation();
+  const navigate = useNavigate();
   const isLoading = navigation.state === 'loading';
+  const { userId } = useStore(
+    useShallow((state) => ({
+      userId: state.userId,
+    }))
+  );
+
+  useEffect(() => {
+    if (!userId) {
+      navigate('/auth');
+    }
+  }, [userId, navigate]);
+
   return (
     <div>
       {isLoading && <div>Loading...</div>}

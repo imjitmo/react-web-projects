@@ -40,16 +40,9 @@ export const navIn = (direction: string, delay: number) => {
   };
 };
 
-export const sliderVariants = {
-  initial: {
-    x: 0,
-  },
-  animate: {
-    x: '-220%',
-    transition: {
-      repeat: Infinity,
-      repeatType: 'mirror' as const,
-      duration: 20,
-    },
-  },
+export const fadeTransition = (delay: number) => {
+  return {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.1, delay: delay, ease: [0.25, 0.25, 0.25, 0.75] } },
+  };
 };

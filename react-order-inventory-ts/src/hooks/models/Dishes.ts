@@ -28,3 +28,8 @@ export interface EditDish {
   dishType?: string;
   dishAvailability?: boolean;
 }
+
+export interface DeleteDish {
+  id: string;
+  dishName: string;
+}

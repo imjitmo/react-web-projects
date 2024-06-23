@@ -40,6 +40,13 @@ export const navIn = (direction: string, delay: number) => {
   };
 };
 
+export const fadeTransition = (delay: number) => {
+  return {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.1, delay: delay, ease: [0.25, 0.25, 0.25, 0.75] } },
+  };
+};
+
 export const sliderVariants = {
   initial: {
     x: 0,

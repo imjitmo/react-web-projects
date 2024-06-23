@@ -1,4 +1,4 @@
-import { addIngredients, getIngredients } from '@/hooks/api/IngredientsAPI';
+import { addIngredients, getIngredients, removeIngredients } from '@/hooks/api/IngredientsAPI';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
@@ -27,4 +27,22 @@ export const useCreateIngredients = () => {
   });
 
   return { isCreating, createIngredients };
+};
+
+export const useRemoveIngredients = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteIngredients, isPending: isRemoving } = useMutation({
+    mutationFn: removeIngredients,
+    onSuccess: () => {
+      toast.success('Menu Item Removed', { id: 'dishes' });
+      queryClient.invalidateQueries({ queryKey: ['ingredients'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'dishes' });
+      console.error(error.message);
+    },
+  });
+
+  return { isRemoving, deleteIngredients };
 };

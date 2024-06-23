@@ -29,3 +29,12 @@ export const addIngredients = async (data: IngredientTypes) => {
 
   return ingredientData;
 };
+
+export const removeIngredients = async (dishId: string) => {
+  const { error } = await supabase.from('ingredients').delete().eq('id', dishId);
+  if (error) {
+    console.error(error);
+    throw new Error('Includes could not be removed');
+  }
+  return;
+};

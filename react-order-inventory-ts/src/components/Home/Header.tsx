@@ -58,9 +58,17 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Button className="bg-orange-300 rounded-lg hover:bg-green-600 hover:text-slate-50 text-slate-900">
-              Rewards
-            </Button>
+            <Link
+              to="rewards"
+              className="cursor-pointer "
+              activeClass="text-orange-300 font-bold border-b border-orange-300"
+              smooth={true}
+              spy={true}
+            >
+              <Button className="bg-orange-300 rounded-lg hover:bg-green-600 hover:text-slate-50 text-slate-900">
+                Rewards
+              </Button>
+            </Link>
           </li>
         </ul>
         {/* <Button

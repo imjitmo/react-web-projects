@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { createDish, editDish, getDishes, updateDish, updateDishImage } from '../api/DishAPI';
+import { createDish, deleteDish, editDish, getDishes, updateDish, updateDishImage } from '../api/DishAPI';
 
 export const useGetDishes = () => {
   const { isPending, data: dishesData } = useQuery({
@@ -78,4 +78,20 @@ export const useUpdateDishImage = () => {
   });
 
   return { isUpdating, editDishImage };
+};
+
+export const useDeleteDish = () => {
+  const queryClient = useQueryClient();
+  const { mutate: removeDish, isPending: isDeleting } = useMutation({
+    mutationFn: deleteDish,
+    onSuccess: () => {
+      toast.success('Menu Item Removed', { id: 'dishes' });
+      queryClient.invalidateQueries({ queryKey: ['dishes'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'dishes' });
+      console.error(error.message);
+    },
+  });
+  return { isDeleting, removeDish };
 };

@@ -42,32 +42,87 @@ export const type = [
 
 export const dishType = [
   {
-    value: 'appetizer',
-    label: 'Appetizer',
+    value: 'steaks',
+    label: 'Steaks',
   },
   {
-    value: 'entree',
-    label: 'Entree',
+    value: 'rice_meals',
+    label: 'Rice Meals',
   },
   {
-    value: 'dessert',
-    label: 'Dessert',
+    value: 'rice_bowls',
+    label: 'Rice Bowls',
   },
   {
-    value: 'side',
-    label: 'Side',
+    value: 'blue_plate_signature',
+    label: 'Blue Plate Signature',
   },
   {
-    value: 'beverage',
-    label: 'Beverage',
+    value: 'wings_selection',
+    label: 'Wing Selection',
+  },
+  {
+    value: 'burger_and_pastas',
+    label: 'Burger and Pastas',
+  },
+  {
+    value: 'other_specials',
+    label: 'Other Specials',
+  },
+  {
+    value: 'salads_and_soups',
+    label: 'Salads and Soups',
   },
   {
     value: 'hot',
     label: 'Hot',
   },
   {
-    value: 'cold',
-    label: 'Cold',
+    value: 'iced',
+    label: 'Iced',
+  },
+  {
+    value: 'beers_and_sodas',
+    label: 'Beers and Sodas',
+  },
+  {
+    value: 'fruity',
+    label: 'Fruity',
+  },
+  {
+    value: 'berries',
+    label: 'Berries',
+  },
+  {
+    value: 'yakult_series',
+    label: 'Yakult Series',
+  },
+  {
+    value: 'milkshakes',
+    label: 'Milkshakes',
+  },
+];
+
+export const userType = [
+  {
+    value: 'admin',
+    label: 'Admin',
+  },
+  {
+    value: 'waiter',
+    label: 'Waiter',
+  },
+  {
+    value: 'chef',
+    label: 'Chef',
+  },
+  {
+    value: 'cook',
+    label: 'Cook',
+  },
+  {
+    value: 'cashier',
+    label: 'Cashier',
   },
 ];
 

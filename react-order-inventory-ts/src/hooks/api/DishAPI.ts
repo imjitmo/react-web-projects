@@ -75,12 +75,20 @@ export const updateDishImage = async (dishData: DishImage) => {
     console.error(error);
     throw new Error('Dish Image could not be updated');
   }
-  console.log(data);
   const { error: storageError } = await supabase.storage.from('dishes').upload(imageName, dishData.dishImage);
   if (storageError) {
     console.error(storageError);
     throw new Error('Dish image could not be uploaded and the dish was not created');
   }
 
+  return data;
+};
+
+export const deleteDish = async (id: string) => {
+  const { data, error } = await supabase.from('dishes').delete().eq('id', id);
+  if (error) {
+    console.error(error);
+    throw new Error('Dish could not be deleted');
+  }
   return data;
 };

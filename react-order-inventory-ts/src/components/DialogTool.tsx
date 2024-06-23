@@ -6,12 +6,20 @@ interface DialogProps {
   children: JSX.Element | React.ReactNode;
   header?: string;
   description?: string;
+  className?: string;
 }
 
-const DialogTool = ({ onOpen, setOnOpen, children, header, description }: DialogProps) => {
+const DialogTool = ({
+  onOpen,
+  setOnOpen,
+  children,
+  header,
+  description,
+  className = 'bg-slate-950 text-slate-50 w-auto h-auto',
+}: DialogProps) => {
   return (
     <Dialog open={onOpen} onOpenChange={setOnOpen}>
-      <DialogContent className="bg-slate-950 text-slate-50 w-auto">
+      <DialogContent className={className}>
         <DialogHeader>
           <DialogTitle>{header}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

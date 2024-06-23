@@ -32,7 +32,7 @@ const Order = () => {
     <>
       <div className="flex justify-between items-center">
         <p>Total Customers: {customersData?.length}</p>
-        <SearchTerm placeholder={'Search customer name...'} setSearchTerm={setSearchTerm} />
+        <SearchTerm placeholder={'Search customer...'} setSearchTerm={setSearchTerm} />
       </div>
       <Table>
         {!isPending && <TableCaption>A list of current registered customers</TableCaption>}

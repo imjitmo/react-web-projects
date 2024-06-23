@@ -6,9 +6,27 @@ import { MdOutlineInventory } from 'react-icons/md';
 import { PiCookingPotBold, PiSignOutBold } from 'react-icons/pi';
 import { TbRowInsertTop } from 'react-icons/tb';
 
+import { Button } from '@/components/ui/button';
+import { useStaffLogout } from '@/hooks/use/useStaff';
+
+import { useStore } from '@/store/store';
 import { Link, NavLink } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 
 const Navigation = () => {
+  const { logoutStaff } = useStaffLogout();
+  const { userType } = useStore(
+    useShallow((state) => ({
+      userType: state.userType,
+    }))
+  );
+  const checkUserType = userType === 'admin' || userType === 'super' ? true : false;
+  const notForKitchenAndCashier =
+    userType !== 'chef' && userType !== 'cook' && userType !== 'cashier' ? true : false;
+  const notForWaiterAndCashier = userType !== 'waiter' && userType !== 'cashier' ? true : false;
+  const handleLogout = async () => {
+    logoutStaff();
+  };
   return (
     <nav className="top-0 left-0 transform-[5rem] bg-slate-950/70 dark:bg-slate-100/20 min-w-[100px] min-h-screen backdrop-blur-2xl">
       <div className="flex flex-col items-center justify-center gap-10">
@@ -38,24 +56,30 @@ const Navigation = () => {
           >
             <GoHome className="size-7" />
           </NavLink>
-          <NavLink
-            end
-            to="/order"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <IoRestaurantOutline className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/setup"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <TbRowInsertTop className="size-7" />
-          </NavLink>
+          {notForKitchenAndCashier && (
+            <>
+              <NavLink
+                end
+                to="/order"
+                className={({ isActive }) =>
+                  `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                }
+              >
+                <IoRestaurantOutline className="size-7" />
+              </NavLink>
+              {notForWaiterAndCashier && (
+                <NavLink
+                  end
+                  to="/setup"
+                  className={({ isActive }) =>
+                    `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                  }
+                >
+                  <TbRowInsertTop className="size-7" />
+                </NavLink>
+              )}
+            </>
+          )}
           <NavLink
             end
             to="/cook"
@@ -65,42 +89,45 @@ const Navigation = () => {
           >
             <PiCookingPotBold className="size-7" />
           </NavLink>
-          <NavLink
-            end
-            to="/inventory"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <MdOutlineInventory className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/customers"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <HiOutlineUserGroup className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/users"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
-          >
-            <LiaUsersCogSolid className="size-7" />
-          </NavLink>
-          <NavLink
-            end
-            to="/logout"
-            className={({ isActive }) =>
-              `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-            }
+          {notForWaiterAndCashier && (
+            <NavLink
+              end
+              to="/inventory"
+              className={({ isActive }) =>
+                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+              }
+            >
+              <MdOutlineInventory className="size-7" />
+            </NavLink>
+          )}
+          {notForKitchenAndCashier && (
+            <NavLink
+              end
+              to="/customers"
+              className={({ isActive }) =>
+                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+              }
+            >
+              <HiOutlineUserGroup className="size-7" />
+            </NavLink>
+          )}
+          {checkUserType && (
+            <NavLink
+              end
+              to="/users"
+              className={({ isActive }) =>
+                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+              }
+            >
+              <LiaUsersCogSolid className="size-7" />
+            </NavLink>
+          )}
+          <Button
+            className="p-4 bg-transparent hover:bg-transparent rounded-lg text-orange-500"
+            onClick={() => handleLogout()}
           >
             <PiSignOutBold className="size-7" />
-          </NavLink>
+          </Button>
         </div>
       </div>
     </nav>

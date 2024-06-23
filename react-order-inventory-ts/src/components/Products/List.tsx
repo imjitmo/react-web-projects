@@ -19,22 +19,25 @@ import { useStore } from '@/store/store';
 import { useShallow } from 'zustand/react/shallow';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import SearchTerm from '../SearchTerm';
+import DeleteMenu from './DeleteMenu';
 
 interface ListProps {
   pageType: string;
 }
 
 const List = ({ pageType }: ListProps) => {
-  const { cartDishes, addToCart, orderId } = useStore(
+  const { cartDishes, addToCart, orderId, userType } = useStore(
     useShallow((state) => ({
       cartDishes: state.dishes,
       addToCart: state.addToCart,
       orderId: state.orderId,
+      userType: state.userType,
     }))
   );
 
   const { dishesData, isPending } = useGetDishes();
   const [searchParams] = useSearchParams({ type: 'all' });
+  ``;
 
   // use states
   const [searchTerm, setSearchTerm] = useState('');
@@ -189,6 +192,7 @@ const List = ({ pageType }: ListProps) => {
                   <div className="flex flex-row flex-wrap gap-2">
                     <AddIngredients dishData={products} />
                     <UpdateDish dishData={products} />
+                    {userType === 'super' && <DeleteMenu menu={products} />}
                   </div>
                 )}
                 <View dishData={products} />

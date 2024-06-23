@@ -1,6 +1,7 @@
 import About from './sections/About/About';
 import FooterSection from './sections/FooterSection';
 import Homepage from './sections/Homepage';
+import QrPage from './sections/Rewards/QrPage';
 import Services from './sections/Services/Services';
 
 const Body = () => {
@@ -9,6 +10,7 @@ const Body = () => {
       <Homepage />
       <About />
       <Services />
+      <QrPage />
       <FooterSection />
     </main>
   );
