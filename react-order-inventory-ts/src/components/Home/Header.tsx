@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { NavLink } from 'react-router-dom';
 import { Link } from 'react-scroll';
 import Sidebar from './sections/MobileMenu/Sidebar';
 
@@ -6,12 +7,13 @@ const Header = () => {
   return (
     <nav className="flex flex-col flex-wrap items-center justify-center w-full h-auto md:py-2 md:px-6  bg-slate-50 text-slate-950 p-4 top-0 left-0 sticky z-[99]">
       <div className="flex flex-row flex-wrap items-center justify-between w-full h-auto md:py-4 md:px-8">
-        <img
-          src="https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/sign/assets/felicitas_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhc3NldHMvZmVsaWNpdGFzX2xvZ28ucG5nIiwiaWF0IjoxNzE3OTcyMzgwLCJleHAiOjE3NDk1MDgzODB9.zRedt2ULJwA-J_DJpiGlAUau7rt7bhBcy7mY3jzE0Pw&t=2024-06-09T22%3A32%3A57.545Z"
-          className="size-16"
-          alt=""
-        />
-
+        <NavLink to="/">
+          <img
+            src="https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/sign/assets/felicitas_logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhc3NldHMvZmVsaWNpdGFzX2xvZ28ucG5nIiwiaWF0IjoxNzE3OTcyMzgwLCJleHAiOjE3NDk1MDgzODB9.zRedt2ULJwA-J_DJpiGlAUau7rt7bhBcy7mY3jzE0Pw&t=2024-06-09T22%3A32%3A57.545Z"
+            className="size-16"
+            alt=""
+          />
+        </NavLink>
         <ul className="hidden md:flex flex-row flex-wrap gap-4 items-center justify-evenly">
           <li className="hover:text-orange-300">
             <Link
