@@ -8,3 +8,14 @@ export const getCustomers = async () => {
   }
   return data;
 };
+
+export const createQrCode = async (email: string) => {
+  const { data, error } = await supabase.from('customers').select('csEmail').eq('csEmail', email);
+  if (error) {
+    throw new Error(error.message);
+  }
+  if (data.length <= 0) {
+    throw new Error('Customer not found');
+  }
+  return data;
+};

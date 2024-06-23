@@ -7,6 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useGenerateQrCode } from '@/hooks/use/useCustomers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 
@@ -22,6 +23,7 @@ const CodeSchema = z.object({
 const CodeGenerator = () => {
   const [emailValue, setEmailValue] = useState('');
   const [qrUrl, setQrUrl] = useState('');
+  const [qrError, setQrError] = useState(false);
   const form = useForm<z.infer<typeof CodeSchema>>({
     resolver: zodResolver(CodeSchema),
     defaultValues: {
@@ -29,11 +31,23 @@ const CodeGenerator = () => {
     },
   });
 
+  const { generateQrCode, isGenerating } = useGenerateQrCode();
+
   const handleGenerateQrCode = async (value: z.infer<typeof CodeSchema>) => {
     try {
+      setQrError(false);
       const dataUrl = await QrCode.toDataURL(value.email);
-      setEmailValue(value.email.split('@')[0].toLowerCase());
-      setQrUrl(dataUrl);
+
+      generateQrCode(value.email, {
+        onSuccess: () => {
+          setEmailValue(value.email.split('@')[0].toLowerCase());
+          setQrUrl(dataUrl);
+        },
+        onError: (error) => {
+          setQrError(true);
+          console.error(error);
+        },
+      });
       return;
     } catch (error) {
       console.error(error);
@@ -55,11 +69,18 @@ const CodeGenerator = () => {
                       <Input type="email" placeholder="Email" {...field} />
                     </FormControl>
                     <FormMessage />
+                    {qrError && (
+                      <div className="text-red-500">
+                        QR Code could not be generated. Email does not exist.
+                      </div>
+                    )}
                   </FormItem>
                 );
               }}
             />
-            <Button className="bg-orange-300">Generate</Button>
+            <Button className="bg-orange-300" disabled={isGenerating}>
+              {isGenerating ? 'Generating...' : 'Generate'}
+            </Button>
           </form>
         </Form>
       )}
