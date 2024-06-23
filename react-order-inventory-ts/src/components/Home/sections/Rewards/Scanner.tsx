@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 
 import CodeScanner from '@/components/QRCode/CodeScanner';
 import { useState } from 'react';
+import { LuScanLine } from 'react-icons/lu';
 
 const Scanner = () => {
   const [onOpen, setOnOpen] = useState(false);
@@ -18,8 +19,11 @@ const Scanner = () => {
         viewport={{ once: true, amount: 0.3 }}
         className=""
       >
-        <Button className="bg-green-500" onClick={() => setOnOpen((prev) => !prev)}>
-          Scan QR Code
+        <Button
+          className="flex flex-row gap-2 flex-wrap bg-green-500 items-center justify-center"
+          onClick={() => setOnOpen((prev) => !prev)}
+        >
+          <LuScanLine className="size-[1.15rem]" /> Scan QR Code
         </Button>
       </motion.div>
       <DialogTool

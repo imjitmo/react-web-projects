@@ -4,6 +4,7 @@ import CodeGenerator from '@/components/QRCode/CodeGenerator';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { LuQrCode } from 'react-icons/lu';
 
 const Generator = () => {
   const [onOpen, setOnOpen] = useState(false);
@@ -15,8 +16,11 @@ const Generator = () => {
         whileInView={'show'}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <Button className="bg-orange-300" onClick={() => setOnOpen((prev) => !prev)}>
-          Generate QR Code
+        <Button
+          className="flex flex-row gap-2 flex-wrap bg-orange-300 items-center justify-center"
+          onClick={() => setOnOpen((prev) => !prev)}
+        >
+          <LuQrCode className="size-[1.15rem]" /> Generate QR Code
         </Button>
       </motion.div>
       <DialogTool
