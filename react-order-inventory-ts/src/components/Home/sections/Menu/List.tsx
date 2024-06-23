@@ -37,12 +37,12 @@ const List = () => {
                       src={item.dishImage}
                     />
                   </CardTitle>
-                  <CardDescription>
-                    <h3>{item.dishName}</h3>
+                  <CardDescription className="text-xl font-semibold text-slate-950">
+                    {item.dishName}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm">{item.dishDescription}</p>
+                  <p className="truncate-1 text-sm">{item.dishDescription}</p>
                 </CardContent>
               </Card>
             </motion.div>
