@@ -48,6 +48,17 @@ const List = () => {
             </motion.div>
           ))}
         </div>
+        <motion.p
+          variants={fadeIn('down', 0.3)}
+          initial="hidden"
+          whileInView={'show'}
+          viewport={{ once: true, amount: 0.3 }}
+          className="uppercase my-4 text-center"
+        >
+          "A restaurant is a <span className="text-green-500 font-bold">fantasy</span>—a kind of living
+          fantasy in which diners are the most <span className="text-orange-300 font-bold">important</span>{' '}
+          members of the cast." - Warner LeRoy
+        </motion.p>
       </div>
     </>
   );
