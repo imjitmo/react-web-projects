@@ -95,7 +95,13 @@ const CodeGenerator = () => {
           >
             Download QR Code
           </a>
-          <Button variant={'destructive'} onClick={() => setQrUrl('')}>
+          <Button
+            variant={'destructive'}
+            onClick={() => {
+              setQrUrl('');
+              form.reset();
+            }}
+          >
             Reset
           </Button>
         </div>
