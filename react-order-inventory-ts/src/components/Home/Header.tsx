@@ -72,6 +72,11 @@ const Header = () => {
               </Button>
             </Link>
           </li>
+          <li>
+            <NavLink to="/auth">
+              <Button className="text-xs bg-red-500 rounded-lg hover:text-slate-50 text-slate-50">OMS</Button>
+            </NavLink>
+          </li>
         </ul>
         {/* <Button
           className="bg-transparent ring-0 hover:bg-transparent outline-none shadow-none border-none focus:border-none active:border-none focus:ring-0 focus:ring-offset-0 text-slate-950 md:hidden"
