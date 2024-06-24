@@ -29,7 +29,7 @@ const List = () => {
               viewport={{ once: true, amount: 0.3 }}
               key={item.id}
             >
-              <Card className="min-w-[12rem] max-w-[18rem] min-h-[28rem] max-h-[28rem] overflow-hidden bg-transparent border-none shadow-none">
+              <Card className="min-w-[12rem] max-w-[18rem] min-h-[28rem] max-h-[28rem] bg-transparent border-none shadow-none">
                 <CardHeader>
                   <CardTitle>
                     <img
@@ -37,12 +37,12 @@ const List = () => {
                       src={item.dishImage}
                     />
                   </CardTitle>
-                  <CardDescription className="text-xl font-semibold text-slate-950">
+                  <CardDescription className="text-xl font-semibold text-slate-950 line-clamp-2">
                     {item.dishName}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="truncate-1 text-sm">{item.dishDescription}</p>
+                  <p className="line-clamp-[7] text-sm">{item.dishDescription}</p>
                 </CardContent>
               </Card>
             </motion.div>
