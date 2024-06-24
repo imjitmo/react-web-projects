@@ -24,8 +24,8 @@ const DineIn = () => {
           <p>
             We’re crafting different cuisine made in-house (always). Get traditions and favorites from all
             over the world — all on one plate. Felicitas Steakhouse is a High-Quality Gourmand place serving
-            up thebest blend of the classic Philippine traditions you’d find at the most elite cookout and the
-            elevated flavors you’d find at a true fine dining spot
+            up the best blend of the classic Philippine traditions you’d find at the most elite cookout and
+            the elevated flavors you’d find at a true fine dining spot
           </p>
           <p>
             Everything we serve is house-made and prepared by a staff that cares. You could spend a lifetime
