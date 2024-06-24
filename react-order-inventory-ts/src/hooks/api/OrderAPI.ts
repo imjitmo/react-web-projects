@@ -34,7 +34,7 @@ export const createOrder = async (orderData: string) => {
   if (error) {
     throw new Error(error.message);
   }
-  console.log(data[0].id);
+
   return data[0].id;
 };
 

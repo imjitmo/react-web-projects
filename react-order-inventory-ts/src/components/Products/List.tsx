@@ -80,25 +80,6 @@ const List = ({ pageType }: ListProps) => {
     addToCart(dishData);
   };
 
-  // const currentMonthDishes = dishesListRecords?.filter((dishes) => {
-  //   const date = new Date(dishes.created_at);
-  //   const matches = [date.getMonth() === new Date().getMonth()];
-
-  //   return matches.every((value) => value);
-  // });
-
-  // const oldMonthDishes = dishesListRecords?.filter((dishes) => {
-  //   const date = new Date(dishes.created_at);
-  //   const matches = [date.getMonth() - 1 === new Date().getMonth() - 1];
-
-  //   return matches.every((value) => value);
-  // });
-  // const oldPrice = oldMonthDishes?.reduce((acc, dish) => acc + dish.dishPrice, 0);
-  // const totalPrice = currentMonthDishes?.reduce((acc, dish) => acc + dish.dishPrice, 0);
-  // console.log(`${(((totalPrice - oldPrice) / oldPrice) * 100).toFixed(2)}% from last month `);
-  // console.log(new Date().getFullYear());
-  // console.log(new Date().getMonth() + 1);
-  // console.log(new Date().getMonth());
   return (
     <div className="my-4">
       <h1>{pageType === 'setup' ? 'Add Menu Items' : 'Menu Items'}</h1>
