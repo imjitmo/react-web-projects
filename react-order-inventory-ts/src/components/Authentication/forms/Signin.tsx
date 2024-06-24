@@ -9,7 +9,8 @@ import { useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { FaSpinner } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { IoHomeOutline } from 'react-icons/io5';
+import { NavLink, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -109,16 +110,23 @@ const Signin = () => {
           }}
         ></FormField>
         <div>
-          <Button className="w-full flex flex-row gap-2 flex-wrap" disabled={isLoading}>
-            {isLoading ? (
-              <>
-                <FaSpinner className="animate-spin" />
-                Signing in...
-              </>
-            ) : (
-              'Sign in'
-            )}
-          </Button>
+          <div className="w-full flex flex-col md:flex-row flex-wrap gap-2">
+            <NavLink to="/">
+              <Button type="button" className="bg-green-500">
+                <IoHomeOutline className="text-center text-slate-50 size-[1.25rem]" />
+              </Button>
+            </NavLink>
+            <Button className="grow flex flex-row gap-2 flex-wrap" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                'Sign in'
+              )}
+            </Button>
+          </div>
         </div>
         {/* <p>
           Don't have an account?{' '}

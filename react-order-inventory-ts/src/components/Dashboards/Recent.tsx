@@ -9,36 +9,60 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const Recent = () => {
+type Orders = {
+  id: string;
+  orderItemQuantity: number;
+  orderTotalPrice: number;
+  orderUserId: string;
+  orderCookId: string;
+  created_at: string;
+};
+
+interface OrderProps {
+  orders: Orders[];
+  isLoading: boolean;
+}
+
+const Recent = ({ orders, isLoading }: OrderProps) => {
+  const handleOrderLimit = orders?.slice(0, 10);
   return (
     <Card className="w-full lg:max-w-2xl bg-slate-950 text-slate-50">
       <CardHeader>
         <CardTitle className="flex justify-between">
-          <p>Orders</p> <span>&#9736;</span>
+          <p>Recent Orders</p> <span>&#9736;</span>
         </CardTitle>
-        <CardDescription>Total orders this month</CardDescription>
+        <CardDescription>Recent order list</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableCaption>A list of your recent orders.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="w-[100px]">Order ID</TableHead>
+              <TableHead>Quantity</TableHead>
+              <TableHead>Total Price</TableHead>
+              <TableHead className="text-right">Order Date & Time</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : (
+              handleOrderLimit?.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell className="font-medium uppercase">{`#${order.id.slice(0, 6)}`}</TableCell>
+                  <TableCell>{order.orderItemQuantity}</TableCell>
+                  <TableCell>{order.orderTotalPrice}</TableCell>
+                  <TableCell className="text-right">{new Date(order.created_at).toLocaleString()}</TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
-        <CardDescription>Beat Mi Goreng last month</CardDescription>
       </CardContent>
     </Card>
   );
