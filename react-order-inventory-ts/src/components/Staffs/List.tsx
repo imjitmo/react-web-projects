@@ -71,12 +71,30 @@ const List = () => {
                 </TableCell>
                 <TableCell>
                   {
-                    <TooltipTool title={staff.status ? 'Deactivate' : 'Activate'}>
+                    <TooltipTool
+                      title={
+                        userType === 'super'
+                          ? staff.status
+                            ? 'Deactivate'
+                            : 'Activate'
+                          : staff.userType !== 'admin' && userType === 'admin'
+                          ? staff.status
+                            ? 'Deactivate'
+                            : 'Activate'
+                          : 'Co-Admin cannot be activated/deactivated'
+                      }
+                    >
                       <Button
                         className={`border-none shadow-none bg-transparent hover:bg-transparent outline-none hover:outline-none ${
                           staff.status ? 'text-red-500' : 'text-green-500'
                         }`}
-                        onClick={() => updateStaffStatus({ id: staff.id, status: !staff.status })}
+                        onClick={() => {
+                          staff.userType !== 'admin' && userType === 'admin'
+                            ? updateStaffStatus({ id: staff.id, status: !staff.status })
+                            : userType === 'super' && staff.status
+                            ? updateStaffStatus({ id: staff.id, status: !staff.status })
+                            : null;
+                        }}
                         disabled={isUpdating}
                       >
                         {/* {staff.userType !== 'admin' ? (

@@ -11,13 +11,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { userType } from '@/hooks/data/selectValues';
+import { staffType } from '@/hooks/data/selectValues';
 import { useForm } from 'react-hook-form';
 
 import { useRegisterStaff } from '@/hooks/use/useStaff';
+import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaSpinner } from 'react-icons/fa';
 import * as z from 'zod';
+import { useShallow } from 'zustand/react/shallow';
 
 const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 
@@ -63,6 +65,11 @@ const StaffForm = () => {
   });
 
   const { addUser, isCreating } = useRegisterStaff();
+  const { userType } = useStore(
+    useShallow((state) => ({
+      userType: state.userType,
+    }))
+  );
 
   const handleStaffRegistration = async (values: z.infer<typeof StaffSchema>) => {
     addUser(values, {
@@ -148,7 +155,13 @@ const StaffForm = () => {
                   <SelectContent className="bg-slate-950 text-slate-50">
                     <SelectGroup>
                       <SelectLabel>Type</SelectLabel>
-                      {userType.map((type) => (
+                      {userType === 'super' && (
+                        <>
+                          <SelectItem value="super">Super Admin</SelectItem>
+                          <SelectItem value="admin">Admin</SelectItem>
+                        </>
+                      )}
+                      {staffType.map((type) => (
                         <SelectItem key={type.value} value={type.value}>
                           {type.label}
                         </SelectItem>

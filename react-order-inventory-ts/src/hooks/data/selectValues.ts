@@ -103,11 +103,7 @@ export const dishType = [
   },
 ];
 
-export const userType = [
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
+export const staffType = [
   {
     value: 'waiter',
     label: 'Waiter',
