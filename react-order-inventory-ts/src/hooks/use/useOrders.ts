@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { viewBestSellers, viewOrderByDate, viewOrders } from '../api/OrderAPI';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { cancelOrder, createOrder, viewBestSellers, viewOrderByDate, viewOrders } from '../api/OrderAPI';
 
 export const useGetBestSellers = () => {
   const { isPending: isLoading, data: bestSellers } = useQuery({
@@ -23,4 +24,30 @@ export const useGetOrderByDate = (startDate: Date, endDate: Date) => {
     queryFn: () => viewOrderByDate(startDate, endDate),
   });
   return { isLoading, orders };
+};
+
+export const useCreateOrderNumber = () => {
+  const queryClient = useQueryClient();
+  const { mutate: createOrderNumber, isPending: isCreating } = useMutation({
+    mutationFn: createOrder,
+    onSuccess: () => {
+      toast.success('Order successfully created!');
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  return { isCreating, createOrderNumber };
+};
+
+export const useCancelOrder = () => {
+  const queryClient = useQueryClient();
+  const { mutate: cancelOrderNumber, isPending: isCancelling } = useMutation({
+    mutationFn: cancelOrder,
+    onSuccess: () => {
+      toast.success('Order successfully cancelled!');
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  return { isCancelling, cancelOrderNumber };
 };

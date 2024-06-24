@@ -28,3 +28,20 @@ export const viewOrderByDate = async (startDate: Date, endDate: Date) => {
   }
   return data;
 };
+
+export const createOrder = async (orderData: string) => {
+  const { data, error } = await supabase.from('order').insert({ orderStaffName: orderData }).select();
+  if (error) {
+    throw new Error(error.message);
+  }
+  console.log(data[0].id);
+  return data[0].id;
+};
+
+export const cancelOrder = async (orderId: string) => {
+  const { data, error } = await supabase.from('order').delete().match({ id: orderId });
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};

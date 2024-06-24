@@ -2,16 +2,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { blankImage } from '@/hooks/data/selectValues';
+import { useCancelOrder } from '@/hooks/use/useOrders';
 import { useStore } from '@/store/store';
 import { Cross1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { FaShoppingCart } from 'react-icons/fa';
+import { ImSpinner } from 'react-icons/im';
 import { MdClearAll } from 'react-icons/md';
 import { useShallow } from 'zustand/react/shallow';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import TooltipTool from '../TooltipTool';
 
 const Cart = () => {
-  const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity, clearId } = useStore(
+  const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity, clearId, orderId } = useStore(
     useShallow((state) => ({
       clearCart: state.clearCart,
       dishes: state.dishes,
@@ -19,9 +21,20 @@ const Cart = () => {
       totalPrice: state.totalPrice,
       totalQuantity: state.totalQuantity,
       clearId: state.clearId,
+      orderId: state.orderId,
     }))
   );
 
+  const { cancelOrderNumber, isCancelling } = useCancelOrder();
+
+  const handleCancelOrder = () => {
+    cancelOrderNumber(orderId, {
+      onSuccess: () => {
+        clearId();
+        clearCart();
+      },
+    });
+  };
   return (
     <Popover>
       <PopoverTrigger className="flex flex-row relative" asChild>
@@ -38,14 +51,17 @@ const Cart = () => {
         <div className="flex flex-row justify-between">
           <div className="flex gap-2 text-lg items-center">
             <h1>Orders</h1>
-            <TooltipTool title="Clear Orders">
-              <Button variant="destructive" size="icon" onClick={clearCart}>
-                <MdClearAll />
-              </Button>
-            </TooltipTool>
+            {totalQuantity > 0 && (
+              <TooltipTool title="Clear Orders">
+                <Button variant="destructive" size="icon" onClick={clearCart}>
+                  <MdClearAll />
+                </Button>
+              </TooltipTool>
+            )}
           </div>
-          {totalQuantity > 0 && (
-            <div className="flex flex-row gap-1">
+
+          <div className="flex flex-row gap-1">
+            {totalQuantity > 0 && (
               <TooltipTool title="Place Order to Kitchen">
                 <Button
                   className="bg-orange-500"
@@ -54,20 +70,15 @@ const Cart = () => {
                   Place Order
                 </Button>
               </TooltipTool>
+            )}
+            {orderId && (
               <TooltipTool title="Cancel Order">
-                <Button
-                  variant={'destructive'}
-                  size="icon"
-                  onClick={() => {
-                    clearCart();
-                    clearId();
-                  }}
-                >
-                  <Cross1Icon />
+                <Button variant={'destructive'} size="icon" onClick={() => handleCancelOrder()}>
+                  {isCancelling ? <ImSpinner className="animate-spin" /> : <Cross1Icon />}
                 </Button>
               </TooltipTool>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <div className="space-y-2">
           {dishes.length > 0 ? (
