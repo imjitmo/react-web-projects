@@ -11,14 +11,15 @@ const Seller = () => {
         </CardTitle>
         <CardDescription>Best seller for this month</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="-mt-4">
         <ul>
           {isLoading ? (
             <li>Loading...</li>
           ) : (
             bestSellers?.map((item, index) => (
               <li key={item.dishId} className="font-bold">
-                <span className="font-normal">{index + 1}.</span> {item.dishName}
+                <span className="font-normal">{index + 1}.</span> {item.dishName}{' '}
+                <span className="font-normal">x {item.count}</span>
               </li>
             ))
           )}

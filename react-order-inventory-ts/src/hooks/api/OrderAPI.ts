@@ -91,3 +91,51 @@ export const addToOrderList = async (orderListData: OrderList[]) => {
   }
   return data;
 };
+
+export const viewOrderList = async (orderId: string) => {
+  const { data, error } = await supabase.from('order_list').select('*').eq('orderId', orderId);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
+type acceptItemOrderType = {
+  id: string;
+  orderStatus: string;
+};
+
+export const acceptItemOrder = async (orderList: acceptItemOrderType) => {
+  const { data, error } = await supabase
+    .from('order_list')
+    .update({ orderStatus: orderList.orderStatus })
+    .eq('id', orderList.id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
+type dishData = {
+  dishId: string;
+  dishQuantity: number;
+};
+
+export const updateInventoryByOrder = async (dishData: dishData) => {
+  const { data, error } = await supabase.from('ingredients').select('*').eq('dishId', dishData.dishId);
+  if (error) {
+    throw new Error(error.message);
+  }
+  data.forEach(async (dish, index) => {
+    const { data: items } = await supabase.from('inventory').select('*').eq('id', dish.inventoryId);
+    const { data: updatedData } = await supabase
+      .from('inventory')
+      .update({
+        itemQuantity: items?.[0].itemQuantity - data[index].ingredientQuantity * dishData.dishQuantity,
+      })
+      .eq('id', dish.inventoryId)
+      .select('*');
+    return updatedData;
+  });
+  return data;
+};

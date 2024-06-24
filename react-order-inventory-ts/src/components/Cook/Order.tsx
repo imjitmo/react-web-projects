@@ -14,10 +14,13 @@ import { Button } from '@/components/ui/button';
 import { GrFormView } from 'react-icons/gr';
 import DialogTool from '../DialogTool';
 import TooltipTool from '../TooltipTool';
+import View from './View';
 
 const Order = () => {
   const { orders, isLoading } = useGetOrders();
   const [onOpen, setOnOpen] = useState(false);
+  const [onOrderId, setOnOrderId] = useState('');
+
   return (
     <>
       <Table>
@@ -35,7 +38,7 @@ const Order = () => {
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={4} className="text-center">
+              <TableCell colSpan={6} className="text-center">
                 Loading...
               </TableCell>
             </TableRow>
@@ -49,26 +52,30 @@ const Order = () => {
                 <TableCell>&#8369; {order.orderTotalPrice}</TableCell>
                 <TableCell>
                   <TooltipTool key={order.id} title={`View Order #${order.id.slice(0, 6).toUpperCase()}`}>
-                    <Button size={'icon'} onClick={() => setOnOpen((prev) => !prev)}>
+                    <Button
+                      size={'icon'}
+                      onClick={() => {
+                        setOnOpen((prev) => !prev);
+                        setOnOrderId(order.id);
+                      }}
+                    >
                       <GrFormView className="size-6" />
                     </Button>
                   </TooltipTool>
-                  <DialogTool
-                    header={`View Order #${order.id.slice(0, 6).toUpperCase()}`}
-                    description={`This tab will show order details for order #${order.id
-                      .slice(0, 6)
-                      .toUpperCase()}`}
-                    onOpen={onOpen}
-                    setOnOpen={setOnOpen}
-                  >
-                    {`Order #${order.id.slice(0, 6).toUpperCase()}`}
-                  </DialogTool>
                 </TableCell>
               </TableRow>
             ))
           )}
         </TableBody>
       </Table>
+      <DialogTool
+        header={`View Order #${onOrderId.slice(0, 6).toUpperCase()}`}
+        description={`This tab will show order details for order #${onOrderId.slice(0, 6).toUpperCase()}`}
+        onOpen={onOpen}
+        setOnOpen={setOnOpen}
+      >
+        <View orderId={onOrderId} />
+      </DialogTool>
     </>
   );
 };

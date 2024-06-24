@@ -1,12 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
+  acceptItemOrder,
   addToOrderList,
   cancelOrder,
   createOrder,
   updateCurrentOrder,
+  updateInventoryByOrder,
   viewBestSellers,
   viewOrderByDate,
+  viewOrderList,
   viewOrders,
 } from '../api/OrderAPI';
 
@@ -84,4 +87,38 @@ export const useAddToOrderList = () => {
     onError: (err) => toast.error(err.message),
   });
   return { isAdding, addToListOfOrders };
+};
+
+export const useViewOrderList = (orderId: string) => {
+  const { isPending: isLoading, data: orderList } = useQuery({
+    queryKey: ['orderList', orderId],
+    queryFn: () => viewOrderList(orderId),
+  });
+  return { isLoading, orderList };
+};
+
+export const useAcceptOrderItem = () => {
+  const queryClient = useQueryClient();
+  const { mutate: acceptOrder, isPending: isAccepting } = useMutation({
+    mutationFn: acceptItemOrder,
+    onSuccess: () => {
+      toast.success('Menu Item Updated!', { id: 'orderList' });
+      queryClient.invalidateQueries({ queryKey: ['orderList'] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  return { isAccepting, acceptOrder };
+};
+
+export const useUpdateInventoryByOrder = () => {
+  const queryClient = useQueryClient();
+  const { mutate: updateInventoryCount, isPending: isUpdating } = useMutation({
+    mutationFn: updateInventoryByOrder,
+    onSuccess: () => {
+      toast.success('Order successfully Accepted!', { id: 'orderList' });
+      queryClient.invalidateQueries({ queryKey: ['orderList'] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  return { isUpdating, updateInventoryCount };
 };
