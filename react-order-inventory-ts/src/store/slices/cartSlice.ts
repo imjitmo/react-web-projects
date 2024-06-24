@@ -41,6 +41,7 @@ export const createCartSlice: StateCreator<
       const foundProduct = state.dishes.find((dish) => dish.dishId === dishId);
       if (foundProduct) {
         foundProduct.quantity += 1;
+        foundProduct.totalPrice = foundProduct.dishPrice * foundProduct.quantity;
       }
     }),
   decreaseQuantity: (dishId) =>
@@ -51,13 +52,15 @@ export const createCartSlice: StateCreator<
           state.dishes.splice(foundIndex, 1);
         } else {
           state.dishes[foundIndex].quantity -= 1;
+          state.dishes[foundIndex].totalPrice =
+            state.dishes[foundIndex].dishPrice * state.dishes[foundIndex].quantity;
         }
       }
     }),
   addToCart: (dish) =>
     set((state) => {
       const orderId = useStore.getState().orderId;
-      state.dishes.push({ ...dish, quantity: 1, orderId: orderId });
+      state.dishes.push({ ...dish, quantity: 1, totalPrice: dish.dishPrice, orderId: orderId });
     }),
   removeFromCart: (dishId) =>
     set((state) => {

@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
 import { blankImage } from '@/hooks/data/selectValues';
-import { useCancelOrder } from '@/hooks/use/useOrders';
+import { useAddToOrderList, useCancelOrder, useUpdateCurrentOrder } from '@/hooks/use/useOrders';
 import { useStore } from '@/store/store';
 import { Cross1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -13,6 +14,8 @@ import QuantityChangeButtons from '../QuantityChangeButtons';
 import TooltipTool from '../TooltipTool';
 
 const Cart = () => {
+  const { updateOrder, isUpdating } = useUpdateCurrentOrder();
+  const { addToListOfOrders, isAdding } = useAddToOrderList();
   const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity, clearId, orderId } = useStore(
     useShallow((state) => ({
       clearCart: state.clearCart,
@@ -35,10 +38,31 @@ const Cart = () => {
       },
     });
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handlePlaceOrder = (dishData: any) => {
+    updateOrder(
+      {
+        id: orderId,
+        orderItemQuantity: dishData.totalQuantity,
+        orderTotalPrice: dishData.totalPrice,
+      },
+      {
+        onSuccess: () => {
+          addToListOfOrders(dishData.dishes, {
+            onSuccess: () => {
+              clearId();
+              clearCart();
+            },
+          });
+        },
+      }
+    );
+  };
   return (
     <Popover>
       <PopoverTrigger className="flex flex-row relative" asChild>
-        <Button className="text-slate-50 bg-orange-500" size="icon">
+        <Button className="text-slate-50 bg-orange-500" size="icon" disabled={isUpdating || isAdding}>
           <FaShoppingCart />
           {totalQuantity > 0 && (
             <div className="bg-red-500 size-6 left-[-0.75rem] top-[-0.5rem] rounded-full flex flex-wrap items-center justify-center inset-0 absolute">
@@ -65,7 +89,7 @@ const Cart = () => {
               <TooltipTool title="Place Order to Kitchen">
                 <Button
                   className="bg-orange-500"
-                  onClick={() => console.log({ ...dishes, totalPrice, totalQuantity })}
+                  onClick={() => handlePlaceOrder({ dishes: [...dishes], totalPrice, totalQuantity })}
                 >
                   Place Order
                 </Button>

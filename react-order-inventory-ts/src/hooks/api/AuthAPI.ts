@@ -86,3 +86,11 @@ export const updateUserStatus = async (userData: { id: string; status: boolean }
   }
   return data;
 };
+
+export const checkUserSession = async () => {
+  const { data, error } = await supabase.auth.getSession();
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
