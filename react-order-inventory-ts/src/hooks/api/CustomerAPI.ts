@@ -22,3 +22,11 @@ export const createQrCode = async (email: string) => {
   }
   return data;
 };
+
+export const viewCustomerPoints = async (email: string) => {
+  const { data, error } = await supabase.from('customers').select('*').eq('csEmail', email);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data[0];
+};

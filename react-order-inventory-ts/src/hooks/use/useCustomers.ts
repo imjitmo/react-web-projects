@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { createQrCode, getCustomers } from '../api/CustomerAPI';
+import { createQrCode, getCustomers, viewCustomerPoints } from '../api/CustomerAPI';
 
 export const useGetCustomers = () => {
   const { isPending, data: customersData } = useQuery({
@@ -23,4 +23,11 @@ export const useGenerateQrCode = () => {
     },
   });
   return { generateQrCode, isGenerating };
+};
+
+export const useViewCustomerPoints = () => {
+  const { mutate: viewPoints, isPending: isViewing } = useMutation({
+    mutationFn: viewCustomerPoints,
+  });
+  return { viewPoints, isViewing };
 };

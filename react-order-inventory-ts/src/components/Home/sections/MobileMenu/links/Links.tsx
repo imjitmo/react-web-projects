@@ -96,9 +96,17 @@ const Links = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <Button className="bg-orange-300 rounded-lg hover:bg-green-600 hover:text-slate-50 text-slate-900">
-          Rewards
-        </Button>
+        <Link
+          to="rewards"
+          className="cursor-pointer"
+          activeClass="border-b border-slate-100"
+          smooth={true}
+          spy={true}
+        >
+          <Button className="bg-orange-300 rounded-lg hover:bg-green-600 hover:text-slate-50 text-slate-900">
+            Rewards
+          </Button>
+        </Link>
       </motion.li>
     </motion.ul>
   );
