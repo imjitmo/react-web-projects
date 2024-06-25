@@ -7,20 +7,25 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useGetOrders } from '@/hooks/use/useOrders';
+import { useAcceptMainOrder, useGetOrders } from '@/hooks/use/useOrders';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { useStore } from '@/store/store';
 import { GrFormView } from 'react-icons/gr';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
 import TooltipTool from '../TooltipTool';
 import View from './View';
 
 const Order = () => {
+  const { displayName } = useStore(useShallow((state) => ({ displayName: state.displayName })));
   const { orders, isLoading } = useGetOrders();
   const [onOpen, setOnOpen] = useState(false);
   const [onOrderId, setOnOrderId] = useState('');
-
+  const [onOrderStatus, setOnOrderStatus] = useState(false);
+  const { approveMainOrder } = useAcceptMainOrder();
   return (
     <>
       <Table>
@@ -50,13 +55,24 @@ const Order = () => {
                 <TableCell>{order.orderCookName}</TableCell>
                 <TableCell>{order.orderItemQuantity}</TableCell>
                 <TableCell>&#8369; {order.orderTotalPrice}</TableCell>
-                <TableCell>
+                <TableCell className="flex flex-row flex-wrap gap-2">
+                  {!order.orderStatus && (
+                    <TooltipTool title={`Accept Order #${order.id.slice(0, 6).toUpperCase()}`}>
+                      <Button
+                        size={'icon'}
+                        onClick={() => approveMainOrder({ id: order.id, orderCookName: displayName || '' })}
+                      >
+                        <IoIosCheckmarkCircleOutline />
+                      </Button>
+                    </TooltipTool>
+                  )}
                   <TooltipTool key={order.id} title={`View Order #${order.id.slice(0, 6).toUpperCase()}`}>
                     <Button
                       size={'icon'}
                       onClick={() => {
                         setOnOpen((prev) => !prev);
                         setOnOrderId(order.id);
+                        setOnOrderStatus(order.orderStatus);
                       }}
                     >
                       <GrFormView className="size-6" />
@@ -74,7 +90,7 @@ const Order = () => {
         onOpen={onOpen}
         setOnOpen={setOnOpen}
       >
-        <View orderId={onOrderId} />
+        <View orderId={onOrderId} openOrderStatus={onOrderStatus} />
       </DialogTool>
     </>
   );

@@ -46,6 +46,21 @@ export const cancelOrder = async (orderId: string) => {
   return data;
 };
 
+type MainOrderType = {
+  id: string;
+  orderCookName: string;
+};
+export const acceptMainOrder = async (orderData: MainOrderType) => {
+  const { data, error } = await supabase
+    .from('order')
+    .update({ orderStatus: true, orderCookName: orderData.orderCookName })
+    .eq('id', orderData.id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
 export type Order = {
   id: string;
   orderItemQuantity: number;

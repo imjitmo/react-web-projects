@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
   acceptItemOrder,
+  acceptMainOrder,
   addToOrderList,
   cancelOrder,
   createOrder,
@@ -63,6 +64,19 @@ export const useCancelOrder = () => {
   return { isCancelling, cancelOrderNumber };
 };
 
+export const useAcceptMainOrder = () => {
+  const queryClient = useQueryClient();
+  const { mutate: approveMainOrder, isPending: isApproving } = useMutation({
+    mutationFn: acceptMainOrder,
+    onSuccess: () => {
+      toast.success('Order successfully accepted!');
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  return { isApproving, approveMainOrder };
+};
+
 export const useUpdateCurrentOrder = () => {
   const queryClient = useQueryClient();
   const { mutate: updateOrder, isPending: isUpdating } = useMutation({
@@ -91,7 +105,7 @@ export const useAddToOrderList = () => {
 
 export const useViewOrderList = (orderId: string) => {
   const { isPending: isLoading, data: orderList } = useQuery({
-    queryKey: ['orderList', orderId],
+    queryKey: ['orderList'],
     queryFn: () => viewOrderList(orderId),
   });
   return { isLoading, orderList };
