@@ -58,7 +58,7 @@ const View = ({ orderId, openOrderStatus }: { orderId: string; openOrderStatus: 
                 </TableCell>
                 <TableCell>
                   {openOrderStatus &&
-                  userType !== 'waiter' &&
+                  userType !== 'counter staff' &&
                   userType !== 'cashier' &&
                   order.orderStatus !== 'done' ? (
                     <TooltipTool

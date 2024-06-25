@@ -21,9 +21,8 @@ const Navigation = () => {
     }))
   );
   const checkUserType = userType === 'admin' || userType === 'super' ? true : false;
-  const notForKitchenAndCashier =
-    userType !== 'chef' && userType !== 'cook' && userType !== 'cashier' ? true : false;
-  const notForWaiterAndCashier = userType !== 'waiter' && userType !== 'cashier' ? true : false;
+  const notForKitchenAndCashier = userType !== 'kitchen staff' && userType !== 'cashier' ? true : false;
+  const notForWaiterAndCashier = userType !== 'counter staff' && userType !== 'cashier' ? true : false;
   const handleLogout = async () => {
     logoutStaff();
   };

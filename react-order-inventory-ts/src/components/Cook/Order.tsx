@@ -20,7 +20,12 @@ import TooltipTool from '../TooltipTool';
 import View from './View';
 
 const Order = () => {
-  const { displayName } = useStore(useShallow((state) => ({ displayName: state.displayName })));
+  const { displayName, userType } = useStore(
+    useShallow((state) => ({
+      displayName: state.displayName,
+      userType: state.userType,
+    }))
+  );
   const { orders, isLoading } = useGetOrders();
   const [onOpen, setOnOpen] = useState(false);
   const [onOrderId, setOnOrderId] = useState('');
@@ -56,7 +61,7 @@ const Order = () => {
                 <TableCell>{order.orderItemQuantity}</TableCell>
                 <TableCell>&#8369; {order.orderTotalPrice}</TableCell>
                 <TableCell className="flex flex-row flex-wrap gap-2">
-                  {!order.orderStatus && (
+                  {!order.orderStatus && userType === 'kitchen staff' && (
                     <TooltipTool title={`Accept Order #${order.id.slice(0, 6).toUpperCase()}`}>
                       <Button
                         size={'icon'}

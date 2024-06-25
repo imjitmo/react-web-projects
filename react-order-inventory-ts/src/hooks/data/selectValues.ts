@@ -105,16 +105,12 @@ export const dishType = [
 
 export const staffType = [
   {
-    value: 'waiter',
-    label: 'Waiter',
+    value: 'counter staff',
+    label: 'Counter Staff',
   },
   {
-    value: 'chef',
-    label: 'Chef',
-  },
-  {
-    value: 'cook',
-    label: 'Cook',
+    value: 'kitchen staff',
+    label: 'Kitchen Staff',
   },
   {
     value: 'cashier',
