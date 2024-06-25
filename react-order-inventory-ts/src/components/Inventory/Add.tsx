@@ -9,7 +9,7 @@ const Add = () => {
   return (
     <>
       <Button
-        className="bg-orange-500 text-slate-50 rounded-xl flex flex-row gap-2 items-center justify-center max-w-[80px]"
+        className="bg-orange-500 text-slate-50 rounded-lg flex flex-row gap-2 items-center justify-center max-w-[80px]"
         onClick={() => setOnOpen((prev) => !prev)}
       >
         <IoMdAdd />
