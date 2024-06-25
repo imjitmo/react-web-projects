@@ -26,6 +26,22 @@ export const createCustomer = async (values: CreateCustomerProps) => {
   return data;
 };
 
+type UpdateCustomerProps = {
+  id: string;
+  csRewardPoints: number;
+};
+
+export const addPointsToCustomer = async (customerData: UpdateCustomerProps) => {
+  const { data, error } = await supabase
+    .from('customers')
+    .update({ csRewardPoints: customerData.csRewardPoints })
+    .eq('id', customerData.id);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
 export const createQrCode = async (email: string) => {
   const { data, error } = await supabase.from('customers').select('csEmail').eq('csEmail', email);
   if (error) {
