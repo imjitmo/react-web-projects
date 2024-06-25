@@ -43,7 +43,7 @@ const List = () => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <p>Total Customers: {staffsListData?.length}</p>
+        <p>Total Staffs: {staffsListData?.length}</p>
         <SearchTerm placeholder={'Search staff...'} setSearchTerm={setSearchTerm} />
       </div>
       <Table>
