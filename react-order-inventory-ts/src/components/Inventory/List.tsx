@@ -52,6 +52,8 @@ const List = () => {
             <TableHead className="w-72">Category</TableHead>
             <TableHead className="w-72">Quantity</TableHead>
             <TableHead className="w-72">Availability</TableHead>
+            <TableHead className="w-32">Added By</TableHead>
+            <TableHead className="w-32">Updated By</TableHead>
             <TableHead className="w-32">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -71,6 +73,8 @@ const List = () => {
                 >
                   {item?.itemAvailability ? 'Available' : 'Not Available'}
                 </TableCell>
+                <TableCell>{item.addedBy}</TableCell>
+                <TableCell>{item.updatedBy}</TableCell>
                 <TableCell>
                   <Update data={item} />
                 </TableCell>

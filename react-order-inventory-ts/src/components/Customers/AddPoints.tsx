@@ -4,8 +4,10 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 
 import { useAddPointsToCustomer } from '@/hooks/use/useCustomers';
+import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useShallow } from 'zustand/react/shallow';
 
 const customerSchema = z.object({
   csRewardPoints: z.coerce.number().min(1, 'Reward Points must be greater than or equal to 1'),
@@ -29,11 +31,12 @@ const AddPoints = ({
     },
   });
 
+  const { displayName } = useStore(useShallow((state) => ({ displayName: state.displayName })));
   const { addPoints, isAdding } = useAddPointsToCustomer();
 
   const handleAddPoints = (values: z.infer<typeof customerSchema>) => {
     addPoints(
-      { csRewardPoints: values.csRewardPoints + userPoints, id: customerId },
+      { csRewardPoints: values.csRewardPoints + userPoints, id: customerId, updatedBy: displayName },
       {
         onSuccess: () => {
           form.reset();

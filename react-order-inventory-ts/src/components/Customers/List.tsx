@@ -54,6 +54,8 @@ const Order = () => {
             <TableHead>Coupon Code</TableHead>
             <TableHead>Coupon Discount</TableHead>
             <TableHead>Coupon</TableHead>
+            <TableHead>Added By</TableHead>
+            <TableHead>Updated By</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -70,6 +72,8 @@ const Order = () => {
                 <TableCell className={`${customer.csCouponState ? 'text-red-500' : 'text-green-500'}`}>
                   {customer.csCouponState ? 'Redemeed' : 'Redeemable'}
                 </TableCell>
+                <TableCell>{customer.addedBy}</TableCell>
+                <TableCell>{customer.updatedBy}</TableCell>
                 <TableCell>
                   <TooltipTool title="Add Points">
                     <Button

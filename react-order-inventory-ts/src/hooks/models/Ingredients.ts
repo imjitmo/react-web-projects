@@ -15,4 +15,6 @@ export type IngredientProps = {
   ingredientName: string;
   ingredientQuantity: number;
   ingredientUnit: string;
+  addedBy?: string | null;
+  updatedBy?: string | null;
 };

@@ -6,7 +6,9 @@ import { Button } from '@/components/ui/button';
 import { useUpdateDishImage } from '@/hooks/use/useDishes';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { useStore } from '@/store/store';
 import * as z from 'zod';
+import { useShallow } from 'zustand/react/shallow';
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
@@ -27,6 +29,11 @@ interface UpdateImageProps {
 }
 
 const UpdateImage = ({ id, setOnOpen }: UpdateImageProps) => {
+  const { displayName } = useStore(
+    useShallow((state) => ({
+      displayName: state.displayName,
+    }))
+  );
   const { editDishImage, isUpdating } = useUpdateDishImage();
   const form = useForm<z.infer<typeof UpdateImageSchema>>({
     resolver: zodResolver(UpdateImageSchema),
@@ -35,9 +42,9 @@ const UpdateImage = ({ id, setOnOpen }: UpdateImageProps) => {
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof UpdateImageSchema>) => {
+  const handleSubmit = (data: { dishImage: File }) => {
     editDishImage(
-      { id, ...data },
+      { id, ...data, updatedBy: displayName },
       {
         onSuccess: () => {
           form.reset();

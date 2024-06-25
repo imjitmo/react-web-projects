@@ -17,6 +17,7 @@ type CreateCustomerProps = {
   csLastName: string;
   csEmail: string;
   csRewardPoints: number;
+  addedBy?: string | null;
 };
 export const createCustomer = async (values: CreateCustomerProps) => {
   const { data, error } = await supabase.from('customers').insert(values);
@@ -29,6 +30,7 @@ export const createCustomer = async (values: CreateCustomerProps) => {
 type UpdateCustomerProps = {
   id: string;
   csRewardPoints: number;
+  updatedBy?: string | null;
 };
 
 export const addPointsToCustomer = async (customerData: UpdateCustomerProps) => {

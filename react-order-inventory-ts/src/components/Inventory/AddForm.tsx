@@ -19,8 +19,10 @@ import { FiMinus } from 'react-icons/fi';
 import { ImSpinner6 } from 'react-icons/im';
 import { IoMdAdd } from 'react-icons/io';
 
+import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useShallow } from 'zustand/react/shallow';
 
 const InventorySchema = z.object({
   itemName: z
@@ -51,6 +53,11 @@ interface AddFormProps {
 }
 
 const AddForm = ({ data }: AddFormProps) => {
+  const { displayName } = useStore(
+    useShallow((state) => ({
+      displayName: state.displayName,
+    }))
+  );
   const [quantity, setQuantity] = useState(data ? Number(data?.itemQuantity) : 0);
   const form = useForm<z.infer<typeof InventorySchema>>({
     resolver: zodResolver(InventorySchema),
@@ -81,7 +88,7 @@ const AddForm = ({ data }: AddFormProps) => {
     const itemAvailability = inventoryData.itemQuantity > 0 ? true : false;
     if (data) {
       updatingInventory(
-        { ...inventoryData, id: data.id, itemAvailability: itemAvailability },
+        { ...inventoryData, id: data.id, itemAvailability: itemAvailability, updatedBy: displayName },
         {
           onSuccess: () => {
             form.reset();
@@ -90,7 +97,7 @@ const AddForm = ({ data }: AddFormProps) => {
       );
     } else {
       createInventory(
-        { ...inventoryData, itemAvailability: itemAvailability },
+        { ...inventoryData, itemAvailability: itemAvailability, addedBy: displayName },
         {
           onSuccess: () => {
             form.reset();

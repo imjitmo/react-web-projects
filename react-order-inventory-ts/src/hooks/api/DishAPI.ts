@@ -58,6 +58,7 @@ export const editDish = async (dishData: EditDish) => {
 interface DishImage {
   id: string;
   dishImage: File;
+  updatedBy?: string | null;
 }
 
 export const updateDishImage = async (dishData: DishImage) => {

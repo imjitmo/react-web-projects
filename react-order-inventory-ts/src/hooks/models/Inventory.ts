@@ -6,4 +6,6 @@ export interface Inventory {
   itemQuantity: number;
   itemUnit: string;
   itemAvailability: boolean;
+  addedBy?: string | null;
+  updatedBy?: string | null;
 }

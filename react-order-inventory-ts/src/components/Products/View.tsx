@@ -14,6 +14,8 @@ interface ViewProps {
     dishType: string;
     dishStatus: boolean;
     dishAvailability: boolean;
+    addedBy: string | null;
+    updatedBy: string | null;
     ingredients: IngredientProps[];
   };
 }
@@ -46,20 +48,31 @@ const View = ({ dishData }: ViewProps) => {
             <div className="text-sm flex flex-col gap-1 cursor-default">
               <div className="flex flex-row items-center gap-2">
                 <h2>{dishData?.dishName}</h2>
-                <p className="capitalize">({dishData?.dishType})</p>
+                <p className="capitalize">({dishData?.dishType.split('_').join(' ')})</p>
               </div>
-              <p>&#8369; {dishData?.dishPrice}</p>
-              <div className="flex flex-row gap-2 items-center">
-                <p
-                  className={`${
-                    dishData?.dishAvailability ? 'text-green-500' : 'text-red-500'
-                  } bg-orange-300/30 font-semibold py-1 px-4 rounded-full`}
-                >
-                  {dishData?.dishAvailability ? 'Available' : 'Not Available'}
-                </p>
-                <p className={`${dishData?.dishStatus ? 'text-green-500' : 'text-red-500'}`}>
-                  {dishData?.dishStatus ? 'Active' : 'Inactive'}
-                </p>
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-4 items-center text-xs italic text-slate-500">
+                  <p className="flex flex-row gap-2 items-start">
+                    Added by: <span className="text-orange-300">{dishData?.addedBy}</span>
+                  </p>
+                  <p className="flex flex-row gap-2 items-end">
+                    Updated by: <span className="text-orange-300">{dishData?.updatedBy}</span>
+                  </p>
+                </div>
+                <p>&#8369; {dishData?.dishPrice}</p>
+
+                <div className="flex flex-row gap-2 items-center">
+                  <p
+                    className={`${
+                      dishData?.dishAvailability ? 'text-green-500' : 'text-red-500'
+                    } bg-orange-300/30 font-semibold py-1 px-4 rounded-full`}
+                  >
+                    {dishData?.dishAvailability ? 'Available' : 'Not Available'}
+                  </p>
+                  <p className={`${dishData?.dishStatus ? 'text-green-500' : 'text-red-500'}`}>
+                    {dishData?.dishStatus ? 'Active' : 'Inactive'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

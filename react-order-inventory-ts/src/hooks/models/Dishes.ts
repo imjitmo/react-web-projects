@@ -8,6 +8,8 @@ export interface Dish {
   dishStatus?: boolean;
   dishType: string;
   imageLink?: string;
+  addedBy?: string | null;
+  updatedBy?: string | null;
 }
 
 export interface DishUpdate {
@@ -27,6 +29,7 @@ export interface EditDish {
   dishPrice?: number;
   dishType?: string;
   dishAvailability?: boolean;
+  updatedBy?: string | null;
 }
 
 export interface DeleteDish {

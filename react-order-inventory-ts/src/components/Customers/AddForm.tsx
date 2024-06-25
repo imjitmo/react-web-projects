@@ -4,8 +4,10 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 
 import { useCreateCustomer } from '@/hooks/use/useCustomers';
+import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useShallow } from 'zustand/react/shallow';
 
 const customerSchema = z.object({
   csFirstName: z
@@ -28,6 +30,7 @@ const customerSchema = z.object({
 });
 
 const AddForm = () => {
+  const { displayName } = useStore(useShallow((state) => ({ displayName: state.displayName })));
   const { registerCustomer, isCreating } = useCreateCustomer();
   const form = useForm<z.infer<typeof customerSchema>>({
     resolver: zodResolver(customerSchema),
@@ -39,11 +42,14 @@ const AddForm = () => {
     },
   });
   const handleRegisterCustomer = (values: z.infer<typeof customerSchema>) => {
-    registerCustomer(values, {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
+    registerCustomer(
+      { ...values, addedBy: displayName },
+      {
+        onSuccess: () => {
+          form.reset();
+        },
+      }
+    );
   };
   return (
     <Form {...form}>
