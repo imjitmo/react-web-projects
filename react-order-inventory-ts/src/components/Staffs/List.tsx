@@ -89,11 +89,10 @@ const List = () => {
                           staff.status ? 'text-red-500' : 'text-green-500'
                         }`}
                         onClick={() => {
-                          staff.userType !== 'admin' && userType === 'admin'
-                            ? updateStaffStatus({ id: staff.id, status: !staff.status })
-                            : userType === 'super' && staff.status
-                            ? updateStaffStatus({ id: staff.id, status: !staff.status })
-                            : null;
+                          userType === 'super' && updateStaffStatus({ id: staff.id, status: !staff.status });
+                          userType === 'admin' &&
+                            staff.userType !== 'admin' &&
+                            updateStaffStatus({ id: staff.id, status: !staff.status });
                         }}
                         disabled={isUpdating}
                       >
