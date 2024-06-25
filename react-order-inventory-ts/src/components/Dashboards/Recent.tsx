@@ -16,6 +16,7 @@ type Orders = {
   orderUserId: string;
   orderCookId: string;
   created_at: string;
+  orderStatus?: boolean;
 };
 
 interface OrderProps {
@@ -24,7 +25,7 @@ interface OrderProps {
 }
 
 const Recent = ({ orders, isLoading }: OrderProps) => {
-  const handleOrderLimit = orders?.slice(0, 10);
+  const handleOrderLimit = orders?.filter((order) => order.orderStatus === true).slice(0, 10);
   return (
     <Card className="w-full lg:max-w-2xl bg-slate-950 text-slate-50">
       <CardHeader>

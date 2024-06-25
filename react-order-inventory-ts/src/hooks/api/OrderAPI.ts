@@ -22,6 +22,7 @@ export const viewOrderByDate = async (startDate: Date, endDate: Date) => {
     .select('*')
     .gte('created_at', startDate.toISOString())
     .lte('created_at', endDate.toISOString())
+    .eq('orderStatus', true)
     .order('created_at', { ascending: false });
   if (error) {
     throw new Error(error.message);
