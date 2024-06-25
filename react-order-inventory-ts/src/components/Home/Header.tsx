@@ -74,7 +74,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink to="/auth">
-              <Button className="text-xs bg-red-500 rounded-lg hover:text-slate-50 text-slate-50">OMS</Button>
+              <Button className="text-xs bg-red-500 rounded-lg hover:text-slate-50 text-slate-50">KDS</Button>
             </NavLink>
           </li>
         </ul>

@@ -12,6 +12,20 @@ export const getCustomers = async () => {
   return data;
 };
 
+type CreateCustomerProps = {
+  csFirstName: string;
+  csLastName: string;
+  csEmail: string;
+  csRewardPoints: number;
+};
+export const createCustomer = async (values: CreateCustomerProps) => {
+  const { data, error } = await supabase.from('customers').insert(values);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
 export const createQrCode = async (email: string) => {
   const { data, error } = await supabase.from('customers').select('csEmail').eq('csEmail', email);
   if (error) {

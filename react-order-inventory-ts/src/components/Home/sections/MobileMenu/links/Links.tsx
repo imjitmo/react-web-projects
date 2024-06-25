@@ -65,13 +65,13 @@ const Links = () => {
         whileTap={{ scale: 0.9 }}
       >
         <Link
-          to="products"
+          to="menu"
           className="cursor-pointer "
           activeClass="border-b border-slate-100"
           smooth={true}
           spy={true}
         >
-          Products
+          Menu
         </Link>
       </motion.li>
       <motion.li

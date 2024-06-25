@@ -61,7 +61,7 @@ const Order = () => {
                 <TableCell>{order.orderItemQuantity}</TableCell>
                 <TableCell>&#8369; {order.orderTotalPrice}</TableCell>
                 <TableCell className="flex flex-row flex-wrap gap-2">
-                  {!order.orderStatus && userType === 'kitchen staff' && (
+                  {!order.orderStatus && userType !== 'counter staff' && userType !== 'cashier' && (
                     <TooltipTool title={`Accept Order #${order.id.slice(0, 6).toUpperCase()}`}>
                       <Button
                         size={'icon'}

@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { createQrCode, getCustomers, viewCustomerPoints } from '../api/CustomerAPI';
+import { createCustomer, createQrCode, getCustomers, viewCustomerPoints } from '../api/CustomerAPI';
 
 export const useGetCustomers = () => {
   const { isPending, data: customersData } = useQuery({
@@ -9,6 +9,22 @@ export const useGetCustomers = () => {
   });
 
   return { isPending, customersData };
+};
+
+export const useCreateCustomer = () => {
+  const queryClient = useQueryClient();
+  const { mutate: registerCustomer, isPending: isCreating } = useMutation({
+    mutationFn: createCustomer,
+    onSuccess: () => {
+      toast.success('Customer Created!', { id: 'customers' });
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'customers' });
+      console.error(error.message);
+    },
+  });
+  return { registerCustomer, isCreating };
 };
 
 export const useGenerateQrCode = () => {
