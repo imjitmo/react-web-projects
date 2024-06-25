@@ -37,7 +37,7 @@ const AddPoints = ({
       {
         onSuccess: () => {
           form.reset();
-          setOnOpen((prev) => !prev);
+          setOnOpen(false);
           return;
         },
       }
