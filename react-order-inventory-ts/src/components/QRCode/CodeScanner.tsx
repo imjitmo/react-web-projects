@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 const CodeScanner = () => {
   const [scanResult, setScanResult] = useState(null);
+  const [onError, setOnError] = useState(false);
   const { viewPoints } = useViewCustomerPoints();
   const [viewData, setViewData] = useState<{
     csEmail: string;
@@ -39,10 +40,14 @@ const CodeScanner = () => {
   }, []);
 
   const handleScanCode = (scanResult: string) => {
+    setOnError(false);
     if (scanResult) {
       viewPoints(scanResult, {
         onSuccess: (data) => {
           setViewData(data);
+          if (!data) {
+            setOnError(true);
+          }
         },
       });
     }
@@ -64,6 +69,7 @@ const CodeScanner = () => {
                 <p>Reward Points: {viewData.csRewardPoints}</p>
               </>
             )}
+            {onError && <h2 className="text-center text-red-500">No Data Found</h2>}
             <Button className="w-full" onClick={() => handleScanCode(scanResult)}>
               View Data
             </Button>
