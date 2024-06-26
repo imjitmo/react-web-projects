@@ -5,6 +5,7 @@ import { useStore } from '@/store/store';
 import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import Cart from '../Cart/Cart';
+import Profile from '../Profile/Profile';
 
 const Header = () => {
   const options: Intl.DateTimeFormatOptions = {
@@ -22,9 +23,10 @@ const Header = () => {
     }, 1000);
   }, [timeNow]);
 
-  const { displayName } = useStore(
+  const { displayName, userType } = useStore(
     useShallow((state) => ({
       displayName: state.displayName,
+      userType: state.userType,
     }))
   );
   return (
@@ -35,7 +37,10 @@ const Header = () => {
           <FiSearch className="absolute size-[1.25rem] left-2" />
           <Input className="pl-10 h-12 bg-slate-500/20 w-full" placeholder="Search..." />
         </label> */}
-        <Cart />
+        <div className="flex flex-row flex-wrap gap-4">
+          <Profile />
+          {userType !== 'cashier' && userType !== 'kitchen staff' && <Cart />}
+        </div>
       </div>
 
       <p>
