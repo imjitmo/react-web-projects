@@ -11,11 +11,13 @@ import { useAcceptMainOrder, useGetOrders } from '@/hooks/use/useOrders';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import Pagination from '@/hooks/utils/Pagination';
 import { useStore } from '@/store/store';
 import { GrFormView } from 'react-icons/gr';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
+import PaginationButtons from '../Pagination/PaginationButtons';
 import TooltipTool from '../TooltipTool';
 import View from './View';
 
@@ -31,8 +33,13 @@ const Order = () => {
   const [onOrderId, setOnOrderId] = useState('');
   const [onOrderStatus, setOnOrderStatus] = useState(false);
   const { approveMainOrder } = useAcceptMainOrder();
+  const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
+  const records = orders?.slice(firstIndex, lastIndex);
+  const totalPages = orders ? orders.length : 0;
+  const npage = Math.ceil(totalPages / recordsPerPage);
   return (
     <>
+      <p>Total Orders: {orders?.length}</p>
       <Table>
         <TableCaption>A list of current Orders</TableCaption>
         <TableHeader>
@@ -53,7 +60,7 @@ const Order = () => {
               </TableCell>
             </TableRow>
           ) : (
-            orders?.map((order) => (
+            records?.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium uppercase">{`#${order.id.slice(0, 6)}`}</TableCell>
                 <TableCell>{order.orderStaffName}</TableCell>
@@ -89,6 +96,9 @@ const Order = () => {
           )}
         </TableBody>
       </Table>
+      {npage ? (
+        <PaginationButtons setCurrentPage={setCurrentPage} currentPage={currentPage} npage={npage} />
+      ) : null}
       <DialogTool
         header={`View Order #${onOrderId.slice(0, 6).toUpperCase()}`}
         description={`This tab will show order details for order #${onOrderId.slice(0, 6).toUpperCase()}`}
