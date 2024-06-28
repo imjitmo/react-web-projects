@@ -54,11 +54,7 @@ export const useAddPointsToCustomer = () => {
 export const useGenerateQrCode = () => {
   const { mutate: generateQrCode, isPending: isGenerating } = useMutation({
     mutationFn: createQrCode,
-    onSuccess: () => {
-      toast.success('QR Code Generated!', { id: 'staffs' });
-    },
     onError: (error) => {
-      toast.error(error.message, { id: 'staffs' });
       console.error(error.message);
     },
   });

@@ -14,7 +14,7 @@ import * as z from 'zod';
 const pinRegex = new RegExp(/^[0-9]{6}$/);
 
 const CodeSchema = z.object({
-  email: z
+  csEmail: z
     .string({
       required_error: 'Email is required',
     })
@@ -36,28 +36,29 @@ const CodeGenerator = () => {
   const form = useForm<z.infer<typeof CodeSchema>>({
     resolver: zodResolver(CodeSchema),
     defaultValues: {
-      email: '',
+      csEmail: '',
       csPin: '',
     },
   });
 
   const { generateQrCode, isGenerating } = useGenerateQrCode();
+  const errorCatcher = qrError || notRegistered ? true : false;
 
   const handleGenerateQrCode = async (value: z.infer<typeof CodeSchema>) => {
     try {
-      const dataUrl = await QrCode.toDataURL(value.email);
+      const dataUrl = await QrCode.toDataURL(value.csEmail);
       setNotRegistered(false);
       setQrError(false);
-      checkCustomer(value.email, {
+      checkCustomer(value.csEmail, {
         onSuccess: () => {
           generateQrCode(
             {
-              email: value.email,
+              email: value.csEmail,
               pin: value.csPin,
             },
             {
               onSuccess: () => {
-                setEmailValue(value.email.split('@')[0].toLowerCase());
+                setEmailValue(value.csEmail.split('@')[0].toLowerCase());
                 setQrUrl(dataUrl);
               },
               onError: (error) => {
@@ -81,10 +82,13 @@ const CodeGenerator = () => {
     <>
       {!qrUrl && (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleGenerateQrCode)} className="flex flex-col gap-4 min-w-72">
+          <form
+            onSubmit={form.handleSubmit(handleGenerateQrCode)}
+            className="flex flex-col flex-wrap gap-4 min-w-72 max-w-80"
+          >
             <FormField
               control={form.control}
-              name="email"
+              name="csEmail"
               render={({ field }) => {
                 return (
                   <FormItem className="w-full">
@@ -115,14 +119,9 @@ const CodeGenerator = () => {
             <Button className="bg-orange-300" disabled={isGenerating || isCheckingCustomer}>
               {isGenerating || isCheckingCustomer ? 'Generating...' : 'Generate'}
             </Button>
-            {qrError && (
-              <div className="text-red-500 text-xs">QR Code could not be generated. Invalid Credentials.</div>
-            )}
-            {notRegistered && (
-              <div className="text-red-500 text-xs">
-                QR Code could not be generated. Account does not exist.
-              </div>
-            )}
+            <div className="text-center text-red-500 text-xs font-semibold">
+              {errorCatcher && 'QR Code could not be generated. Invalid Credentials.'}
+            </div>
           </form>
         </Form>
       )}
