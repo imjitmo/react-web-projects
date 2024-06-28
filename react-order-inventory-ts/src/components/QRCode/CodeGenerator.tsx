@@ -81,7 +81,7 @@ const CodeGenerator = () => {
     <>
       {!qrUrl && (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleGenerateQrCode)} className="flex flex-col gap-4">
+          <form onSubmit={form.handleSubmit(handleGenerateQrCode)} className="flex flex-col gap-4 min-w-72">
             <FormField
               control={form.control}
               name="email"
