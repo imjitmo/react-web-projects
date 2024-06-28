@@ -9,6 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useShallow } from 'zustand/react/shallow';
 
+const pinRegex = new RegExp(/^[0-9]{6}$/);
+
 const customerSchema = z.object({
   csFirstName: z
     .string({
@@ -27,6 +29,11 @@ const customerSchema = z.object({
     .email('Invalid email address')
     .min(1, 'Email is required'),
   csRewardPoints: z.coerce.number().min(0, 'Reward Points must be greater than or equal to 0'),
+  csPin: z
+    .string()
+    .min(6, 'Pin must be 6 digits number')
+    .max(6, 'Pin must be 6 digits number')
+    .regex(pinRegex, 'Pin must be 6 digits number'),
 });
 
 const AddForm = () => {
@@ -108,6 +115,21 @@ const AddForm = () => {
                 <FormLabel>Points</FormLabel>
                 <FormControl>
                   <Input type="number" placeholder="Reward Points" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="csPin"
+          render={({ field }) => {
+            return (
+              <FormItem className="w-full">
+                <FormLabel>Pin</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="Pin" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

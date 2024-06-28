@@ -7,9 +7,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useGenerateQrCode } from '@/hooks/use/useCustomers';
+import { useCheckExistingCustomer, useGenerateQrCode } from '@/hooks/use/useCustomers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+
+const pinRegex = new RegExp(/^[0-9]{6}$/);
 
 const CodeSchema = z.object({
   email: z
@@ -18,16 +20,24 @@ const CodeSchema = z.object({
     })
     .email('Invalid email address')
     .min(1, 'Email is required'),
+  csPin: z
+    .string()
+    .min(6, 'Pin must be 6 digits number')
+    .max(6, 'Pin must be 6 digits number')
+    .regex(pinRegex, 'Pin must be 6 digits number'),
 });
 
 const CodeGenerator = () => {
   const [emailValue, setEmailValue] = useState('');
   const [qrUrl, setQrUrl] = useState('');
   const [qrError, setQrError] = useState(false);
+  const { checkCustomer, isCheckingCustomer } = useCheckExistingCustomer();
+  const [notRegistered, setNotRegistered] = useState(false);
   const form = useForm<z.infer<typeof CodeSchema>>({
     resolver: zodResolver(CodeSchema),
     defaultValues: {
       email: '',
+      csPin: '',
     },
   });
 
@@ -35,19 +45,33 @@ const CodeGenerator = () => {
 
   const handleGenerateQrCode = async (value: z.infer<typeof CodeSchema>) => {
     try {
-      setQrError(false);
       const dataUrl = await QrCode.toDataURL(value.email);
-
-      generateQrCode(value.email, {
+      setNotRegistered(false);
+      setQrError(false);
+      checkCustomer(value.email, {
         onSuccess: () => {
-          setEmailValue(value.email.split('@')[0].toLowerCase());
-          setQrUrl(dataUrl);
+          generateQrCode(
+            {
+              email: value.email,
+              pin: value.csPin,
+            },
+            {
+              onSuccess: () => {
+                setEmailValue(value.email.split('@')[0].toLowerCase());
+                setQrUrl(dataUrl);
+              },
+              onError: (error) => {
+                setQrError(true);
+                console.error(error);
+              },
+            }
+          );
         },
-        onError: (error) => {
-          setQrError(true);
-          console.error(error);
+        onError: () => {
+          setNotRegistered(true);
         },
       });
+
       return;
     } catch (error) {
       console.error(error);
@@ -78,9 +102,34 @@ const CodeGenerator = () => {
                 );
               }}
             />
-            <Button className="bg-orange-300" disabled={isGenerating}>
-              {isGenerating ? 'Generating...' : 'Generate'}
+            <FormField
+              control={form.control}
+              name="csPin"
+              render={({ field }) => {
+                return (
+                  <FormItem className="w-full">
+                    <FormLabel>Pin</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="Pin" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    {qrError && (
+                      <div className="text-red-500">
+                        QR Code could not be generated. Email does not exist.
+                      </div>
+                    )}
+                  </FormItem>
+                );
+              }}
+            />
+            <Button className="bg-orange-300" disabled={isGenerating || isCheckingCustomer}>
+              {isGenerating || isCheckingCustomer ? 'Generating...' : 'Generate'}
             </Button>
+            {notRegistered && (
+              <div className="text-red-500 text-xs">
+                QR Code could not be generated. Account does not exist.
+              </div>
+            )}
           </form>
         </Form>
       )}

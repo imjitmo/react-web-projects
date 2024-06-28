@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
   addPointsToCustomer,
+  checkExistingCustomer,
+  checkPin,
   createCustomer,
   createQrCode,
   getCustomers,
@@ -68,4 +70,18 @@ export const useViewCustomerPoints = () => {
     mutationFn: viewCustomerPoints,
   });
   return { viewPoints, isViewing };
+};
+
+export const useCheckExistingCustomer = () => {
+  const { mutate: checkCustomer, isPending: isCheckingCustomer } = useMutation({
+    mutationFn: checkExistingCustomer,
+  });
+  return { checkCustomer, isCheckingCustomer };
+};
+
+export const useCheckCustomerPin = () => {
+  const { mutate: checkCustomerPin, isPending: isChecking } = useMutation({
+    mutationFn: checkPin,
+  });
+  return { checkCustomerPin, isChecking };
 };
