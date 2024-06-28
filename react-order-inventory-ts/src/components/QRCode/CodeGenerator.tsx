@@ -93,11 +93,6 @@ const CodeGenerator = () => {
                       <Input type="email" placeholder="Email" {...field} />
                     </FormControl>
                     <FormMessage />
-                    {qrError && (
-                      <div className="text-red-500">
-                        QR Code could not be generated. Email does not exist.
-                      </div>
-                    )}
                   </FormItem>
                 );
               }}
@@ -113,11 +108,6 @@ const CodeGenerator = () => {
                       <Input type="password" placeholder="Pin" {...field} />
                     </FormControl>
                     <FormMessage />
-                    {qrError && (
-                      <div className="text-red-500">
-                        QR Code could not be generated. Email does not exist.
-                      </div>
-                    )}
                   </FormItem>
                 );
               }}
@@ -125,6 +115,9 @@ const CodeGenerator = () => {
             <Button className="bg-orange-300" disabled={isGenerating || isCheckingCustomer}>
               {isGenerating || isCheckingCustomer ? 'Generating...' : 'Generate'}
             </Button>
+            {qrError && (
+              <div className="text-red-500">QR Code could not be generated. Invalid Credentials.</div>
+            )}
             {notRegistered && (
               <div className="text-red-500 text-xs">
                 QR Code could not be generated. Account does not exist.
