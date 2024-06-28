@@ -116,7 +116,7 @@ const CodeGenerator = () => {
               {isGenerating || isCheckingCustomer ? 'Generating...' : 'Generate'}
             </Button>
             {qrError && (
-              <div className="text-red-500">QR Code could not be generated. Invalid Credentials.</div>
+              <div className="text-red-500 text-xs">QR Code could not be generated. Invalid Credentials.</div>
             )}
             {notRegistered && (
               <div className="text-red-500 text-xs">
