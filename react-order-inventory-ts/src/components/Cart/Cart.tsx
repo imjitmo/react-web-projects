@@ -15,10 +15,13 @@ import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import TooltipTool from '../TooltipTool';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
 
 const Cart = () => {
   const { updateOrder, isUpdating } = useUpdateCurrentOrder();
   const { addToListOfOrders, isAdding } = useAddToOrderList();
+  const [onDiscount, setOnDiscount] = useState(false);
   const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity, clearId, orderId } = useStore(
     useShallow((state) => ({
       clearCart: state.clearCart,
@@ -174,6 +177,28 @@ const Cart = () => {
             )}
           </div>
           <p>Total: &#8369; {totalPrice}</p>
+          {onDiscount ? (
+            <div className="flex flex-row flex-wrap gap-4">
+              <Input type="email" placeholder="Enter customer email" />
+              <Select>
+                <SelectTrigger>Discount %</SelectTrigger>
+                <SelectContent className="bg-slate-950 text-slate-50">
+                  <SelectItem value="5">5% - 100pts</SelectItem>
+                  <SelectItem value="10">10% - 200pts</SelectItem>
+                  <SelectItem value="15">15% - 300pts</SelectItem>
+                  <SelectItem value="20">20% - 400pts</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button className="bg-orange-500">Apply</Button>
+              <Button variant="destructive" onClick={() => setOnDiscount((prev) => !prev)}>
+                Cancel
+              </Button>
+            </div>
+          ) : (
+            <Button className="bg-orange-500" onClick={() => setOnDiscount((prev) => !prev)}>
+              Apply Discount
+            </Button>
+          )}
         </PopoverContent>
       </Popover>
       <DialogTool
