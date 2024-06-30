@@ -93,7 +93,7 @@ const Navigation = () => {
             >
               <PiCookingPotBold className="size-7" />
             </NavLink>
-            {checkUserType && (
+            {notForWaiterAndCashier && (
               <NavLink
                 end
                 to="/inventory"
