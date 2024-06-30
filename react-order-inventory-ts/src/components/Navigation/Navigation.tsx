@@ -26,7 +26,7 @@ const Navigation = () => {
   const [onLogout, setOnLogout] = useState(false);
   const checkUserType = userType === 'admin' || userType === 'super' ? true : false;
   const notForKitchenAndCashier = userType !== 'kitchen staff' && userType !== 'cashier' ? true : false;
-  const notForWaiterAndCashier = userType !== 'counter staff' && userType !== 'cashier' ? true : false;
+  const notForWaiterAndCashier = userType !== 'cashier' ? true : false;
   const handleLogout = async () => {
     logoutStaff();
   };
