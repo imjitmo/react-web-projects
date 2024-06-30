@@ -87,7 +87,6 @@ interface OrderList {
 }
 
 export const addToOrderList = async (orderListData: OrderList[]) => {
-  console.log(orderListData);
   const newOrderList = orderListData.map((order) => {
     return {
       dishId: order.dishId,

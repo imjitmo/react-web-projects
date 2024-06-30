@@ -129,7 +129,7 @@ export const useUpdateInventoryByOrder = () => {
   const { mutate: updateInventoryCount, isPending: isUpdating } = useMutation({
     mutationFn: updateInventoryByOrder,
     onSuccess: () => {
-      toast.success('Order successfully Accepted!', { id: 'orderList' });
+      toast.success('Order item is accepted!', { id: 'orderList' });
       queryClient.invalidateQueries({ queryKey: ['orderList'] });
     },
     onError: (err) => toast.error(err.message),
