@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { motion, Variants } from 'framer-motion';
+import { NavLink } from 'react-router-dom';
 import { Link } from 'react-scroll';
 
 const variants: Variants = {
@@ -107,6 +108,16 @@ const Links = () => {
             Rewards
           </Button>
         </Link>
+      </motion.li>
+      <motion.li
+        className="text-2xl font-medium hover:text-orange-300"
+        variants={itemVariants}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <NavLink to="/auth">
+          <Button className="text-xs bg-red-500 rounded-lg hover:text-slate-50 text-slate-50">KDS</Button>
+        </NavLink>
       </motion.li>
     </motion.ul>
   );
