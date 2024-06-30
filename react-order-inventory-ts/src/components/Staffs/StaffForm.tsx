@@ -155,7 +155,6 @@ const StaffForm = () => {
                   <SelectContent className="bg-slate-950 text-slate-50">
                     <SelectGroup>
                       <SelectLabel>Type</SelectLabel>
-                      <SelectItem value="super">Super Admin</SelectItem>
                       {userType === 'super' && (
                         <>
                           <SelectItem value="super">Super Admin</SelectItem>
