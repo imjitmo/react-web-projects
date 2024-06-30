@@ -21,10 +21,21 @@ const Sales = () => {
         <CardDescription>Sales this month</CardDescription>
       </CardHeader>
       <CardContent>
-        {isLoading ? <p>Loading...</p> : <h2>&#8369; {recentTotalSales}</h2>}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <h2>&#8369; {recentTotalSales.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h2>
+        )}
 
         <CardDescription>
-          {salesPercentage === Infinity ? '100' : salesPercentage}% from last month
+          {isLoading
+            ? '...'
+            : isNaN(salesPercentage)
+            ? '0%'
+            : salesPercentage === Infinity
+            ? '100%'
+            : `${salesPercentage}%`}{' '}
+          from last month
         </CardDescription>
       </CardContent>
     </Card>
