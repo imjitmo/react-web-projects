@@ -110,7 +110,7 @@ const Signin = () => {
           }}
         ></FormField>
         <div>
-          <div className="w-full flex flex-col md:flex-row flex-wrap gap-2">
+          <div className="w-full flex flex-row flex-wrap gap-2">
             <NavLink to="/">
               <Button type="button" className="bg-green-500">
                 <IoHomeOutline className="text-center text-slate-50 size-[1.25rem]" />
