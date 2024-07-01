@@ -208,7 +208,7 @@ const Cart = () => {
                 </Card>
               ))
             ) : (
-              <p>No dishes on the cart!</p>
+              <p>No menu items on the cart!</p>
             )}
           </div>
           <p>Total: &#8369; {totalPrice.toFixed(2)}</p>
