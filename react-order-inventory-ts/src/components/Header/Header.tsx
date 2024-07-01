@@ -46,7 +46,7 @@ const Header = () => {
       <p>
         {today} @ {timeNow}
       </p>
-      <p>Welcome, {displayName?.split(' ')[0]}!</p>
+      <p className="capitalize">Welcome, {displayName?.split(' ')[0]}!</p>
     </div>
   );
 };

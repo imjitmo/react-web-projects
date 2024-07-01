@@ -3,7 +3,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
-import { listUsers, loginUser, logoutUser, registerUser, updateUserStatus } from '../api/AuthAPI';
+import {
+  listUsers,
+  loginUser,
+  logoutUser,
+  registerUser,
+  updateUserDisplayName,
+  updateUserPassword,
+  updateUserStatus,
+} from '../api/AuthAPI';
 
 export const useGetStaffs = () => {
   const { isPending, data: staffsData } = useQuery({
@@ -94,4 +102,55 @@ export const useUpdateStaffStatus = () => {
   });
 
   return { updateStaffStatus, isUpdating };
+};
+
+export const useUpdateAuthPassword = () => {
+  const queryClient = useQueryClient();
+  const { mutate: updateAuthPassword, isPending: isUpdating } = useMutation({
+    mutationFn: updateUserPassword,
+    onSuccess: () => {
+      toast.success('User Password Updated!', { id: 'staffs' });
+      queryClient.invalidateQueries({ queryKey: ['staffs'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'staffs' });
+      console.error(error.message);
+    },
+  });
+
+  return { updateAuthPassword, isUpdating };
+};
+
+export const useUpdateAuthDisplayName = () => {
+  const queryClient = useQueryClient();
+  const { mutate: updateAuthDisplayName, isPending: isUpdating } = useMutation({
+    mutationFn: updateUserDisplayName,
+    onSuccess: () => {
+      toast.success('User Display Name Updated!', { id: 'staffs' });
+      queryClient.invalidateQueries({ queryKey: ['staffs'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'staffs' });
+      console.error(error.message);
+    },
+  });
+
+  return { updateAuthDisplayName, isUpdating };
+};
+
+export const useUpdateStaffDisplayName = () => {
+  const queryClient = useQueryClient();
+  const { mutate: updateStaffName, isPending: isUpdating } = useMutation({
+    mutationFn: updateUserDisplayName,
+    onSuccess: () => {
+      toast.success('Display Name Updated!', { id: 'staffs' });
+      queryClient.invalidateQueries({ queryKey: ['staffs'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'staffs' });
+      console.error(error.message);
+    },
+  });
+
+  return { updateStaffName, isUpdating };
 };

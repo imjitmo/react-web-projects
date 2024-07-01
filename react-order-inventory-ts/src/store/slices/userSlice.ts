@@ -10,6 +10,7 @@ export type UserState = {
 export type UserAction = {
   setUserLoginData: (data: UserState) => void;
   clearUserLoginData: () => void;
+  setUserDisplayName: (displayName: string) => void;
 };
 
 export type UserSlice = UserState & UserAction;
@@ -37,6 +38,11 @@ export const createUserSlice: StateCreator<
         state.userType = data.userType;
       });
     }
+  },
+  setUserDisplayName: (displayName) => {
+    set((state) => {
+      state.displayName = displayName;
+    });
   },
   clearUserLoginData: () => {
     set(() => initialState);

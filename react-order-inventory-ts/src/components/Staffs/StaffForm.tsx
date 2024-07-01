@@ -17,9 +17,10 @@ import { useForm } from 'react-hook-form';
 import { useRegisterStaff } from '@/hooks/use/useStaff';
 import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FaSpinner } from 'react-icons/fa';
+import { FaRegEye, FaRegEyeSlash, FaSpinner } from 'react-icons/fa';
 import * as z from 'zod';
 import { useShallow } from 'zustand/react/shallow';
+import { useState } from 'react';
 
 const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 
@@ -63,7 +64,7 @@ const StaffForm = () => {
       userType: '',
     },
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const { addUser, isCreating } = useRegisterStaff();
   const { userType } = useStore(
     useShallow((state) => ({
@@ -134,7 +135,33 @@ const StaffForm = () => {
               <FormItem className="w-full">
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
+                  <div className="relative">
+                    <Input type={showPassword ? 'text' : 'password'} {...field} />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? (
+                        <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
+                      )}
+                      <span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
+                    </Button>
+
+                    {/* hides browsers password toggles */}
+                    <style>{`
+					.hide-password-toggle::-ms-reveal,
+					.hide-password-toggle::-ms-clear {
+						visibility: hidden;
+						pointer-events: none;
+						display: none;
+					}
+				`}</style>
+                  </div>
                 </FormControl>
                 <FormMessage className="max-w-[260px]" />
               </FormItem>

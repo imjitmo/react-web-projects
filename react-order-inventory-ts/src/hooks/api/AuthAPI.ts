@@ -94,3 +94,49 @@ export const checkUserSession = async () => {
   }
   return data;
 };
+
+type UpdateType = {
+  email?: string | undefined;
+  displayName?: string;
+  password?: string;
+};
+
+export const updateUserDisplayName = async (userData: UpdateType) => {
+  const { data, error } = await supabase.auth.updateUser({
+    data: {
+      displayName: userData.displayName,
+    },
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+export const updateUserPassword = async (userData: UpdateType) => {
+  const { data, error } = await supabase.auth.updateUser({
+    password: userData.password,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+export const updateStaffDisplayName = async (userData: UpdateType) => {
+  const { data, error } = await supabase
+    .from('staffs')
+    .update({ displayName: userData.displayName })
+    .eq('email', userData.email)
+    .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  console.log(data);
+  return data;
+};
