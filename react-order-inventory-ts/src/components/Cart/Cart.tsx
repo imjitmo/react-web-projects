@@ -64,6 +64,7 @@ const Cart = () => {
       onSuccess: () => {
         clearId();
         clearCart();
+        clearDiscount();
         setOnCancelOrder(false);
       },
     });

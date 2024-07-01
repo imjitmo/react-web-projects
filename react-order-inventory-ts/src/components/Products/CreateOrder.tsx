@@ -9,13 +9,14 @@ import DialogTool from '../DialogTool';
 import TooltipTool from '../TooltipTool';
 
 const CreateOrder = () => {
-  const { orderId, clearId, setOrderId, clearCart, displayName } = useStore(
+  const { orderId, clearId, setOrderId, clearCart, displayName, clearDiscount } = useStore(
     useShallow((state) => ({
       setOrderId: state.setOrderId,
       orderId: state.orderId,
       clearId: state.clearId,
       clearCart: state.clearCart,
       displayName: state.displayName,
+      clearDiscount: state.clearDiscount,
     }))
   );
 
@@ -29,6 +30,7 @@ const CreateOrder = () => {
         onSuccess: () => {
           clearId();
           clearCart();
+          clearDiscount();
           setOnCancelOrder(false);
         },
       });
