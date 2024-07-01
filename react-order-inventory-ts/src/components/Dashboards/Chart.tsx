@@ -43,7 +43,7 @@ const Chart = () => {
               customerListLimit?.map((customer) => (
                 <TableRow key={customer.id}>
                   <TableCell className="font-medium uppercase">{`#${customer.id.slice(0, 6)}`}</TableCell>
-                  <TableCell>
+                  <TableCell className="capitalize">
                     {customer.csFirstName} {customer.csLastName}
                   </TableCell>
                   <TableCell>{customer.csEmail}</TableCell>

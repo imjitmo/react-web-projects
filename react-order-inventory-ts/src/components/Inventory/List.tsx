@@ -73,8 +73,8 @@ const List = () => {
                 >
                   {item?.itemAvailability ? 'Available' : 'Not Available'}
                 </TableCell>
-                <TableCell>{item.addedBy}</TableCell>
-                <TableCell>{item.updatedBy}</TableCell>
+                <TableCell className="capitalize">{item.addedBy}</TableCell>
+                <TableCell className="capitalize">{item.updatedBy}</TableCell>
                 <TableCell>
                   <Update data={item} />
                 </TableCell>

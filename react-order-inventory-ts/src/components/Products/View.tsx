@@ -53,10 +53,10 @@ const View = ({ dishData }: ViewProps) => {
               <div className="flex flex-col gap-2">
                 <div className="flex flex-row gap-4 items-center text-xs italic text-slate-500">
                   <p className="flex flex-row gap-2 items-start">
-                    Added by: <span className="text-orange-300">{dishData?.addedBy}</span>
+                    Added by: <span className="text-orange-300 capitalize">{dishData?.addedBy}</span>
                   </p>
                   <p className="flex flex-row gap-2 items-end">
-                    Updated by: <span className="text-orange-300">{dishData?.updatedBy}</span>
+                    Updated by: <span className="text-orange-300 capitalize">{dishData?.updatedBy}</span>
                   </p>
                 </div>
                 <p>&#8369; {dishData?.dishPrice}</p>

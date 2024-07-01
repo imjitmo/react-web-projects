@@ -63,8 +63,8 @@ const Order = () => {
             records?.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium uppercase">{`#${order.id.slice(0, 6)}`}</TableCell>
-                <TableCell>{order.orderStaffName}</TableCell>
-                <TableCell>{order.orderCookName}</TableCell>
+                <TableCell className="capitalize">{order.orderStaffName}</TableCell>
+                <TableCell className="capitalize">{order.orderCookName}</TableCell>
                 <TableCell>{order.orderItemQuantity}</TableCell>
                 <TableCell>&#8369; {order.orderTotalPrice}</TableCell>
                 <TableCell className="flex flex-row flex-wrap gap-2">
