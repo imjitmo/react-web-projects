@@ -35,6 +35,7 @@ const Cart = () => {
     orderId,
     appliedDiscount,
     customerData,
+    clearDiscount,
     displayName,
   } = useStore(
     useShallow((state) => ({
@@ -48,6 +49,7 @@ const Cart = () => {
       appliedDiscount: state.appliedDiscount,
       customerData: state.customerData,
       displayName: state.displayName,
+      clearDiscount: state.clearDiscount,
     }))
   );
   const [onCancelOrder, setOnCancelOrder] = useState(false);
@@ -107,6 +109,7 @@ const Cart = () => {
                   onSuccess: () => {
                     clearId();
                     clearCart();
+                    clearDiscount();
                   },
                 }
               );

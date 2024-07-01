@@ -109,7 +109,8 @@ export const createCartSlice: StateCreator<
     }),
   clearDiscount: () =>
     set((state) => {
-      state.totalPrice = state.totalPrice / (1 - state.appliedDiscount);
+      state.totalPrice =
+        state.totalPrice > 0 ? state.totalPrice / (1 - state.appliedDiscount) : state.totalPrice;
       state.appliedDiscount = 0;
       state.customerData = { email: '', points: 0 };
     }),
