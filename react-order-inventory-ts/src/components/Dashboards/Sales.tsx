@@ -34,7 +34,7 @@ const Sales = () => {
             ? '0%'
             : salesPercentage === Infinity
             ? '100%'
-            : `${salesPercentage}%`}{' '}
+            : `${salesPercentage.toFixed(2)}%`}{' '}
           from last month
         </CardDescription>
       </CardContent>

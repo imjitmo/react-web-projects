@@ -94,7 +94,7 @@ export const addToOrderList = async (orderListData: OrderList[]) => {
       dishName: order.dishName,
       dishPrice: order.dishPrice,
       orderQuantity: order.quantity,
-      totalPrice: order.totalPrice,
+      totalPrice: order.totalPrice.toFixed(2),
       order_month: new Date().getMonth() + 1,
       order_year: new Date().getFullYear(),
     };

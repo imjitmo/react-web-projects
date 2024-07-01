@@ -50,6 +50,7 @@ export const checkExistingCustomer = async (email: string) => {
 
 type UpdateCustomerProps = {
   id: string;
+  email?: string;
   csRewardPoints: number;
   updatedBy?: string | null;
 };
@@ -102,4 +103,24 @@ export const checkPin = async (pinData: PinType) => {
   }
   console.log(data[0]);
   return data[0];
+};
+
+type DeductPointsType = {
+  email: string;
+  points: number;
+  appliedDiscount: number;
+  updatedBy?: string | null;
+};
+
+export const deductCustomerPoints = async (customerData: DeductPointsType) => {
+  const deductionPoints = +customerData.appliedDiscount * 100 * 20;
+  const updatedRewardPoints = customerData.points - deductionPoints;
+  const { data, error } = await supabase
+    .from('customers')
+    .update({ csRewardPoints: updatedRewardPoints, updatedBy: customerData.updatedBy })
+    .eq('csEmail', customerData.email);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
 };

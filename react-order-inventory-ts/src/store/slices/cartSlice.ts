@@ -8,6 +8,11 @@ type CartState = {
   dishes: CartDishes[];
   totalPrice: number;
   totalQuantity: number;
+  appliedDiscount: number;
+  customerData: {
+    email: string;
+    points: number;
+  };
 };
 
 type CartActions = {
@@ -18,6 +23,10 @@ type CartActions = {
   getProductById: (dishId: string) => CartDishes | undefined;
   setTotal: (total: number) => void;
   setTotalQuantity: (totalQuantity: number) => void;
+  setDiscountedPrice: (discountPercent: number) => void;
+  setAppliedDiscount: (discount: number) => void;
+  setDiscountDetails: (customerData: { email: string; points: number }) => void;
+  clearDiscount: () => void;
   clearCart: () => void;
 };
 
@@ -25,6 +34,11 @@ const cartInitialState: CartState = {
   dishes: [],
   totalPrice: 0,
   totalQuantity: 0,
+  appliedDiscount: 0,
+  customerData: {
+    email: '',
+    points: 0,
+  },
 };
 
 export type CartSlice = CartState & CartActions;
@@ -41,7 +55,10 @@ export const createCartSlice: StateCreator<
       const foundProduct = state.dishes.find((dish) => dish.dishId === dishId);
       if (foundProduct) {
         foundProduct.quantity += 1;
-        foundProduct.totalPrice = foundProduct.dishPrice * foundProduct.quantity;
+
+        foundProduct.totalPrice = state.appliedDiscount
+          ? foundProduct.dishPrice * foundProduct.quantity * (1 - state.appliedDiscount)
+          : foundProduct.dishPrice * foundProduct.quantity;
       }
     }),
   decreaseQuantity: (dishId) =>
@@ -52,8 +69,11 @@ export const createCartSlice: StateCreator<
           state.dishes.splice(foundIndex, 1);
         } else {
           state.dishes[foundIndex].quantity -= 1;
-          state.dishes[foundIndex].totalPrice =
-            state.dishes[foundIndex].dishPrice * state.dishes[foundIndex].quantity;
+          state.dishes[foundIndex].totalPrice = state.appliedDiscount
+            ? state.dishes[foundIndex].dishPrice *
+              state.dishes[foundIndex].quantity *
+              (1 - state.appliedDiscount)
+            : state.dishes[foundIndex].dishPrice * state.dishes[foundIndex].quantity;
         }
       }
     }),
@@ -69,11 +89,29 @@ export const createCartSlice: StateCreator<
   getProductById: (dishId) => get().dishes.find((dish) => dish.dishId === dishId),
   setTotal: (total) =>
     set((state) => {
-      state.totalPrice = total;
+      state.totalPrice = state.appliedDiscount ? total * (1 - state.appliedDiscount) : total;
     }),
   setTotalQuantity: (totalQuantity) =>
     set((state) => {
       state.totalQuantity = totalQuantity;
+    }),
+  setDiscountedPrice: () =>
+    set((state) => {
+      state.totalPrice = state.totalPrice * (1 - state.appliedDiscount);
+    }),
+  setAppliedDiscount: (discount) =>
+    set((state) => {
+      state.appliedDiscount = discount;
+    }),
+  setDiscountDetails: (customerData) =>
+    set((state) => {
+      state.customerData = customerData;
+    }),
+  clearDiscount: () =>
+    set((state) => {
+      state.totalPrice = state.totalPrice / (1 - state.appliedDiscount);
+      state.appliedDiscount = 0;
+      state.customerData = { email: '', points: 0 };
     }),
   clearCart: () => set(() => cartInitialState),
 });

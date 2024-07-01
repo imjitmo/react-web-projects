@@ -15,14 +15,28 @@ import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import TooltipTool from '../TooltipTool';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
+
+import { useDeductCustomerPoints } from '@/hooks/use/useCustomers';
+import CustomerData from './CustomerData';
+import Discount from './Discount';
 
 const Cart = () => {
   const { updateOrder, isUpdating } = useUpdateCurrentOrder();
   const { addToListOfOrders, isAdding } = useAddToOrderList();
+  const { deductPoints, isDeducting } = useDeductCustomerPoints();
   const [onDiscount, setOnDiscount] = useState(false);
-  const { clearCart, dishes, removeFromCart, totalPrice, totalQuantity, clearId, orderId } = useStore(
+  const {
+    clearCart,
+    dishes,
+    removeFromCart,
+    totalPrice,
+    totalQuantity,
+    clearId,
+    orderId,
+    appliedDiscount,
+    customerData,
+    displayName,
+  } = useStore(
     useShallow((state) => ({
       clearCart: state.clearCart,
       dishes: state.dishes,
@@ -31,6 +45,9 @@ const Cart = () => {
       totalQuantity: state.totalQuantity,
       clearId: state.clearId,
       orderId: state.orderId,
+      appliedDiscount: state.appliedDiscount,
+      customerData: state.customerData,
+      displayName: state.displayName,
     }))
   );
   const [onCancelOrder, setOnCancelOrder] = useState(false);
@@ -73,14 +90,26 @@ const Cart = () => {
       {
         id: orderId,
         orderItemQuantity: dishData.totalQuantity,
-        orderTotalPrice: dishData.totalPrice,
+        orderTotalPrice: dishData.totalPrice.toFixed(2),
       },
       {
         onSuccess: () => {
           addToListOfOrders(dishData.dishes, {
             onSuccess: () => {
-              clearId();
-              clearCart();
+              deductPoints(
+                {
+                  email: customerData.email,
+                  points: customerData.points,
+                  appliedDiscount: appliedDiscount,
+                  updatedBy: displayName,
+                },
+                {
+                  onSuccess: () => {
+                    clearId();
+                    clearCart();
+                  },
+                }
+              );
             },
           });
         },
@@ -119,6 +148,7 @@ const Cart = () => {
                   <Button
                     className="bg-orange-500"
                     onClick={() => handlePlaceOrder({ dishes: [...dishes], totalPrice, totalQuantity })}
+                    disabled={isDeducting}
                   >
                     Place Order
                   </Button>
@@ -176,29 +206,14 @@ const Cart = () => {
               <p>No dishes on the cart!</p>
             )}
           </div>
-          <p>Total: &#8369; {totalPrice}</p>
-          {onDiscount ? (
-            <div className="flex flex-row flex-wrap gap-4">
-              <Input type="email" placeholder="Enter customer email" />
-              <Select>
-                <SelectTrigger>Discount %</SelectTrigger>
-                <SelectContent className="bg-slate-950 text-slate-50">
-                  <SelectItem value="5">5% - 100pts</SelectItem>
-                  <SelectItem value="10">10% - 200pts</SelectItem>
-                  <SelectItem value="15">15% - 300pts</SelectItem>
-                  <SelectItem value="20">20% - 400pts</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button className="bg-orange-500">Apply</Button>
-              <Button variant="destructive" onClick={() => setOnDiscount((prev) => !prev)}>
-                Cancel
-              </Button>
-            </div>
-          ) : (
+          <p>Total: &#8369; {totalPrice.toFixed(2)}</p>
+          {onDiscount && <Discount onDiscount={onDiscount} setOnDiscount={setOnDiscount} />}
+          {!onDiscount && orderId && dishes.length > 0 && appliedDiscount <= 0 && (
             <Button className="bg-orange-500" onClick={() => setOnDiscount((prev) => !prev)}>
               Apply Discount
             </Button>
           )}
+          {appliedDiscount > 0 && <CustomerData customerData={customerData} />}
         </PopoverContent>
       </Popover>
       <DialogTool
