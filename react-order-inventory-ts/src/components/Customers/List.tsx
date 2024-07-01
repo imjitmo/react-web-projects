@@ -72,8 +72,8 @@ const Order = () => {
                 <TableCell className={`${customer.csCouponState ? 'text-red-500' : 'text-green-500'}`}>
                   {customer.csCouponState ? 'Redemeed' : 'Redeemable'}
                 </TableCell>
-                <TableCell>{customer.addedBy}</TableCell>
-                <TableCell>{customer.updatedBy}</TableCell>
+                <TableCell className="capitalize">{customer.addedBy}</TableCell>
+                <TableCell className="capitalize">{customer.updatedBy}</TableCell>
                 <TableCell>
                   <TooltipTool title="Add Points">
                     <Button
