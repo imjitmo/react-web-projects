@@ -81,6 +81,7 @@ const Cart = () => {
 
   const handleClearCart = () => {
     clearCart();
+    clearDiscount();
     toast.success('Cart Cleared', {
       id: 'cart',
     });
