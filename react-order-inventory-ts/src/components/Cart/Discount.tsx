@@ -24,15 +24,17 @@ interface DiscountProps {
 }
 
 const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
-  const { setDiscountedPrice, dishes, setAppliedDiscount, appliedDiscount, customerData } = useStore(
-    useShallow((state) => ({
-      setDiscountedPrice: state.setDiscountedPrice,
-      dishes: state.dishes,
-      setAppliedDiscount: state.setAppliedDiscount,
-      appliedDiscount: state.appliedDiscount,
-      customerData: state.customerData,
-    }))
-  );
+  const { setDiscountedPrice, dishes, setAppliedDiscount, appliedDiscount, customerData, clearDiscount } =
+    useStore(
+      useShallow((state) => ({
+        setDiscountedPrice: state.setDiscountedPrice,
+        dishes: state.dishes,
+        setAppliedDiscount: state.setAppliedDiscount,
+        appliedDiscount: state.appliedDiscount,
+        customerData: state.customerData,
+        clearDiscount: state.clearDiscount,
+      }))
+    );
   const [onOpen, setOnOpen] = useState(false);
   const [showApply, setShowApply] = useState(false);
 
@@ -87,7 +89,14 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
               Apply
             </Button>
           )}
-          <Button type="button" variant="destructive" onClick={() => setOnDiscount(false)}>
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={() => {
+              setOnDiscount(false);
+              clearDiscount();
+            }}
+          >
             Cancel
           </Button>
         </div>
