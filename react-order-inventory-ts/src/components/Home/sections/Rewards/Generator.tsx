@@ -1,6 +1,7 @@
 import { fadeIn } from '@/anim/variant';
 import DialogTool from '@/components/DialogTool';
-import CodeGenerator from '@/components/QRCode/CodeGenerator';
+
+import CodeLogoGenerator from '@/components/QRCode/CodeLogoGenerator';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -30,7 +31,7 @@ const Generator = () => {
         description="Generate QR Code for rewards"
         className="bg-slate-100 text-slate-950 w-auto h-auto"
       >
-        <CodeGenerator />
+        <CodeLogoGenerator />
       </DialogTool>
     </>
   );
