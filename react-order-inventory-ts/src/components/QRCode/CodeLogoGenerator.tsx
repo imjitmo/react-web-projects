@@ -84,6 +84,15 @@ const CodeLogoGenerator = () => {
     const qrCode = ref.current;
     qrCode?.download('jpg', emailValue);
   };
+
+  const handleReset = () => {
+    setEmailValue('');
+    setQrUrl('');
+    setQrError(false);
+    setNotRegistered(false);
+    form.reset();
+  };
+
   return (
     <div>
       {!qrUrl && (
@@ -150,8 +159,11 @@ const CodeLogoGenerator = () => {
             eyeRadius={10}
             eyeColor={'#22c55e'}
           />
-          <Button className="w-full" type="button" onClick={() => handleQrCodeDownload()}>
+          <Button className="w-full bg-orange-300" type="button" onClick={() => handleQrCodeDownload()}>
             Download QR Code
+          </Button>
+          <Button className="w-full" variant="destructive" onClick={() => handleReset()}>
+            Cancel
           </Button>
         </div>
       )}
