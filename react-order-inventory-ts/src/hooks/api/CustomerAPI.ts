@@ -84,8 +84,12 @@ export const createQrCode = async (customerData: PinType) => {
   return data;
 };
 
-export const viewCustomerPoints = async (email: string) => {
-  const { data, error } = await supabase.from('customers').select('*').eq('csEmail', email);
+export const viewCustomerPoints = async (customerData: PinType) => {
+  const { data, error } = await supabase
+    .from('customers')
+    .select('*')
+    .eq('csEmail', customerData.email)
+    .eq('csPin', customerData.pin);
   if (error) {
     throw new Error(error.message);
   }
