@@ -36,8 +36,8 @@ const List = ({ pageType }: ListProps) => {
   );
 
   const { dishesData, isPending } = useGetDishes();
-  const [searchParams] = useSearchParams({ type: 'all' });
-  ``;
+  // const [searchParams] = useSearchParams({ type: 'all' });
+  const [searchParams] = useSearchParams();
 
   // use states
   const [searchTerm, setSearchTerm] = useState('');
@@ -46,8 +46,11 @@ const List = ({ pageType }: ListProps) => {
   const allDishData =
     pageType === 'setup' ? dishesData : dishesData?.filter((dishes) => dishes.dishStatus === true);
   const filterParams = searchParams.get('type');
-  const dishesRecords =
-    filterParams === 'all' ? allDishData : allDishData?.filter((dishes) => dishes.dishType === filterParams);
+  // const dishesRecords =
+  //   filterParams === 'all' ? allDishData : allDishData?.filter((dishes) => dishes.dishType === filterParams);
+  const dishesRecords = !filterParams
+    ? allDishData
+    : allDishData?.filter((dishes) => dishes.dishType === filterParams);
   const dishesListRecords = searchTerm
     ? dishesRecords?.filter((dishes) => dishes.dishName.toLowerCase().includes(searchTerm))
     : dishesRecords;

@@ -24,14 +24,12 @@ const SearchParams = ({ params, values, setCurrentPage }: SearchParamsProps) => 
 
   return (
     <nav className="flex flex-row flex-wrap items-center justify-start gap-12 border-b-2 border-slate-400/20">
-      <button
-        className={`px-2 capitalize ${
-          filterValue === 'all' ? 'border-b-2 border-orange-500 text-orange-500' : ''
-        }`}
+      {/* <button
+        className={`px-2 capitalize ${!filterValue ? 'border-b-2 border-orange-500 text-orange-500' : ''}`}
         onClick={() => handleClick(params, 'all')}
       >
         All
-      </button>
+      </button> */}
       {values?.map((value) => (
         <button
           key={value}
