@@ -69,7 +69,11 @@ export const registerUser = async (userData: Users) => {
 };
 
 export const listUsers = async () => {
-  const { data, error } = await supabase.from('staffs').select().neq('userType', 'super');
+  const { data, error } = await supabase
+    .from('staffs')
+    .select()
+    .neq('userType', 'super')
+    .order('created_at', { ascending: false });
   if (error) {
     throw new Error(error.message);
   }

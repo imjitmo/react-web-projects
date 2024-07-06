@@ -17,10 +17,10 @@ import { useForm } from 'react-hook-form';
 import { useRegisterStaff } from '@/hooks/use/useStaff';
 import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { FaRegEye, FaRegEyeSlash, FaSpinner } from 'react-icons/fa';
 import * as z from 'zod';
 import { useShallow } from 'zustand/react/shallow';
-import { useState } from 'react';
 
 const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 
@@ -182,17 +182,21 @@ const StaffForm = () => {
                   <SelectContent className="bg-slate-950 text-slate-50">
                     <SelectGroup>
                       <SelectLabel>Type</SelectLabel>
-                      {userType === 'super' && (
+                      {/* {userType === 'super' && (
                         <>
                           <SelectItem value="super">Super Admin</SelectItem>
                           <SelectItem value="admin">Admin</SelectItem>
                         </>
-                      )}
-                      {staffType.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
-                          {type.label}
-                        </SelectItem>
-                      ))}
+                      )} */}
+                      {staffType
+                        .filter((type) =>
+                          userType === 'super' ? type : type.value !== 'super' && type.value !== 'admin'
+                        )
+                        .map((type) => (
+                          <SelectItem key={type.value} value={type.value}>
+                            {type.label}
+                          </SelectItem>
+                        ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

@@ -51,9 +51,9 @@ const Order = () => {
             <TableHead>Email</TableHead>
             <TableHead>Full Name</TableHead>
             <TableHead>Reward Points</TableHead>
-            <TableHead>Coupon Code</TableHead>
+            {/* <TableHead>Coupon Code</TableHead>
             <TableHead>Coupon Discount</TableHead>
-            <TableHead>Coupon</TableHead>
+            <TableHead>Coupon</TableHead> */}
             <TableHead>Added By</TableHead>
             <TableHead>Updated By</TableHead>
             <TableHead>Action</TableHead>
@@ -67,11 +67,11 @@ const Order = () => {
                 <TableCell>{customer.csEmail}</TableCell>
                 <TableCell>{` ${customer.csFirstName} ${customer.csLastName}`}</TableCell>
                 <TableCell>{customer.csRewardPoints}</TableCell>
-                <TableCell>{customer.csCouponName}</TableCell>
+                {/* <TableCell>{customer.csCouponName}</TableCell>
                 <TableCell>{`${customer.csCouponDiscount * 100}%`}</TableCell>
                 <TableCell className={`${customer.csCouponState ? 'text-red-500' : 'text-green-500'}`}>
                   {customer.csCouponState ? 'Redemeed' : 'Redeemable'}
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="capitalize">{customer.addedBy}</TableCell>
                 <TableCell className="capitalize">{customer.updatedBy}</TableCell>
                 <TableCell>

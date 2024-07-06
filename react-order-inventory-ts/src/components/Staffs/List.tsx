@@ -63,7 +63,7 @@ const List = () => {
             records?.map((staff) => (
               <TableRow className="cursor-default" key={staff.id}>
                 <TableCell className="font-medium uppercase">{`#${staff.id.slice(0, 8)}`}</TableCell>
-                <TableCell>{staff.displayName}</TableCell>
+                <TableCell className="capitalize">{staff.displayName}</TableCell>
                 <TableCell>{staff.email}</TableCell>
                 <TableCell className="capitalize">{staff.userType}</TableCell>
                 <TableCell className={`${staff.status ? 'text-green-500' : 'text-red-500'}`}>
