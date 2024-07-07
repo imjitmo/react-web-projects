@@ -50,6 +50,7 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
   const [onApplyRewards, setOnApplyRewards] = useState(false);
   const [onApplyDiscount, setOnApplyDiscount] = useState(false);
   const [onSelection, setOnSelection] = useState(false);
+  const [onRewardSelect, setOnRewardSelect] = useState(false);
 
   const [newPoints, setNewPoints] = useState('');
   const onApplyHandle = () => {
@@ -82,7 +83,7 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
       {onSelection && (
         <div className="flex flex-row flex-wrap gap-2">
           {!onApplyDiscount && !onApplyRewards && (
-            <Button className="bg-green-500" onClick={() => handleRewards()}>
+            <Button className="bg-green-500" onClick={() => setOnRewardSelect((prev) => !prev)}>
               Rewards
             </Button>
           )}
@@ -146,6 +147,21 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
         description="Scan QR Code to avail discounts"
       >
         <Scanner setOnOpen={setOnOpen} setOnSelection={setOnSelection} />
+      </DialogTool>
+      <DialogTool
+        setOnOpen={setOnRewardSelect}
+        onOpen={onRewardSelect}
+        header="Add Reward Points"
+        description="Do you want to continue adding reward points to the user? If yes, you will gain 5 Reward Points per &#8369;100.00 purchase."
+      >
+        <div className="flex flex-row flex-wrap gap-2">
+          <Button className="grow bg-orange-500" onClick={handleRewards}>
+            Accept
+          </Button>
+          <Button variant="destructive" onClick={() => setOnRewardSelect((prev) => !prev)}>
+            Cancel
+          </Button>
+        </div>
       </DialogTool>
     </div>
   );

@@ -218,7 +218,7 @@ const Cart = () => {
           {onDiscount && <Discount onDiscount={onDiscount} setOnDiscount={setOnDiscount} />}
           {!onDiscount && orderId && dishes.length > 0 && appliedDiscount <= 0 && appliedReward <= 0 && (
             <Button className="bg-orange-500" onClick={() => setOnDiscount((prev) => !prev)}>
-              Points
+              Reward Points
             </Button>
           )}
           {<CustomerData customerData={customerData} />}

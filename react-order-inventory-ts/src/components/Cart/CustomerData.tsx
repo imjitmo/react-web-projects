@@ -58,7 +58,7 @@ const CustomerData = ({ customerData }: { customerData: { email: string; points:
         onOpen={onOpen}
         setOnOpen={setOnOpen}
         header="Remove Discount"
-        description="Are you sure? Do you really want to remove the discount for this order?"
+        description="Are you sure? Do you really want to cancel the reward transaction for this order?"
       >
         <div className="flex flex-row flex-wrap gap-2">
           <Button className="grow" variant="destructive" onClick={() => handleClear()}>
