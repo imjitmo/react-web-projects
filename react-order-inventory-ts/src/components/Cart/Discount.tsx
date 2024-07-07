@@ -24,19 +24,32 @@ interface DiscountProps {
 }
 
 const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
-  const { setDiscountedPrice, dishes, setAppliedDiscount, appliedDiscount, customerData, clearDiscount } =
-    useStore(
-      useShallow((state) => ({
-        setDiscountedPrice: state.setDiscountedPrice,
-        dishes: state.dishes,
-        setAppliedDiscount: state.setAppliedDiscount,
-        appliedDiscount: state.appliedDiscount,
-        customerData: state.customerData,
-        clearDiscount: state.clearDiscount,
-      }))
-    );
+  const {
+    setDiscountedPrice,
+    dishes,
+    setAppliedDiscount,
+    appliedDiscount,
+    customerData,
+    setReward,
+    totalPrice,
+    clearDiscount,
+  } = useStore(
+    useShallow((state) => ({
+      setDiscountedPrice: state.setDiscountedPrice,
+      dishes: state.dishes,
+      setAppliedDiscount: state.setAppliedDiscount,
+      appliedDiscount: state.appliedDiscount,
+      customerData: state.customerData,
+      setReward: state.setReward,
+      totalPrice: state.totalPrice,
+      clearDiscount: state.clearDiscount,
+    }))
+  );
   const [onOpen, setOnOpen] = useState(false);
   const [showApply, setShowApply] = useState(false);
+  const [onApplyRewards, setOnApplyRewards] = useState(false);
+  const [onApplyDiscount, setOnApplyDiscount] = useState(false);
+  const [onSelection, setOnSelection] = useState(false);
 
   const [newPoints, setNewPoints] = useState('');
   const onApplyHandle = () => {
@@ -45,6 +58,14 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
     setOnDiscount(false);
     setShowApply(false);
   };
+
+  const handleRewards = () => {
+    const totalPoints = Math.floor(totalPrice / 100) * 5;
+    setReward(totalPoints);
+    setOnDiscount(false);
+    setShowApply(false);
+  };
+
   return (
     <div className="flex flex-col flex-wrap gap-4">
       {dishes.length > 0 && appliedDiscount <= 0 && !customerData?.email && (
@@ -58,7 +79,21 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
           {onDiscount && <Button onClick={() => setOnDiscount(false)}>Cancel</Button>}
         </div>
       )}
-      {customerData?.email && appliedDiscount <= 0 && (
+      {onSelection && (
+        <div className="flex flex-row flex-wrap gap-2">
+          {!onApplyDiscount && !onApplyRewards && (
+            <Button className="bg-green-500" onClick={() => handleRewards()}>
+              Rewards
+            </Button>
+          )}
+          {!onApplyDiscount && !onApplyRewards && (
+            <Button className="bg-orange-500" onClick={() => setOnApplyDiscount(true)}>
+              Discounts
+            </Button>
+          )}
+        </div>
+      )}
+      {onApplyDiscount && customerData?.email && appliedDiscount <= 0 && (
         <div className="flex flex-col flex-wrap gap-2">
           <Select
             value={newPoints}
@@ -94,6 +129,8 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
             variant="destructive"
             onClick={() => {
               setOnDiscount(false);
+              setOnApplyRewards(false);
+              setOnApplyDiscount(false);
               clearDiscount();
             }}
           >
@@ -108,7 +145,7 @@ const Discount = ({ onDiscount, setOnDiscount }: DiscountProps) => {
         header="Scan QR Code"
         description="Scan QR Code to avail discounts"
       >
-        <Scanner setOnOpen={setOnOpen} />
+        <Scanner setOnOpen={setOnOpen} setOnSelection={setOnSelection} />
       </DialogTool>
     </div>
   );

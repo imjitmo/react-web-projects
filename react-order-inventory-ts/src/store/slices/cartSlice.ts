@@ -8,6 +8,7 @@ type CartState = {
   dishes: CartDishes[];
   totalPrice: number;
   totalQuantity: number;
+  appliedReward: number;
   appliedDiscount: number;
   customerData: {
     email: string;
@@ -26,6 +27,7 @@ type CartActions = {
   setDiscountedPrice: (discountPercent: number) => void;
   setAppliedDiscount: (discount: number) => void;
   setDiscountDetails: (customerData: { email: string; points: number }) => void;
+  setReward: (reward: number) => void;
   clearDiscount: () => void;
   clearCart: () => void;
 };
@@ -35,6 +37,7 @@ const cartInitialState: CartState = {
   totalPrice: 0,
   totalQuantity: 0,
   appliedDiscount: 0,
+  appliedReward: 0,
   customerData: {
     email: '',
     points: 0,
@@ -107,12 +110,18 @@ export const createCartSlice: StateCreator<
     set((state) => {
       state.customerData = customerData;
     }),
+  setReward: (reward) =>
+    set((state) => {
+      state.appliedReward = reward;
+    }),
   clearDiscount: () =>
     set((state) => {
       state.totalPrice =
         state.totalPrice > 0 ? state.totalPrice / (1 - state.appliedDiscount) : state.totalPrice;
+      state.appliedReward = 0;
       state.appliedDiscount = 0;
       state.customerData = { email: '', points: 0 };
     }),
+
   clearCart: () => set(() => cartInitialState),
 });

@@ -23,11 +23,12 @@ const CodeSchema = z.object({
 
 interface ScannerProps {
   setOnOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOnSelection: React.Dispatch<React.SetStateAction<boolean>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // setOnPoints: React.Dispatch<React.SetStateAction<any>>;
 }
 
-const Scanner = ({ setOnOpen }: ScannerProps) => {
+const Scanner = ({ setOnOpen, setOnSelection }: ScannerProps) => {
   const { setDiscountDetails } = useStore(
     useShallow((state) => ({ setDiscountDetails: state.setDiscountDetails }))
   );
@@ -76,7 +77,7 @@ const Scanner = ({ setOnOpen }: ScannerProps) => {
             email: data.csEmail,
             points: data.csRewardPoints,
           });
-
+          setOnSelection(true);
           setOnOpen(false);
           if (!data) {
             setOnError(true);
@@ -91,37 +92,35 @@ const Scanner = ({ setOnOpen }: ScannerProps) => {
         <div id="reader" className="text-center m-auto"></div>
       ) : (
         <>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleScanCode)}
+              className="flex flex-col flex-wrap gap-4 min-w-72 max-w-80 p-2"
+            >
+              <FormField
+                control={form.control}
+                name="csPin"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="w-full">
+                      <FormLabel>Confirm your Pin</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="Confirm Pin Code" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <Button className="w-full" disabled={isViewing}>
+                {isViewing ? 'Scanning...' : 'Scan QR Code'}
+              </Button>
+            </form>
+          </Form>
           <div className="flex flex-col gap-2">
             {onError && <h2 className="text-center text-red-500">No Data Found</h2>}
           </div>
         </>
-      )}
-      {scanResult && (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleScanCode)}
-            className="flex flex-col flex-wrap gap-4 min-w-72 max-w-80 p-2"
-          >
-            <FormField
-              control={form.control}
-              name="csPin"
-              render={({ field }) => {
-                return (
-                  <FormItem className="w-full">
-                    <FormLabel>Confirm your Pin</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="Confirm Pin Code" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-            <Button className="w-full" onClick={() => handleScanCode()} disabled={isViewing}>
-              {isViewing ? 'Scanning...' : 'Scan QR Code'}
-            </Button>
-          </form>
-        </Form>
       )}
     </div>
   );

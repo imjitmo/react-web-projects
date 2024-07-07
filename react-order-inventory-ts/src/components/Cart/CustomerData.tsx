@@ -5,12 +5,18 @@ import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
 
 const CustomerData = ({ customerData }: { customerData: { email: string; points: number } }) => {
-  const { appliedDiscount, clearDiscount } = useStore(
+  const { appliedDiscount, appliedReward, clearDiscount } = useStore(
     useShallow((state) => ({
       appliedDiscount: state.appliedDiscount,
+      appliedReward: state.appliedReward,
       clearDiscount: state.clearDiscount,
     }))
   );
+  const handleClear = () => {
+    clearDiscount();
+    setOnOpen(false);
+  };
+  const showDetails = appliedDiscount > 0 || appliedReward > 0 ? true : false;
   const [onOpen, setOnOpen] = useState(false);
   return (
     <>
@@ -21,20 +27,29 @@ const CustomerData = ({ customerData }: { customerData: { email: string; points:
               Applied Discount: <span className="text-orange-500 font-bold">{appliedDiscount * 100}%</span>
             </p>
           )}
-          <p className="text-xs">
-            Email: <span className="text-orange-300 italic">{customerData.email}</span>
-          </p>
-          <p className="text-xs">
-            Points: <span className="text-orange-300 italic">{customerData.points}</span>
-          </p>
+          {showDetails && (
+            <>
+              <p className="text-xs">
+                Email: <span className="text-orange-300 italic">{customerData.email}</span>
+              </p>
+              <p className="text-xs">
+                Points: <span className="text-orange-300 italic">{customerData.points}</span>
+              </p>
+            </>
+          )}
+          {appliedReward > 0 && (
+            <p className="text-xs">
+              Reward Points: <span className="text-orange-300 italic">{appliedReward}</span>
+            </p>
+          )}
           {appliedDiscount > 0 && (
             <p className="text-xs">
               Points used: <span className="text-orange-300 italic">{appliedDiscount * 100 * 20}</span>
             </p>
           )}
-          {appliedDiscount > 0 && (
+          {showDetails && (
             <Button variant="destructive" onClick={() => setOnOpen((prev) => !prev)}>
-              Remove Applied Discount
+              Reset
             </Button>
           )}
         </div>
@@ -46,7 +61,7 @@ const CustomerData = ({ customerData }: { customerData: { email: string; points:
         description="Are you sure? Do you really want to remove the discount for this order?"
       >
         <div className="flex flex-row flex-wrap gap-2">
-          <Button className="grow" variant="destructive" onClick={() => clearDiscount()}>
+          <Button className="grow" variant="destructive" onClick={() => handleClear()}>
             Remove
           </Button>
           <Button className="bg-slate-400">Cancel</Button>

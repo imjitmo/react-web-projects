@@ -6,8 +6,8 @@ import {
   checkPin,
   createCustomer,
   createQrCode,
-  deductCustomerPoints,
   getCustomers,
+  updateCustomerPoints,
   viewCustomerPoints,
 } from '../api/CustomerAPI';
 
@@ -83,9 +83,9 @@ export const useCheckCustomerPin = () => {
   return { checkCustomerPin, isChecking };
 };
 
-export const useDeductCustomerPoints = () => {
-  const { mutate: deductPoints, isPending: isDeducting } = useMutation({
-    mutationFn: deductCustomerPoints,
+export const useUpdateCustomerPoints = () => {
+  const { mutate: updateRewardPoints, isPending: isUpdating } = useMutation({
+    mutationFn: updateCustomerPoints,
   });
-  return { deductPoints, isDeducting };
+  return { updateRewardPoints, isUpdating };
 };

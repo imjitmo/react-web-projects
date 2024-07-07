@@ -16,14 +16,14 @@ import DialogTool from '../DialogTool';
 import QuantityChangeButtons from '../QuantityChangeButtons';
 import TooltipTool from '../TooltipTool';
 
-import { useDeductCustomerPoints } from '@/hooks/use/useCustomers';
+import { useUpdateCustomerPoints } from '@/hooks/use/useCustomers';
 import CustomerData from './CustomerData';
 import Discount from './Discount';
 
 const Cart = () => {
   const { updateOrder, isUpdating } = useUpdateCurrentOrder();
   const { addToListOfOrders, isAdding } = useAddToOrderList();
-  const { deductPoints, isDeducting } = useDeductCustomerPoints();
+  const { updateRewardPoints, isUpdating: isUpdatingPoints } = useUpdateCustomerPoints();
   const [onDiscount, setOnDiscount] = useState(false);
   const {
     clearCart,
@@ -34,6 +34,7 @@ const Cart = () => {
     clearId,
     orderId,
     appliedDiscount,
+    appliedReward,
     customerData,
     clearDiscount,
     displayName,
@@ -47,6 +48,7 @@ const Cart = () => {
       clearId: state.clearId,
       orderId: state.orderId,
       appliedDiscount: state.appliedDiscount,
+      appliedReward: state.appliedReward,
       customerData: state.customerData,
       displayName: state.displayName,
       clearDiscount: state.clearDiscount,
@@ -100,11 +102,12 @@ const Cart = () => {
         onSuccess: () => {
           addToListOfOrders(dishData.dishes, {
             onSuccess: () => {
-              deductPoints(
+              updateRewardPoints(
                 {
                   email: customerData.email,
                   points: customerData.points,
                   appliedDiscount: appliedDiscount,
+                  appliedReward: appliedReward,
                   updatedBy: displayName,
                 },
                 {
@@ -153,7 +156,7 @@ const Cart = () => {
                   <Button
                     className="bg-orange-500"
                     onClick={() => handlePlaceOrder({ dishes: [...dishes], totalPrice, totalQuantity })}
-                    disabled={isDeducting}
+                    disabled={isUpdatingPoints}
                   >
                     Place Order
                   </Button>
@@ -213,12 +216,12 @@ const Cart = () => {
           </div>
           <p>Total: &#8369; {totalPrice.toFixed(2)}</p>
           {onDiscount && <Discount onDiscount={onDiscount} setOnDiscount={setOnDiscount} />}
-          {!onDiscount && orderId && dishes.length > 0 && appliedDiscount <= 0 && (
+          {!onDiscount && orderId && dishes.length > 0 && appliedDiscount <= 0 && appliedReward <= 0 && (
             <Button className="bg-orange-500" onClick={() => setOnDiscount((prev) => !prev)}>
-              Apply Discount
+              Points
             </Button>
           )}
-          {appliedDiscount > 0 && <CustomerData customerData={customerData} />}
+          {<CustomerData customerData={customerData} />}
         </PopoverContent>
       </Popover>
       <DialogTool
