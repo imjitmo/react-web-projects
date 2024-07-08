@@ -28,10 +28,13 @@ import TooltipTool from '../TooltipTool';
 import View from './View';
 
 const Order = () => {
-  const { displayName, userType } = useStore(
+  const { displayName, userType, clearId, clearCart, clearDiscount } = useStore(
     useShallow((state) => ({
       displayName: state.displayName,
       userType: state.userType,
+      clearId: state.clearId,
+      clearCart: state.clearCart,
+      clearDiscount: state.clearDiscount,
     }))
   );
   const { orders, isLoading } = useGetOrders();
@@ -44,14 +47,6 @@ const Order = () => {
   const records = orders?.slice(firstIndex, lastIndex);
   const totalPages = orders ? orders.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
-
-  const { clearId, clearCart, clearDiscount } = useStore(
-    useShallow((state) => ({
-      clearId: state.clearId,
-      clearCart: state.clearCart,
-      clearDiscount: state.clearDiscount,
-    }))
-  );
 
   const { cancelOrderNumber, isCancelling } = useCancelOrder();
   const { removeOrderItemList, isRemoving } = useRemoveOrderItemList();
@@ -129,7 +124,7 @@ const Order = () => {
                       <GrFormView className="size-6" />
                     </Button>
                   </TooltipTool>
-                  {!order.orderStatus && (
+                  {!order.orderStatus && userType?.toLowerCase() !== 'kitchen staff' && (
                     <TooltipTool title={`Cancel Order #${order.id.slice(0, 6).toUpperCase()}`}>
                       <Button
                         size={'icon'}
