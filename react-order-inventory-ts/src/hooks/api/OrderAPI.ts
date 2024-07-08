@@ -141,18 +141,18 @@ export const updateInventoryByOrder = async (dishData: dishData) => {
   if (error) {
     throw new Error(error.message);
   }
-  // data.forEach(async (dish, index) => {
-  //   const { data: items } = await supabase.from('inventory').select('*').eq('id', dish.inventoryId);
-  //   const updatedInventory = items?.[0].itemQuantity - data[index].ingredientQuantity * dishData.dishQuantity;
+  data.forEach(async (dish, index) => {
+    const { data: items } = await supabase.from('inventory').select('*').eq('id', dish.inventoryId);
+    const updatedInventory = items?.[0].itemQuantity - data[index].ingredientQuantity * dishData.dishQuantity;
 
-  //   const { data: updatedData } = await supabase
-  //     .from('inventory')
-  //     .update({
-  //       itemQuantity: updatedInventory,
-  //     })
-  //     .eq('id', dish.inventoryId)
-  //     .select('*');
-  //   return updatedData;
-  // });
+    const { data: updatedData } = await supabase
+      .from('inventory')
+      .update({
+        itemQuantity: updatedInventory,
+      })
+      .eq('id', dish.inventoryId)
+      .select('*');
+    return updatedData;
+  });
   return data;
 };
