@@ -14,7 +14,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4 my-4">
       <h1>Dashboard</h1>
-      <div className="flex flex-wrap flex-col lg:flex-row gap-4 justify-between items-center">
+      <div className="flex flex-wrap flex-col lg:flex-row gap-4 justify-evenly items-center">
         {checkUser ? <Sales /> : null}
         <Orders orders={orders?.length || 0} isLoading={isLoading} />
         <Seller />
