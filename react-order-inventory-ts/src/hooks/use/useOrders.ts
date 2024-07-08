@@ -6,6 +6,7 @@ import {
   addToOrderList,
   cancelOrder,
   createOrder,
+  removeOrderList,
   updateCurrentOrder,
   updateInventoryByOrder,
   viewBestSellers,
@@ -56,7 +57,7 @@ export const useCancelOrder = () => {
   const { mutate: cancelOrderNumber, isPending: isCancelling } = useMutation({
     mutationFn: cancelOrder,
     onSuccess: () => {
-      toast.success('Order successfully cancelled!');
+      toast.success('Order successfully cancelled!', { id: 'orders' });
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
     onError: (err) => toast.error(err.message),
@@ -64,12 +65,25 @@ export const useCancelOrder = () => {
   return { isCancelling, cancelOrderNumber };
 };
 
+export const useRemoveOrderItemList = () => {
+  const queryClient = useQueryClient();
+  const { mutate: removeOrderItemList, isPending: isRemoving } = useMutation({
+    mutationFn: removeOrderList,
+    onSuccess: () => {
+      toast.success('Order successfully cancelled!', { id: 'orders' });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  return { isRemoving, removeOrderItemList };
+};
+
 export const useAcceptMainOrder = () => {
   const queryClient = useQueryClient();
   const { mutate: approveMainOrder, isPending: isApproving } = useMutation({
     mutationFn: acceptMainOrder,
     onSuccess: () => {
-      toast.success('Order successfully accepted!');
+      toast.success('Order successfully accepted!', { id: 'orders' });
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
     onError: (err) => toast.error(err.message),

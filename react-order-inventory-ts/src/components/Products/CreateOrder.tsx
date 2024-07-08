@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { useCancelOrder, useCreateOrderNumber } from '@/hooks/use/useOrders';
+import { useCancelOrder, useCreateOrderNumber, useRemoveOrderItemList } from '@/hooks/use/useOrders';
 import { useStore } from '@/store/store';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
@@ -22,16 +22,21 @@ const CreateOrder = () => {
 
   const { createOrderNumber, isCreating } = useCreateOrderNumber();
   const { cancelOrderNumber, isCancelling } = useCancelOrder();
+  const { removeOrderItemList, isRemoving } = useRemoveOrderItemList();
   const [onCancelOrder, setOnCancelOrder] = useState(false);
 
   const handleCreateOrder = () => {
     if (orderId) {
       cancelOrderNumber(orderId, {
         onSuccess: () => {
-          clearId();
-          clearCart();
-          clearDiscount();
-          setOnCancelOrder(false);
+          removeOrderItemList(orderId, {
+            onSuccess: () => {
+              clearId();
+              clearCart();
+              clearDiscount();
+              setOnCancelOrder(false);
+            },
+          });
         },
       });
       return;
@@ -51,7 +56,7 @@ const CreateOrder = () => {
           className={`flex flex-row gap-2 ${orderId ? 'bg-red-500' : 'bg-orange-500'}  px-6 py-4`}
           size={'sm'}
           onClick={() => (orderId ? setOnCancelOrder(true) : handleCreateOrder())}
-          disabled={isCreating || isCancelling}
+          disabled={isCreating || isCancelling || isRemoving}
         >
           {orderId ? (
             <>

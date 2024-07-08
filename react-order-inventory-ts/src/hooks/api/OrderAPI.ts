@@ -47,6 +47,14 @@ export const cancelOrder = async (orderId: string) => {
   return data;
 };
 
+export const removeOrderList = async (orderId: string) => {
+  const { data, error } = await supabase.from('order_list').delete().eq('orderId', orderId);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
 type MainOrderType = {
   id: string;
   orderCookName: string;

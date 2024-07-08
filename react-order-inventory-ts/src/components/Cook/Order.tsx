@@ -7,7 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useAcceptMainOrder, useGetOrders } from '@/hooks/use/useOrders';
+import {
+  useAcceptMainOrder,
+  useCancelOrder,
+  useGetOrders,
+  useRemoveOrderItemList,
+} from '@/hooks/use/useOrders';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -15,6 +20,7 @@ import Pagination from '@/hooks/utils/Pagination';
 import { useStore } from '@/store/store';
 import { GrFormView } from 'react-icons/gr';
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { MdOutlineCancel } from 'react-icons/md';
 import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
 import PaginationButtons from '../Pagination/PaginationButtons';
@@ -32,11 +38,44 @@ const Order = () => {
   const [onOpen, setOnOpen] = useState(false);
   const [onOrderId, setOnOrderId] = useState('');
   const [onOrderStatus, setOnOrderStatus] = useState(false);
+  const [onCancelOrder, setOnCancelOrder] = useState(false);
   const { approveMainOrder } = useAcceptMainOrder();
   const { recordsPerPage, currentPage, setCurrentPage, lastIndex, firstIndex } = Pagination();
   const records = orders?.slice(firstIndex, lastIndex);
   const totalPages = orders ? orders.length : 0;
   const npage = Math.ceil(totalPages / recordsPerPage);
+
+  const { clearId, clearCart, clearDiscount } = useStore(
+    useShallow((state) => ({
+      clearId: state.clearId,
+      clearCart: state.clearCart,
+      clearDiscount: state.clearDiscount,
+    }))
+  );
+
+  const { cancelOrderNumber, isCancelling } = useCancelOrder();
+  const { removeOrderItemList, isRemoving } = useRemoveOrderItemList();
+
+  const handleCancelOrder = () => {
+    if (onOrderId) {
+      cancelOrderNumber(onOrderId, {
+        onSuccess: () => {
+          removeOrderItemList(onOrderId, {
+            onSuccess: () => {
+              clearId();
+              clearCart();
+              clearDiscount();
+              setOnCancelOrder(false);
+            },
+          });
+        },
+      });
+      return;
+    } else {
+      setOnCancelOrder(false);
+      return;
+    }
+  };
   return (
     <>
       <p>Total Orders: {orders?.length}</p>
@@ -90,6 +129,19 @@ const Order = () => {
                       <GrFormView className="size-6" />
                     </Button>
                   </TooltipTool>
+                  {!order.orderStatus && (
+                    <TooltipTool title={`Cancel Order #${order.id.slice(0, 6).toUpperCase()}`}>
+                      <Button
+                        size={'icon'}
+                        onClick={() => {
+                          setOnOrderId(order.id);
+                          setOnCancelOrder((prev) => !prev);
+                        }}
+                      >
+                        <MdOutlineCancel />
+                      </Button>
+                    </TooltipTool>
+                  )}
                 </TableCell>
               </TableRow>
             ))
@@ -106,6 +158,26 @@ const Order = () => {
         setOnOpen={setOnOpen}
       >
         <View orderId={onOrderId} openOrderStatus={onOrderStatus} />
+      </DialogTool>
+      <DialogTool
+        setOnOpen={setOnCancelOrder}
+        onOpen={onCancelOrder}
+        header={`Cancel Order #${onOrderId.slice(0, 6).toUpperCase()}`}
+        description="Are you sure you want to cancel this order?"
+      >
+        <div className="flex flex-row flex-wrap gap-4">
+          <Button
+            className="grow"
+            variant={'destructive'}
+            onClick={() => handleCancelOrder()}
+            disabled={isCancelling || isRemoving}
+          >
+            Yes
+          </Button>
+          <Button onClick={() => setOnCancelOrder((prev) => !prev)} disabled={isCancelling || isRemoving}>
+            Cancel
+          </Button>
+        </div>
       </DialogTool>
     </>
   );
