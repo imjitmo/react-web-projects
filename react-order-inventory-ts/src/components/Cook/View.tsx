@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useAcceptOrderItem, useUpdateInventoryByOrder, useViewOrderList } from '@/hooks/use/useOrders';
 import { useStore } from '@/store/store';
+
 import { BiDish } from 'react-icons/bi';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { PiCookingPotBold } from 'react-icons/pi';
@@ -18,19 +19,38 @@ const View = ({ orderId, openOrderStatus }: { orderId: string; openOrderStatus: 
   const handleAcceptItem = (orderId: string, dishId: string, quantity: number, orderStatus: string) => {
     const statusUpdate =
       orderStatus === 'pending' ? 'accepted' : orderStatus === 'accepted' ? 'processing' : 'done';
-    acceptOrder(
-      {
+    // acceptOrder(
+    //   {
+    //     id: orderId,
+    //     orderStatus: statusUpdate,
+    //   },
+    //   {
+    //     onSuccess: () => {
+    //       if (statusUpdate === 'accepted') {
+    //         updateInventoryCount({ dishId, dishQuantity: quantity });
+    //       }
+    //     },
+    //   }
+    // );
+    if (statusUpdate === 'accepted') {
+      updateInventoryCount(
+        { dishId, dishQuantity: quantity },
+        {
+          onSuccess: () => {
+            acceptOrder({
+              id: orderId,
+              orderStatus: statusUpdate,
+            });
+          },
+          onError: (err) => console.log(err),
+        }
+      );
+    } else {
+      acceptOrder({
         id: orderId,
         orderStatus: statusUpdate,
-      },
-      {
-        onSuccess: () => {
-          if (statusUpdate === 'accepted') {
-            updateInventoryCount({ dishId, dishQuantity: quantity });
-          }
-        },
-      }
-    );
+      });
+    }
   };
   return (
     <>
