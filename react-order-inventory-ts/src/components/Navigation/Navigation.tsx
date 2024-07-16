@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import DialogTool from '../DialogTool';
+import TooltipTool from '../TooltipTool';
 
 const Navigation = () => {
   const { logoutStaff } = useStaffLogout();
@@ -43,11 +44,13 @@ const Navigation = () => {
               </linearGradient>
             </svg>
             <BiSolidStoreAlt className="size-12" style={{ fill: 'url(#blue-gradient)' }} /> */}
-                <img
-                  src="https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/felicitas_logo.jpg"
-                  alt="felicitas_logo"
-                  className="w-full h-full object-cover rounded-lg"
-                />
+                <TooltipTool title="Home">
+                  <img
+                    src="https://lgprkxqjhxzbuavhsdgr.supabase.co/storage/v1/object/public/assets/felicitas_logo.jpg"
+                    alt="felicitas_logo"
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </TooltipTool>
               </Link>
             )}
           </div>
@@ -59,7 +62,9 @@ const Navigation = () => {
                 `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
               }
             >
-              <GoHome className="size-7" />
+              <TooltipTool title="Dashboard">
+                <GoHome className="size-7" />
+              </TooltipTool>
             </NavLink>
             {notForKitchen && (
               <>
@@ -70,7 +75,9 @@ const Navigation = () => {
                     `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
                   }
                 >
-                  <IoRestaurantOutline className="size-7" />
+                  <TooltipTool title="Transactions">
+                    <IoRestaurantOutline className="size-7" />
+                  </TooltipTool>
                 </NavLink>
                 {checkUserType && (
                   <NavLink
@@ -80,7 +87,9 @@ const Navigation = () => {
                       `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
                     }
                   >
-                    <TbRowInsertTop className="size-7" />
+                    <TooltipTool title="Menu">
+                      <TbRowInsertTop className="size-7" />
+                    </TooltipTool>
                   </NavLink>
                 )}
               </>
@@ -92,7 +101,9 @@ const Navigation = () => {
                 `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
               }
             >
-              <PiCookingPotBold className="size-7" />
+              <TooltipTool title="Orders">
+                <PiCookingPotBold className="size-7" />
+              </TooltipTool>
             </NavLink>
             {notForKitchen && (
               <NavLink
@@ -102,7 +113,9 @@ const Navigation = () => {
                   `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
                 }
               >
-                <MdOutlineInventory className="size-7" />
+                <TooltipTool title="Inventory">
+                  <MdOutlineInventory className="size-7" />
+                </TooltipTool>
               </NavLink>
             )}
             {notForKitchen && (
@@ -113,7 +126,9 @@ const Navigation = () => {
                   `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
                 }
               >
-                <HiOutlineUserGroup className="size-7" />
+                <TooltipTool title="Customers">
+                  <HiOutlineUserGroup className="size-7" />
+                </TooltipTool>
               </NavLink>
             )}
             {checkUserType && (
@@ -124,14 +139,18 @@ const Navigation = () => {
                   `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
                 }
               >
-                <LiaUsersCogSolid className="size-7" />
+                <TooltipTool title="Staffs">
+                  <LiaUsersCogSolid className="size-7" />
+                </TooltipTool>
               </NavLink>
             )}
             <Button
               className="p-4 bg-transparent hover:bg-transparent rounded-lg text-orange-500"
               onClick={() => setOnLogout((prev) => !prev)}
             >
-              <PiSignOutBold className="size-7" />
+              <TooltipTool title="Logout">
+                <PiSignOutBold className="size-7" />
+              </TooltipTool>
             </Button>
           </div>
         </div>
