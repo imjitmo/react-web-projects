@@ -56,7 +56,7 @@ const Order = () => {
             <TableHead>Coupon</TableHead> */}
             <TableHead>Added By</TableHead>
             <TableHead>Updated By</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead>Update</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="w-full">
