@@ -55,6 +55,14 @@ export const removeOrderList = async (orderId: string) => {
   return data;
 };
 
+export const getIngredients = async (dishId: string) => {
+  const { data, error } = await supabase.from('ingredients').select('*').eq('dishId', dishId);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
+
 type MainOrderType = {
   id: string;
   orderCookName: string;

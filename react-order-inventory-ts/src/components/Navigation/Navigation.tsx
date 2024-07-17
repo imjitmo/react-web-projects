@@ -105,19 +105,17 @@ const Navigation = () => {
                 <PiCookingPotBold className="size-7" />
               </TooltipTool>
             </NavLink>
-            {notForKitchen && (
-              <NavLink
-                end
-                to="/inventory"
-                className={({ isActive }) =>
-                  `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
-                }
-              >
-                <TooltipTool title="Inventory">
-                  <MdOutlineInventory className="size-7" />
-                </TooltipTool>
-              </NavLink>
-            )}
+            <NavLink
+              end
+              to="/inventory"
+              className={({ isActive }) =>
+                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+              }
+            >
+              <TooltipTool title="Inventory">
+                <MdOutlineInventory className="size-7" />
+              </TooltipTool>
+            </NavLink>
             {notForKitchen && (
               <NavLink
                 end
