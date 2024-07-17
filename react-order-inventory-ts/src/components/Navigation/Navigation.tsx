@@ -75,8 +75,11 @@ const Navigation = () => {
                     `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
                   }
                 >
-                  <TooltipTool title="Transactions">
-                    <IoRestaurantOutline className="size-7" />
+                  <TooltipTool title="Orders">
+                    <div className="flex flex-col flex-wrap justify-center items-center text-center">
+                      <IoRestaurantOutline className="size-7" />
+                      <p className="text-xs">Orders</p>
+                    </div>
                   </TooltipTool>
                 </NavLink>
                 {checkUserType && (
@@ -88,7 +91,10 @@ const Navigation = () => {
                     }
                   >
                     <TooltipTool title="Menu">
-                      <TbRowInsertTop className="size-7" />
+                      <div className="flex flex-col flex-wrap justify-center items-center text-center">
+                        <TbRowInsertTop className="size-7" />
+                        <p className="text-xs">Menu</p>
+                      </div>
                     </TooltipTool>
                   </NavLink>
                 )}
@@ -101,8 +107,11 @@ const Navigation = () => {
                 `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
               }
             >
-              <TooltipTool title="Orders">
-                <PiCookingPotBold className="size-7" />
+              <TooltipTool title="Kitchen">
+                <div className="flex flex-col flex-wrap justify-center items-center text-center">
+                  <PiCookingPotBold className="size-7" />
+                  <p className="text-xs">Kitchen</p>
+                </div>
               </TooltipTool>
             </NavLink>
             <NavLink
@@ -113,7 +122,10 @@ const Navigation = () => {
               }
             >
               <TooltipTool title="Inventory">
-                <MdOutlineInventory className="size-7" />
+                <div className="flex flex-col flex-wrap justify-center items-center text-center">
+                  <MdOutlineInventory className="size-7" />
+                  <p className="text-xs">Inventory</p>
+                </div>
               </TooltipTool>
             </NavLink>
             {notForKitchen && (
@@ -125,7 +137,10 @@ const Navigation = () => {
                 }
               >
                 <TooltipTool title="Customers">
-                  <HiOutlineUserGroup className="size-7" />
+                  <div className="flex flex-col flex-wrap justify-center items-center text-center">
+                    <HiOutlineUserGroup className="size-7" />
+                    <p className="text-xs">Customers</p>
+                  </div>
                 </TooltipTool>
               </NavLink>
             )}
@@ -138,7 +153,10 @@ const Navigation = () => {
                 }
               >
                 <TooltipTool title="Staffs">
-                  <LiaUsersCogSolid className="size-7" />
+                  <div className="flex flex-col flex-wrap justify-center items-center text-center">
+                    <LiaUsersCogSolid className="size-7" />
+                    <p className="text-xs">Staffs</p>
+                  </div>
                 </TooltipTool>
               </NavLink>
             )}
