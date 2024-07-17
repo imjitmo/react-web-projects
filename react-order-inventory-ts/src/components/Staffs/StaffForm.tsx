@@ -189,7 +189,11 @@ const StaffForm = () => {
                         </>
                       )} */}
                       {staffType
-                        .filter((type) => (userType === 'super' ? type : type.value !== 'admin'))
+                        .filter((type) =>
+                          userType === 'super'
+                            ? type.value !== 'super admin'
+                            : type.value !== 'admin' && type.value !== 'super admin'
+                        )
                         .map((type) => (
                           <SelectItem key={type.value} value={type.value}>
                             {type.label}
