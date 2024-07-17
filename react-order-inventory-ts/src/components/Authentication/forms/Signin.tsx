@@ -5,10 +5,10 @@ import { Input } from '@/components/ui/input';
 import { useStaffLogin } from '@/hooks/use/useStaff';
 import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
-import { FaSpinner } from 'react-icons/fa';
+import { FaRegEye, FaRegEyeSlash, FaSpinner } from 'react-icons/fa';
 import { IoHomeOutline } from 'react-icons/io5';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
@@ -38,6 +38,7 @@ const initialValues = {
 };
 // const Signin = ({ setAuthenticationType }: SigninProps) => {
 const Signin = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const { loginStaff, isLoading } = useStaffLogin();
   const { userId, setUserLoginData } = useStore(
     useShallow((state) => ({
@@ -102,7 +103,28 @@ const Signin = () => {
               <FormItem className="w-full">
                 <FormLabel className="text-slate-900">Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Password" className="text-slate-950" {...field} />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Password"
+                      className="text-slate-950"
+                      {...field}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-slate-950"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? (
+                        <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                      )}
+                      <span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
