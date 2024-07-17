@@ -59,7 +59,9 @@ const Navigation = () => {
               end
               to="/dashboard"
               className={({ isActive }) =>
-                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                `flex justify-center items-center size-[70px] rounded-lg ${
+                  isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                }`
               }
             >
               <TooltipTool title="Dashboard">
@@ -72,7 +74,9 @@ const Navigation = () => {
                   end
                   to="/order"
                   className={({ isActive }) =>
-                    `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                    `flex justify-center items-center size-[70px] rounded-lg ${
+                      isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                    }`
                   }
                 >
                   <TooltipTool title="Orders">
@@ -87,7 +91,9 @@ const Navigation = () => {
                     end
                     to="/setup"
                     className={({ isActive }) =>
-                      `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                      `flex justify-center items-center size-[70px] rounded-lg ${
+                        isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                      }`
                     }
                   >
                     <TooltipTool title="Menu">
@@ -104,7 +110,9 @@ const Navigation = () => {
               end
               to="/cook"
               className={({ isActive }) =>
-                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                `flex justify-center items-center size-[70px] rounded-lg ${
+                  isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                }`
               }
             >
               <TooltipTool title="Kitchen">
@@ -118,7 +126,9 @@ const Navigation = () => {
               end
               to="/inventory"
               className={({ isActive }) =>
-                `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                `flex justify-center items-center size-[70px] rounded-lg ${
+                  isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                }`
               }
             >
               <TooltipTool title="Inventory">
@@ -133,7 +143,9 @@ const Navigation = () => {
                 end
                 to="/customers"
                 className={({ isActive }) =>
-                  `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                  `flex justify-center items-center size-[70px] rounded-lg ${
+                    isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                  }`
                 }
               >
                 <TooltipTool title="Customers">
@@ -149,7 +161,9 @@ const Navigation = () => {
                 end
                 to="/users"
                 className={({ isActive }) =>
-                  `p-4 rounded-lg ${isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'}`
+                  `flex justify-center items-center size-[70px] rounded-lg ${
+                    isActive ? 'bg-orange-500 text-slate-50' : 'text-orange-500'
+                  }`
                 }
               >
                 <TooltipTool title="Staffs">
@@ -161,7 +175,7 @@ const Navigation = () => {
               </NavLink>
             )}
             <Button
-              className="p-4 bg-transparent hover:bg-transparent rounded-lg text-orange-500"
+              className="px-4 py-6 bg-transparent hover:bg-transparent rounded-lg text-orange-500"
               onClick={() => setOnLogout((prev) => !prev)}
             >
               <TooltipTool title="Logout">
