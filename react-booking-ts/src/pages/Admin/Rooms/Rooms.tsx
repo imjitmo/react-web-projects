@@ -67,9 +67,13 @@ const Rooms = () => {
             />
           ))}
       </div>
-      {numPage ? (
-        <PaginationButtons setCurrentPage={setCurrentPage} currentPage={currentPage} npage={numPage} />
-      ) : null}
+      <div className="flex flex-row flex-wrap justify-center items-center content-center-safe">
+        <div className="w-auto">
+          {numPage ? (
+            <PaginationButtons setCurrentPage={setCurrentPage} currentPage={currentPage} npage={numPage} />
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 };

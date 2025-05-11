@@ -5,12 +5,12 @@ export type UserState = {
   email: string | null;
   displayName: string | null;
   userType: string | null;
+  photo: string | null;
 };
 
 export type UserAction = {
   setUserLoginData: (data: UserState) => void;
   clearUserLoginData: () => void;
-  setUserDisplayName: (displayName: string) => void;
 };
 
 export type UserSlice = UserState & UserAction;
@@ -20,6 +20,7 @@ const initialState = {
   email: null,
   displayName: null,
   userType: null,
+  photo: null,
 };
 
 export const createUserSlice: StateCreator<
@@ -36,13 +37,9 @@ export const createUserSlice: StateCreator<
         state.email = data.email;
         state.displayName = data.displayName;
         state.userType = data.userType;
+        state.photo = data.photo;
       });
     }
-  },
-  setUserDisplayName: (displayName) => {
-    set((state) => {
-      state.displayName = displayName;
-    });
   },
   clearUserLoginData: () => {
     set(() => initialState);

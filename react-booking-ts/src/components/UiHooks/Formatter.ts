@@ -30,3 +30,29 @@ export const TimeFormatter = (date: string) => {
 export const DateTimeFormatter = (date: Date) => {
   return date.toLocaleDateString('en-US', options);
 };
+
+export const TimestampTzFormatter = (date: Date) => {
+  const timestamptz = date;
+  const datetz = new Date(timestamptz);
+  const formattedDate = `${(datetz.getMonth() + 1).toString().padStart(2, '0')}/${datetz
+    .getDate()
+    .toString()
+    .padStart(2, '0')}/${datetz.getFullYear()} ${datetz.getHours().toString().padStart(2, '0')}:${datetz
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
+
+  return formattedDate;
+};
+
+interface extras {
+  service: string;
+  price: number;
+}
+
+export const extrasReducer = (value: extras[]) => {
+  console.log(value);
+  const totalPrice = value.reduce((a, b) => a + b.price, 0);
+  console.log(totalPrice);
+  return CurrencyFormatter(totalPrice);
+};

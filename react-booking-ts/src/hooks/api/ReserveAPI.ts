@@ -17,3 +17,44 @@ export const addReservation = async (reservationData: Reservation) => {
   }
   return data;
 };
+
+export const viewReservations = async () => {
+  const { data, error } = await supabase
+    .from('tblReservation')
+    .select(`*, tblRooms(roomName, roomNumber, roomPrice)`);
+  if (error) {
+    console.error(error);
+    throw new Error('Reservation could not be created');
+  }
+  return data;
+};
+
+interface ReservationUpdateProps {
+  id: string;
+  bookStatus?: string;
+  bookTracking?: string;
+}
+
+export const updateTrackingStatus = async (reservationData: ReservationUpdateProps) => {
+  const { data, error } = await supabase
+    .from('tblReservation')
+    .update({ bookTracking: reservationData.bookTracking })
+    .eq('id', reservationData.id);
+  if (error) {
+    throw new Error('Reservation status could not be updated');
+  }
+  console.log(reservationData);
+  return data;
+};
+
+export const updateBookingStatus = async (reservationData: ReservationUpdateProps) => {
+  const { data, error } = await supabase
+    .from('tblReservation')
+    .update({ bookStatus: reservationData.bookStatus })
+    .eq('id', reservationData.id);
+  if (error) {
+    throw new Error('Reservation status could not be updated');
+  }
+  console.log(reservationData);
+  return data;
+};

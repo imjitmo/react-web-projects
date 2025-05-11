@@ -55,7 +55,6 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
   const handleSubmit = async (values: z.infer<typeof LoginSchema>) => {
     isLoginUser(values, {
       onSuccess: (data) => {
-        console.log(data);
         handleZustandLoginData(data);
         form.reset();
       },
@@ -73,6 +72,7 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
       email: data.user.email,
       displayName: `${data.firstName} ${data.lastName}`,
       userType: data.userType,
+      photo: data.photo,
     });
   };
   const navigate = useNavigate();

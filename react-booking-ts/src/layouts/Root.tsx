@@ -11,6 +11,8 @@ const Authentication = lazy(() => import('@/components/Authentication/Authentica
 const Rooms = lazy(() => import('@/pages/Admin/Rooms/Rooms'));
 const Dashboard = lazy(() => import('@/pages/Admin/Dashboard/Dashboard'));
 const Reservations = lazy(() => import('@/pages/Admin/Reservation/Reservations'));
+const Modules = lazy(() => import('@/pages/Admin/Modules/Modules'));
+const ViewModules = lazy(() => import('@/components/Admin/Modules/View'));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +26,8 @@ const router = createBrowserRouter(
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="rooms" element={<Rooms />} />
           <Route path="reservations" element={<Reservations />} />
+          <Route path="modules" element={<Modules />} />
+          <Route path="modules/view/:id" element={<ViewModules />} />
         </Route>
         <Route element={<GuestRoute />}></Route>
       </Route>

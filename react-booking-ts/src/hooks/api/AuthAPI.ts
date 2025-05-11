@@ -18,6 +18,7 @@ export const registerUser = async (userData: Users) => {
         lastName: userData.lastName,
         email: userData.email,
         userType: userData.userType,
+        photo: 'https://mxpqoufbrlvnquooiege.supabase.co/storage/v1/object/public/user/photo_profile.webp',
         status: true,
       })
       .select();

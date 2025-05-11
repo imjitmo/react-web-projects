@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { useUserLogout } from '@/hooks/use/useUsers';
 import { useStore } from '@/store/store';
 import { motion } from 'framer-motion';
+import { LucideNotebookPen } from 'lucide-react';
 import { useState } from 'react';
 import { FaAddressBook, FaBed, FaCalendarAlt, FaChartPie, FaSignOutAlt, FaUsersCog } from 'react-icons/fa';
+import { IoQrCodeSharp } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
 import { DateTimeFormatter } from '../UiHooks/Formatter';
@@ -12,10 +14,11 @@ import Modal from '../UiHooks/Modal';
 
 const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
   const [onLogout, setOnLogout] = useState(false);
-  const { displayName, userType } = useStore(
+  const { displayName, userType, photo } = useStore(
     useShallow((state) => ({
       displayName: state.displayName,
       userType: state.userType,
+      photo: state.photo,
     }))
   );
   const pathname = location.pathname.substring(1);
@@ -57,9 +60,21 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
                 pathname === 'dashboard' ? 'sidebar-active' : ''
               } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
             >
-              <FaChartPie className="size-6" /> Dashboard
+              <FaChartPie className="size-6" /> {userRestriction ? 'Dashboard' : 'Profile'}
             </NavLink>
           </li>
+          {userRestriction && (
+            <li>
+              <NavLink
+                to="/modules"
+                className={`flex flex-row items-center gap-3 cursor-pointer ${
+                  pathname === 'modules' || pathname.includes('module') ? 'sidebar-active' : ''
+                } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
+              >
+                <LucideNotebookPen className="size-6" /> <span>Training Modules</span>
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink
               to={userRestriction ? '/reservations' : '/reservation'}
@@ -84,12 +99,12 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
           )}
           <li>
             <NavLink
-              to="/rooms"
+              to={userRestriction ? '/rooms' : '/room'}
               className={`flex flex-row items-center gap-3 cursor-pointer ${
                 pathname === 'rooms' ? 'sidebar-active' : ''
               } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
             >
-              <FaBed className="size-6" /> Room Management
+              <FaBed className="size-6" /> {userRestriction ? 'Room Management' : 'Rooms'}
             </NavLink>
           </li>
           <li>
@@ -102,15 +117,21 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
               <FaUsersCog className="size-6" /> Account Management
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/scan"
+              className={`flex flex-row items-center gap-3 cursor-pointer ${
+                pathname === 'scan' ? 'sidebar-active' : ''
+              } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
+            >
+              <IoQrCodeSharp className="size-6" /> Scan
+            </NavLink>
+          </li>
         </ul>
       </ul>
       <div className="flex flex-row items-center justify-center content-center place-content-center border-t-slate-500 border-t pt-2 px-2 gap-4">
         <div className="cursor-pointer rounded-4xl border-2 border-solid border-yellow-400">
-          <img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-            className="size-8 rounded-4xl"
-            alt=""
-          />
+          <img src={photo ? photo : ''} className="size-8 rounded-4xl" alt="" />
         </div>
         <div className="flex flex-col cursor-pointer grow">
           <p>{displayName}</p>
@@ -132,10 +153,13 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
           setOnOpen={setOnLogout}
         >
           <div className="flex flex-row flex-wrap gap-4">
-            <Button className="grow" variant={'destructive'} onClick={handleLogout}>
+            <Button className="grow cursor-pointer" variant={'destructive'} onClick={handleLogout}>
               Yes
             </Button>
-            <Button className="bg-slate-500" onClick={() => setOnLogout((prev) => !prev)}>
+            <Button
+              className="bg-slate-500 cursor-pointer text-center w-24"
+              onClick={() => setOnLogout((prev) => !prev)}
+            >
               No
             </Button>
           </div>
