@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
   addReservation,
+  getReservationInformation,
   updateBookingStatus,
   updateTrackingStatus,
   viewReservations,
@@ -32,6 +33,13 @@ export const useGetReservation = () => {
   });
 
   return { reservationData, isPending };
+};
+
+export const useViewCustomerReservation = () => {
+  const { mutate: viewReservation, isPending: isViewing } = useMutation({
+    mutationFn: getReservationInformation,
+  });
+  return { viewReservation, isViewing };
 };
 
 export const useUpdateReservationStatus = () => {

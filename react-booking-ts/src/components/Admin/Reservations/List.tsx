@@ -23,7 +23,9 @@ import Tiptools from '@/components/UiHooks/Tooltip';
 import { useGetReservation } from '@/hooks/use/useReservation';
 import Pagination from '@/hooks/utils/Pagination';
 import { differenceInCalendarDays } from 'date-fns';
+import { useState } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
+import Invoice from './Invoice';
 import View from './View';
 
 interface ListProps {
@@ -33,6 +35,8 @@ interface ListProps {
 
 const List = ({ searchTerm, status }: ListProps) => {
   const { reservationData, isPending } = useGetReservation();
+  const [onView, setOnView] = useState(false);
+  const [onInvoice, setOnInvoice] = useState(false);
 
   // data filtering
   const reservationStatus = reservationData?.filter((reservation) => {
@@ -126,16 +130,30 @@ const List = ({ searchTerm, status }: ListProps) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel className="cursor-default">Actions</DropdownMenuLabel>
-                      <DropdownMenuItem className="cursor-pointer">Print Invoice</DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={() => setOnInvoice((prev) => !prev)}
+                      >
+                        View Invoice
+                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className="cursor-pointer" disabled={!list.userId}>
                         View Guest
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer">
-                        <View key={i} {...list} />
+                      <DropdownMenuItem className="cursor-pointer" onClick={() => setOnView((prev) => !prev)}>
+                        View Details
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                  {onView && (
+                    <View setOnOpen={setOnView} onOpen={onView} key={list.id.substring(0, 4)} {...list} />
+                  )}
+                  <Invoice
+                    setOnOpen={setOnInvoice}
+                    onOpen={onInvoice}
+                    key={list.id.substring(0, 6)}
+                    {...list}
+                  />
                 </TableCell>
               </TableRow>
             ))}

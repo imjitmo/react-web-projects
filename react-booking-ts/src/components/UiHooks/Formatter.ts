@@ -51,8 +51,6 @@ interface extras {
 }
 
 export const extrasReducer = (value: extras[]) => {
-  console.log(value);
   const totalPrice = value.reduce((a, b) => a + b.price, 0);
-  console.log(totalPrice);
   return CurrencyFormatter(totalPrice);
 };

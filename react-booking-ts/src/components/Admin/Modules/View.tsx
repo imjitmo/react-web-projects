@@ -13,7 +13,7 @@ const View = () => {
         src={`https://view.officeapps.live.com/op/embed.aspx?src=${fileUrl}`}
         className="w-full h-screen"
       >
-        aa
+        {getModule && getModule[0]?.moduleName}
       </iframe>
     </div>
   );

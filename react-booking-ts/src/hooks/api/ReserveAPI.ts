@@ -35,6 +35,24 @@ interface ReservationUpdateProps {
   bookTracking?: string;
 }
 
+interface ViewReservationProps {
+  id: string;
+}
+
+export const getReservationInformation = async (guestData: ViewReservationProps) => {
+  console.log(guestData);
+  const { data, error } = await supabase
+    .from('tblReservation')
+    .select(`*, tblRooms(roomName, roomNumber, roomPrice)`)
+    .eq('id', guestData.id);
+  if (error) {
+    console.error(error);
+    throw new Error('Reservation could not be created');
+  }
+  console.log(data[0]);
+  return data[0];
+};
+
 export const updateTrackingStatus = async (reservationData: ReservationUpdateProps) => {
   const { data, error } = await supabase
     .from('tblReservation')

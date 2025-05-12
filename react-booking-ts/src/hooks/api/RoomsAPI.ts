@@ -47,6 +47,7 @@ export const viewRooms = async () => {
 
 export const updateRoomStatus = async (roomData: { id: string; status: string }) => {
   const newStatus = roomData.status;
+  console.log(newStatus);
   const { data, error } = await supabase
     .from('tblRooms')
     .update({ roomStatus: newStatus })

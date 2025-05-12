@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { CurrencyFormatter } from '@/components/UiHooks/Formatter';
 import Modal from '@/components/UiHooks/Modal';
 import { useUpdateBookingStatus, useUpdateReservationStatus } from '@/hooks/use/useReservation';
+import { useUpdateRoomStatus } from '@/hooks/use/useRooms';
 import { useUserLogs } from '@/hooks/use/useUsers';
 import { useStore } from '@/store/store';
 import { differenceInDays } from 'date-fns';
@@ -24,18 +25,23 @@ interface ViewReservationProps {
     roomNumber: string;
     roomPrice: number;
   };
+  onOpen: boolean;
+  setOnOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const View = (list: ViewReservationProps) => {
-  const [onOpen, setOnOpen] = useState(false);
+  // const [onOpen, setOnOpen] = useState(false);
   const qrCodeRef = useRef(null);
-  const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setOnOpen((prev) => !prev);
-  };
+  // const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   setOnOpen((prev) => !prev);
+  // };
   const { editReservationStatus, isUpdating } = useUpdateReservationStatus();
   const { editBookingStatus, isLoading } = useUpdateBookingStatus();
+  const { editRoomStatus } = useUpdateRoomStatus();
   const { userActionLogs } = useUserLogs();
+  const [onAsk, setOnAsk] = useState(false);
+  const [onType, setOnType] = useState('');
   const { userId, email, displayName, userType } = useStore(
     useShallow((state) => ({
       userId: state.userId,
@@ -54,23 +60,31 @@ const View = (list: ViewReservationProps) => {
   const totalDaysCost =
     differenceInDays(new Date(list.checkOut), new Date(list.checkIn)) * list.tblRooms.roomPrice;
 
-  const handleClickUpdate = () => {
-    const trackingUpdate = list.bookTracking === null ? 'checked in' : 'checked out';
+  const handleTypeAndAsk = (type: string) => {
+    setOnType(type);
+    setOnAsk(true);
+  };
+
+  const handleClickUpdate = async () => {
+    const trackingUpdate = !list.bookTracking ? 'checked in' : 'checked out';
     editReservationStatus(
       { id: list.id, bookTracking: trackingUpdate },
       {
         onSuccess: () => {
-          userActionLogs(
-            {
-              action: `Update Book#${list.id} to ${trackingUpdate}`,
-              ...userLogData,
-            },
-            {
-              onSuccess: () => {
-                setOnOpen(false);
-              },
-            }
-          );
+          userActionLogs({
+            action: `Update Book#${list.id} to ${trackingUpdate}`,
+            ...userLogData,
+          });
+          if (trackingUpdate === 'checked out') {
+            editRoomStatus(
+              { id: list.roomId, status: 'preparing' },
+              {
+                onSuccess: () => {
+                  list.setOnOpen(false);
+                },
+              }
+            );
+          }
         },
       }
     );
@@ -88,7 +102,7 @@ const View = (list: ViewReservationProps) => {
             },
             {
               onSuccess: () => {
-                setOnOpen(false);
+                list.setOnOpen(false);
               },
             }
           );
@@ -109,7 +123,7 @@ const View = (list: ViewReservationProps) => {
             },
             {
               onSuccess: () => {
-                setOnOpen(false);
+                list.setOnOpen(false);
               },
             }
           );
@@ -117,11 +131,30 @@ const View = (list: ViewReservationProps) => {
       }
     );
   };
+
+  const handleTransaction = async () => {
+    if (onType === 'tracking') {
+      await handleClickUpdate();
+      setOnType('');
+      setOnAsk(false);
+      return;
+    } else if (onType === 'approved') {
+      await handleClickStatusApproved();
+      setOnType('');
+      setOnAsk(false);
+      return;
+    } else if (onType === 'cancelled') {
+      await handleClickStatusCancelled();
+      setOnType('');
+      setOnAsk(false);
+      return;
+    }
+  };
   return (
-    <div key={list.id}>
-      <span onClick={handleOpenModal}>View Booking details</span>
-      <Modal key={list.id} onOpen={onOpen} setOnOpen={setOnOpen} className="min-w-[800px] z-[9999]">
-        <div key={list.id} className="flex flex-col gap-4">
+    <div>
+      {/* <span onClick={handleOpenModal}>View Booking details</span> */}
+      <Modal key={list.id} onOpen={list.onOpen} setOnOpen={list.setOnOpen} className="min-w-[800px]">
+        <div className="flex flex-col gap-4">
           <div className="text-center">
             <h1 className="text-2xl font-bold">Reservation Details</h1>
           </div>
@@ -146,7 +179,14 @@ const View = (list: ViewReservationProps) => {
               <h2 className="text-xl font-bold">Booking Details</h2>
               <h2>Check In: {list.checkIn}</h2>
               <h2>Check Out: {list.checkOut}</h2>
+              <h2>Number of Days: {differenceInDays(new Date(list.checkOut), new Date(list.checkIn))}</h2>
               <h2 className="capitalize">Reservation Status: {list.bookStatus}</h2>
+              <h2 className="capitalize">
+                Total Price on Stay:{' '}
+                {CurrencyFormatter(
+                  differenceInDays(new Date(list.checkOut), new Date(list.checkIn)) * list.tblRooms.roomPrice
+                )}
+              </h2>
             </div>
           </div>
           <div className="flex flex-row gap-4">
@@ -166,40 +206,51 @@ const View = (list: ViewReservationProps) => {
             </div>
           </div>
           <div className="flex flex-row gap-4 justify-end items-end">
-            {list.bookStatus === 'approved' && list.bookTracking !== 'checked out' && (
+            {!onAsk && list.bookStatus === 'approved' && list.bookTracking !== 'checked out' && (
               <Button
-                className={`${list.bookTracking === null ? 'bg-green-600' : 'bg-red-600'} text-slate-50 ${
-                  list.bookTracking === null
+                className={`${!list.bookTracking ? 'bg-green-600' : 'bg-red-600'} text-slate-50 ${
+                  !list.bookTracking
                     ? 'hover:bg-yellow-400 hover:text-blue-950'
                     : 'hover:bg-blue-950 hover:text-slate-50'
                 } rounded-lg flex flex-row gap-2 items-center justify-center w-[200px]`}
-                onClick={handleClickUpdate}
+                onClick={() => handleTypeAndAsk('tracking')}
                 disabled={isUpdating}
               >
                 {isUpdating ? (
                   <Loading size={20} />
-                ) : list.bookTracking === null && list.bookStatus === 'approved' ? (
+                ) : !list.bookTracking && list.bookStatus === 'approved' ? (
                   <span>Check In</span>
                 ) : (
                   <span>Check Out</span>
                 )}
               </Button>
             )}
-            {list.bookStatus === 'pending' && (
+            {!onAsk && list.bookStatus === 'pending' && (
               <div className="flex flex-row gap-2">
                 <Button
                   className="w-[150px] bg-red-600"
-                  onClick={handleClickStatusCancelled}
+                  onClick={() => handleTypeAndAsk('cancel')}
                   disabled={isLoading}
                 >
                   {isLoading ? <Loading size={20} /> : 'Cancel'}
                 </Button>
                 <Button
                   className="w-[300px] bg-green-600"
-                  onClick={handleClickStatusApproved}
+                  onClick={() => handleTypeAndAsk('approve')}
                   disabled={isLoading}
                 >
                   {isLoading ? <Loading size={20} /> : 'Approve'}
+                </Button>
+              </div>
+            )}
+            {onAsk && (
+              <div className="flex flex-row gap-2 items-center">
+                <span className="italic">Are you sure?</span>
+                <Button className="w-[150px] bg-red-600" onClick={handleTransaction}>
+                  Yes
+                </Button>
+                <Button className="w-[300px] bg-green-600" onClick={() => setOnAsk(false)}>
+                  No
                 </Button>
               </div>
             )}

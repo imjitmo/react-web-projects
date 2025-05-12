@@ -41,7 +41,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
         <li className="flex flex-row gap-2 cursor-pointer">
           <div>
             <img
-              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              src="https://mxpqoufbrlvnquooiege.supabase.co/storage/v1/object/public/images/fossh.png"
               className="size-10 rounded-4xl"
               alt=""
             />

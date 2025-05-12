@@ -13,6 +13,7 @@ const Dashboard = lazy(() => import('@/pages/Admin/Dashboard/Dashboard'));
 const Reservations = lazy(() => import('@/pages/Admin/Reservation/Reservations'));
 const Modules = lazy(() => import('@/pages/Admin/Modules/Modules'));
 const ViewModules = lazy(() => import('@/components/Admin/Modules/View'));
+const Scanner = lazy(() => import('@/pages/Scanner/Scanner'));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
           <Route path="reservations" element={<Reservations />} />
           <Route path="modules" element={<Modules />} />
           <Route path="modules/view/:id" element={<ViewModules />} />
+          <Route path="scan" element={<Scanner />} />
         </Route>
         <Route element={<GuestRoute />}></Route>
       </Route>
