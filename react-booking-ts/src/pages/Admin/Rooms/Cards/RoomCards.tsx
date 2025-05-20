@@ -1,11 +1,15 @@
+import Image from '@/components/Admin/Rooms/Image';
 import Reserve from '@/components/Admin/Rooms/Reserve';
 import Status from '@/components/Admin/Rooms/Status';
+import Update from '@/components/Admin/Rooms/Update';
 import View from '@/components/Admin/Rooms/View';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { CurrencyFormatter } from '@/components/UiHooks/Formatter';
+import { useStore } from '@/store/store';
 import { LucideToilet } from 'lucide-react';
 import { FaRegMoon } from 'react-icons/fa';
 import { IoBedOutline } from 'react-icons/io5';
+import { useShallow } from 'zustand/react/shallow';
 
 interface RoomCardsProps {
   roomId: string;
@@ -44,6 +48,11 @@ const RoomCards = ({
     roomStatus: roomStatus,
   };
 
+  const { userType } = useStore(
+    useShallow((state) => ({
+      userType: state.userType,
+    }))
+  );
   return (
     <Card className="min-w-[250px] max-w-[250px] max-h-[510px] capitalize bg-slate-100 dark:bg-slate-900">
       <CardHeader>
@@ -55,7 +64,7 @@ const RoomCards = ({
       </CardHeader>
       <CardContent className="flex flex-col gap-2 grow">
         <div className="flex items-center justify-center w-full">
-          <img src={roomImg} alt="room" className="object-contain rounded" />
+          <Image roomData={{ id: roomId, roomImg: roomImg, roomName: roomName, roomNumber: roomNumber }} />
         </div>
         <h1 className="text-md font-bold flex flex-row items-center content-center-safe gap-1 cursor-default">
           {CurrencyFormatter(roomPrice)}
@@ -80,6 +89,13 @@ const RoomCards = ({
           </span>
           <span className="text-blue-950 dark:text-slate-50 cursor-pointer">
             <View roomData={roomData} />
+          </span>
+          <span
+            className={`text-blue-950 dark:text-slate-50 cursor-pointer ${
+              userType === 'staff' ? 'hidden' : ''
+            }`}
+          >
+            <Update roomData={{ id: roomId, ...roomData }} />
           </span>
           <span className="text-blue-950 dark:text-slate-50 cursor-pointer">
             <Status roomId={roomId} roomStatus={roomStatus} roomNumber={roomNumber} roomName={roomName} />

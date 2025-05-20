@@ -7,7 +7,7 @@ interface DashCardsProps {
 }
 const DashCards = ({ title, description, total }: DashCardsProps) => {
   return (
-    <Card className="min-w-[300px] max-w-[300px]">
+    <Card className="min-w-[320px] max-w-[320px]">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription className="text-xs italic">{description}</CardDescription>

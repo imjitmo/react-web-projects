@@ -7,7 +7,7 @@ interface ShowSidebarProps {
 const ToggleButton = ({ setIsOpen }: ShowSidebarProps) => {
   return (
     <button
-      className="fixed top-[26px] right-0 bg-transparent border-none outline-none size-[50px] rounded-[50%] z-[999]"
+      className="fixed top-[26px] right-10 bg-transparent border-none outline-none size-[50px] rounded-[50%] z-[999]"
       onClick={() => setIsOpen((prev: boolean) => !prev)}
     >
       <svg width="23" height="23" viewBox="0 0 23 23">

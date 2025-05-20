@@ -16,11 +16,7 @@ import * as z from 'zod';
 import { useShallow } from 'zustand/react/shallow';
 
 const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_FILE_TYPES = [
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-  'application/vnd.ms-powerpoint',
-];
+const ACCEPTED_FILE_TYPES = ['application/pdf'];
 
 const addModuleSchema = z.object({
   moduleName: z

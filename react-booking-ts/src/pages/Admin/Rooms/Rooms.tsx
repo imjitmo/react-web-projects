@@ -9,7 +9,6 @@ import { useState } from 'react';
 import RoomCards from './Cards/RoomCards';
 
 const Rooms = () => {
-  const [onOpen, setOnOpen] = useState(false);
   const { roomData, isPending } = useViewRooms();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +29,7 @@ const Rooms = () => {
       <div className="flex flex-row flex-wrap gap-2 items-center border-b-4 pb-4">
         <div className="grow">
           <Tiptools title="Add Room" titleClassName="text-sm text-blue-950 dark:text-slate-50">
-            <Add onOpen={onOpen} setOnOpen={setOnOpen} />
+            <Add />
           </Tiptools>
         </div>
         <SearchTerm setSearchTerm={setSearchTerm} placeholder={'Search room name...'} />

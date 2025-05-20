@@ -82,7 +82,6 @@ const View = (guestData: GuestDataProps) => {
                 onSuccess: () => {
                   guestData.setScanResult('');
                   guestData.setOnView(false);
-                  navigate('/reservations');
                 },
               }
             );
@@ -110,7 +109,6 @@ const View = (guestData: GuestDataProps) => {
                     onSuccess: () => {
                       guestData.setScanResult('');
                       guestData.setOnView(false);
-                      navigate('/reservations');
                     },
                   }
                 );
@@ -136,7 +134,6 @@ const View = (guestData: GuestDataProps) => {
               onSuccess: () => {
                 guestData.setScanResult('');
                 guestData.setOnView(false);
-                navigate('/reservations');
               },
             }
           );
@@ -150,17 +147,15 @@ const View = (guestData: GuestDataProps) => {
       await handleClickUpdate();
       setOnType('');
       setOnAsk(false);
-      return;
+      return navigate('/reservations');
     } else if (onType === 'approved') {
       await handleClickStatusApproved();
       setOnType('');
-      setOnAsk(false);
-      return;
+      return navigate('/reservations');
     } else if (onType === 'cancelled') {
       await handleClickStatusCancelled();
       setOnType('');
-      setOnAsk(false);
-      return;
+      return navigate('/reservations');
     }
   };
   return (
@@ -229,6 +224,9 @@ const View = (guestData: GuestDataProps) => {
             </h1>
             <h1 className="text-lg font-bold">
               Stay In Price: <span className="font-normal">{CurrencyFormatter(totalStayInCharges)}</span>
+            </h1>
+            <h1 className="text-lg font-bold capitalize">
+              Tracking: <span className="font-normal">{guestData.bookTracking}</span>
             </h1>
           </div>
         </div>

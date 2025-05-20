@@ -14,7 +14,7 @@ const Modal = ({ onOpen, setOnOpen, children, header, description, className }: 
   return (
     <Dialog open={onOpen} onOpenChange={setOnOpen}>
       <DialogContent
-        className={`${className} bg-slate-50 text-blue-950 dark:bg-slate-950 dark:text-slate-50`}
+        className={`${className} bg-slate-50 text-blue-950 dark:bg-slate-950 dark:text-slate-50 lg:max-w-screen-md overflow-y-scroll max-h-screen`}
       >
         <DialogHeader>
           <DialogTitle>{header}</DialogTitle>

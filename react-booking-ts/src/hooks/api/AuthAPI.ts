@@ -13,11 +13,13 @@ export const registerUser = async (userData: Users) => {
     const { data: user, error } = await supabase
       .from('userCreds')
       .insert({
+        company: userData.company,
         firstName: userData.firstName,
         middleName: userData.middleName === undefined ? '' : userData.middleName,
         lastName: userData.lastName,
         email: userData.email,
         userType: userData.userType,
+        section: userData.section,
         photo: 'https://mxpqoufbrlvnquooiege.supabase.co/storage/v1/object/public/user/photo_profile.webp',
         status: true,
       })

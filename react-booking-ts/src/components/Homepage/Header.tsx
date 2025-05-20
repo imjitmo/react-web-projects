@@ -1,11 +1,12 @@
 import { Button } from '@/components/ui/button';
+import { ModeToggle } from '@/layouts/ToggleButton';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-scroll';
 import Sidebar from './sections/MobileMenu/Sidebar';
 
 const Header = () => {
   return (
-    <nav className="flex flex-col flex-wrap items-center justify-center w-full h-auto md:py-2 md:px-6  bg-blue-900 text-slate-50 p-4 top-0 left-0 sticky z-[99]">
+    <nav className="flex flex-col flex-wrap items-center justify-center w-full h-auto md:py-2 md:px-6  bg-blue-950 text-slate-50 p-4 top-0 left-0 sticky z-[99]">
       <div className="flex flex-row flex-wrap items-center justify-between w-full h-auto md:py-4 md:px-8">
         <NavLink to="/">
           {/* <img
@@ -24,8 +25,8 @@ const Header = () => {
           <li className="hover:text-yellow-300">
             <Link
               to="homepage"
-              className="cursor-pointer "
-              activeClass="text-orange-300 font-bold border-b border-yellow-300"
+              className="cursor-pointer"
+              activeClass="text-yellow-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
@@ -35,8 +36,8 @@ const Header = () => {
           <li className="hover:text-yellow-300">
             <Link
               to="about"
-              className="cursor-pointer "
-              activeClass="text-orange-300 font-bold border-b border-orange-300"
+              className="cursor-pointer"
+              activeClass="text-yellow-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
@@ -45,24 +46,47 @@ const Header = () => {
           </li>
           <li className="hover:text-yellow-300">
             <Link
-              to="menu"
-              className="cursor-pointer "
+              to="perks"
+              className="cursor-pointer"
               activeClass="text-yellow-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
-              Menu
+              Perks
+            </Link>
+          </li>
+          <li className="hover:text-yellow-300">
+            <Link
+              to="rooms"
+              className="cursor-pointer"
+              activeClass="text-yellow-300 font-bold border-b border-orange-300"
+              smooth={true}
+              spy={true}
+            >
+              Rooms
             </Link>
           </li>
           <li className="hover:text-yellow-300">
             <Link
               to="services"
-              className="cursor-pointer "
+              className="cursor-pointer"
               activeClass="text-yellow-300 font-bold border-b border-orange-300"
               smooth={true}
               spy={true}
             >
               Services
+            </Link>
+          </li>
+
+          <li className="hover:text-yellow-300">
+            <Link
+              to="team"
+              className="cursor-pointer "
+              activeClass="text-yellow-300 font-bold border-b border-orange-300"
+              smooth={true}
+              spy={true}
+            >
+              Team
             </Link>
           </li>
           <li>
@@ -71,6 +95,9 @@ const Header = () => {
                 Login
               </Button>
             </NavLink>
+          </li>
+          <li>
+            <ModeToggle />
           </li>
           {/* <li>
             <NavLink to="/auth">

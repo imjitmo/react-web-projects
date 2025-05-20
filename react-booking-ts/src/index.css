@@ -149,4 +149,16 @@
     word-wrap: break-word;
     margin-bottom: 5px;
   }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hiddenCanvasElement {
+    display: none !important;
+  }
 }

@@ -18,6 +18,7 @@ import { useCreateRooms } from '@/hooks/use/useRooms';
 import { useUserLogs } from '@/hooks/use/useUsers';
 import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 
@@ -81,12 +82,9 @@ const initialValues = {
   roomImg: undefined,
 };
 
-interface AddProps {
-  onOpen: boolean;
-  setOnOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-const Add = ({ onOpen, setOnOpen }: AddProps) => {
+const Add = () => {
   const { addRoom, isCreating } = useCreateRooms();
+  const [onOpen, setOnOpen] = useState(false);
   const { userActionLogs } = useUserLogs();
   const form = useForm<z.infer<typeof addRoomSchema>>({
     resolver: zodResolver(addRoomSchema),
@@ -132,6 +130,7 @@ const Add = ({ onOpen, setOnOpen }: AddProps) => {
         variant="outline"
         className="bg-yellow-400 text-blue-950 hover:bg-blue-950 dark:bg-blue-950 hover:dark:bg-blue-800 hover:text-slate-50 dark:text-slate-50 rounded-lg flex flex-row gap-2 items-center justify-center"
         onClick={() => setOnOpen((prev) => !prev)}
+        disabled={userType === 'staff'}
       >
         <IoMdAddCircleOutline className="size-6" /> New Room
       </Button>

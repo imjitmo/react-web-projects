@@ -37,3 +37,11 @@ export const useViewSingleModule = (id: string) => {
 
   return { getModule, isPending };
 };
+
+export const useViewOneModule = () => {
+  const { mutate: getModule, isPending } = useMutation({
+    mutationFn: viewModule,
+  });
+
+  return { getModule, isPending };
+};

@@ -51,7 +51,7 @@ const Links = () => {
       >
         <Link
           to="about"
-          className="cursor-pointer "
+          className="cursor-pointer"
           activeClass="border-b border-slate-100"
           smooth={true}
           spy={true}
@@ -66,13 +66,29 @@ const Links = () => {
         whileTap={{ scale: 0.9 }}
       >
         <Link
-          to="menu"
+          to="perks"
           className="cursor-pointer "
           activeClass="border-b border-slate-100"
           smooth={true}
           spy={true}
         >
-          Menu
+          Perks
+        </Link>
+      </motion.li>
+      <motion.li
+        className="text-2xl font-medium hover:text-orange-300"
+        variants={itemVariants}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <Link
+          to="rooms"
+          className="cursor-pointer "
+          activeClass="border-b border-slate-100"
+          smooth={true}
+          spy={true}
+        >
+          Rooms
         </Link>
       </motion.li>
       <motion.li
@@ -98,15 +114,13 @@ const Links = () => {
         whileTap={{ scale: 0.9 }}
       >
         <Link
-          to="rewards"
+          to="team"
           className="cursor-pointer"
           activeClass="border-b border-slate-100"
           smooth={true}
           spy={true}
         >
-          <Button className="bg-orange-300 rounded-lg hover:bg-green-600 hover:text-slate-50 text-slate-900">
-            Rewards
-          </Button>
+          Team
         </Link>
       </motion.li>
       <motion.li
@@ -116,7 +130,9 @@ const Links = () => {
         whileTap={{ scale: 0.9 }}
       >
         <NavLink to="/auth">
-          <Button className="text-xs bg-red-500 rounded-lg hover:text-slate-50 text-slate-50">KDS</Button>
+          <Button className="bg-yellow-300 rounded-lg hover:bg-blue-600 hover:text-slate-50 text-slate-900">
+            Login
+          </Button>
         </NavLink>
       </motion.li>
     </motion.ul>

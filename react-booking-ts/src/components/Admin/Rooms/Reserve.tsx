@@ -87,9 +87,9 @@ const Reserve = ({ roomData }: reserveProps) => {
     const data: Reservation = {
       ...values,
       amenities: [
-        { service: aircon ? 'Aircon' : 'No Aircon', price: aircon ? 200 : 0 },
-        { service: laundry ? 'Laundry' : 'No Laundry', price: laundry ? 100 : 0 },
-        { service: breakfast ? 'Breakfast' : 'No Breakfast', price: breakfast ? 100 : 0 },
+        { service: 'Aircon', price: aircon ? 200 : 0 },
+        { service: 'Laundry', price: laundry ? 100 : 0 },
+        { service: 'Breakfast', price: breakfast ? 100 : 0 },
       ],
       checkIn: date?.from,
       checkOut: date?.to,
@@ -216,7 +216,7 @@ const Reserve = ({ roomData }: reserveProps) => {
                   }}
                 />
                 <div className="flex flex-col flex-wrap gap-2">
-                  <div className="flex flex-col flex-wrap">
+                  <div className="flex flex-col">
                     <span className="text-sm">Reservation Range:</span>
                     <DatePickerWithRange date={date} setDate={setDate} />
                   </div>
@@ -237,7 +237,7 @@ const Reserve = ({ roomData }: reserveProps) => {
                       onChange={() => setAircon((prev) => !prev)}
                       value={300}
                     />
-                    <span className="text-sm">Air Conditioner ({CurrencyFormatter(300)})</span>
+                    <span className="text-sm">Air Conditioner ({CurrencyFormatter(200)})</span>
                   </div>
                   <div className="flex flex-row gap-2 items-center justify-center">
                     <input
@@ -247,7 +247,7 @@ const Reserve = ({ roomData }: reserveProps) => {
                       id="breakfast"
                       onChange={() => setBreakfast((prev) => !prev)}
                     />
-                    <span className="text-sm">Breakfast ({CurrencyFormatter(200)})</span>
+                    <span className="text-sm">Breakfast ({CurrencyFormatter(100)})</span>
                   </div>
                   <div className="flex flex-row gap-2 items-center justify-center">
                     <input
@@ -257,7 +257,7 @@ const Reserve = ({ roomData }: reserveProps) => {
                       id="laundry"
                       onChange={() => setLaundry((prev) => !prev)}
                     />
-                    <span className="text-sm">Laundry ({CurrencyFormatter(50)})</span>
+                    <span className="text-sm">Laundry ({CurrencyFormatter(100)})</span>
                   </div>
                 </div>
                 {totalPrice > 0 && (

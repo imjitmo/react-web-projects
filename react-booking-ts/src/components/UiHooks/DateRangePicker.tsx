@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { DateRange } from 'react-day-picker';
-
+import { type DateRange } from 'react-day-picker';
 interface DatePickerProps {
   className?: React.HTMLAttributes<HTMLDivElement>;
   date: DateRange | undefined;
@@ -16,6 +15,7 @@ interface DatePickerProps {
 export function DatePickerWithRange({ className, date, setDate }: DatePickerProps) {
   const datePastInvalid = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
   const dateFutureValid = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
+
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
@@ -41,7 +41,6 @@ export function DatePickerWithRange({ className, date, setDate }: DatePickerProp
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            initialFocus
             mode="range"
             defaultMonth={date?.from}
             selected={date}

@@ -1,16 +1,17 @@
 import { ModeToggle } from '@/layouts/ToggleButton';
 import { motion, MotionConfig } from 'framer-motion';
-import { useState } from 'react';
 type HeaderProps = {
   setIsNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  active: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Header = ({ setIsNavOpen }: HeaderProps) => {
-  const [active, setActive] = useState(false);
+const Header = (props: HeaderProps) => {
   const handleClick = () => {
-    setIsNavOpen((prev) => !prev);
-    setActive((prev) => !prev);
+    props.setIsNavOpen((prev) => !prev);
+    props.setActive((prev) => !prev);
   };
+
   return (
     <div className="w-full bg-slate-100 dark:bg-slate-800 p-2">
       <div className="flex flex-row gap-4 items-center content-center">
@@ -19,7 +20,7 @@ const Header = ({ setIsNavOpen }: HeaderProps) => {
             initial={false}
             className="relative size-15 rounded-2xl bg-slate-950/20 transition-colors hover:bg-slate-950/40"
             onClick={handleClick}
-            animate={active ? 'open' : 'closed'}
+            animate={props.active ? 'open' : 'closed'}
           >
             <motion.span
               style={{
@@ -76,7 +77,32 @@ const Header = ({ setIsNavOpen }: HeaderProps) => {
             />
           </motion.button>
         </MotionConfig>
-        <span className="grow">{location.pathname.substring(1)}</span>
+        <span className="grow">
+          {location.pathname.substring(1) === 'profile' && <h1 className="text-2xl font-bold">My Profile</h1>}
+          {location.pathname.substring(1) === 'reservation' && (
+            <h1 className="text-2xl font-bold">My Reservations</h1>
+          )}
+          {location.pathname.substring(1) === 'room' && <h1 className="text-2xl font-bold">Room List</h1>}
+          {location.pathname.substring(1) === 'dashboard' && (
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+          )}
+          {location.pathname.substring(1).includes('modules') && (
+            <h1 className="text-2xl font-bold">Training Modules</h1>
+          )}
+          {location.pathname.substring(1) === 'reservations' && (
+            <h1 className="text-2xl font-bold">Guest Reservations</h1>
+          )}
+          {location.pathname.substring(1) === 'rooms' && (
+            <h1 className="text-2xl font-bold">Room Management</h1>
+          )}
+          {location.pathname.substring(1) === 'accounts' && (
+            <h1 className="text-2xl font-bold">Account Management</h1>
+          )}
+          {location.pathname.substring(1) === 'scan' && (
+            <h1 className="text-2xl font-bold">QR Code Scanner and Viewer</h1>
+          )}
+          {location.pathname.substring(1) === 'reports' && <h1 className="text-2xl font-bold">Reports</h1>}
+        </span>
         <div className="p-2">
           <ModeToggle />
         </div>

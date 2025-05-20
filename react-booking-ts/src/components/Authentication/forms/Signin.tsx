@@ -39,6 +39,7 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
   // const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { isLoginUser, isLoading } = useUserLogin();
+  const [onError, setOnError] = useState(false);
   const { userId, userType, setUserLoginData } = useStore(
     useShallow((state) => ({
       userId: state.userId,
@@ -59,7 +60,7 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
         form.reset();
       },
       onError: (error) => {
-        console.log(error);
+        setOnError(true);
         throw error;
       },
     });
@@ -73,13 +74,14 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
       displayName: `${data.firstName} ${data.lastName}`,
       userType: data.userType,
       photo: data.photo,
+      signature: data.signature,
     });
   };
   const navigate = useNavigate();
   useEffect(() => {
     if (userId) {
       if (userType === 'guest') {
-        navigate('/guest');
+        navigate('/profile');
       } else {
         navigate('/dashboard');
       }
@@ -94,10 +96,15 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
           name="email"
           render={({ field }) => {
             return (
-              <FormItem className="w-full">
-                <FormLabel className="text-slate-900">Email</FormLabel>
+              <FormItem className="w-full ">
+                <FormLabel className="text-slate-950 dark:text-slate-50">Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Email" className="text-slate-950" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    className="text-slate-950 dark:text-slate-50 "
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -111,13 +118,13 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
           render={({ field }) => {
             return (
               <FormItem className="w-full">
-                <FormLabel className="text-slate-900">Password</FormLabel>
+                <FormLabel className="text-slate-950 dark:text-slate-50">Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Password"
-                      className="text-slate-950"
+                      className="text-slate-950 dark:text-slate-50"
                       {...field}
                     />
                     <Button
@@ -128,9 +135,12 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
                       {showPassword ? (
-                        <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
+                        <FaRegEye className="h-4 w-4 text-slate-950 dark:text-slate-50" aria-hidden="true" />
                       ) : (
-                        <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                        <FaRegEyeSlash
+                          className="h-4 w-4 text-slate-950 dark:text-slate-50"
+                          aria-hidden="true"
+                        />
                       )}
                       <span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
                     </Button>
@@ -155,7 +165,7 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
               className="grow flex flex-row gap-2 flex-wrap bg-blue-950 hover:bg-yellow-400 text-slate-50 hover:text-slate-950"
               disabled={isLoading}
             >
-              {isLoading ? (
+              {isLoading && !onError ? (
                 <>
                   <FaSpinner className="animate-spin" />
                   Signing in...
@@ -166,6 +176,9 @@ const Signin = ({ setAuthenticationType }: SigninProps) => {
             </Button>
           </div>
         </div>
+        {onError && (
+          <p className="text-xs italic text-red-500">Incorrect Email/Password. Please try again!</p>
+        )}
         <p>
           Don't have an account?{' '}
           <span className="cursor-pointer text-blue-600" onClick={() => setAuthenticationType('signup')}>

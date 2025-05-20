@@ -4,12 +4,19 @@ import PaginationButtons from '@/components/UiHooks/PaginationButtons';
 import SearchTerm from '@/components/UiHooks/Search';
 import { useViewModules } from '@/hooks/use/useModules';
 import Pagination from '@/hooks/utils/Pagination';
+import { useStore } from '@/store/store';
 import { useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import ModuleCards from './Cards/ModuleCards';
 
 const Modules = () => {
   const { moduleData, isPending } = useViewModules();
   const [searchTerm, setSearchTerm] = useState('');
+  const { userType } = useStore(
+    useShallow((state) => ({
+      userType: state.userType,
+    }))
+  );
 
   //module list
   const moduleList = searchTerm
@@ -25,9 +32,7 @@ const Modules = () => {
   return (
     <div className="flex flex-col py-8 px-4 content-center-safe gap-4">
       <div className="flex flex-row flex-wrap gap-2 items-center border-b-4 pb-4">
-        <div className="grow">
-          <Add />
-        </div>
+        <div className="grow">{userType === 'admin' && <Add />}</div>
         <SearchTerm setSearchTerm={setSearchTerm} placeholder={'Search module name...'} />
       </div>
       <div className="flex flex-wrap flex-row gap-4">

@@ -6,10 +6,14 @@ export type UserState = {
   displayName: string | null;
   userType: string | null;
   photo: string | null;
+  signature: string | null;
 };
 
 export type UserAction = {
   setUserLoginData: (data: UserState) => void;
+  setUserDisplayName: (displayName: string) => void;
+  setUserPhoto: (photo: string) => void;
+  setUserSignature: (signature: string) => void;
   clearUserLoginData: () => void;
 };
 
@@ -21,6 +25,7 @@ const initialState = {
   displayName: null,
   userType: null,
   photo: null,
+  signature: null,
 };
 
 export const createUserSlice: StateCreator<
@@ -38,8 +43,24 @@ export const createUserSlice: StateCreator<
         state.displayName = data.displayName;
         state.userType = data.userType;
         state.photo = data.photo;
+        state.signature = data.signature;
       });
     }
+  },
+  setUserDisplayName: (displayName) => {
+    set((state) => {
+      state.displayName = displayName;
+    });
+  },
+  setUserPhoto: (photo) => {
+    set((state) => {
+      state.photo = photo;
+    });
+  },
+  setUserSignature: (signature) => {
+    set((state) => {
+      state.signature = signature;
+    });
   },
   clearUserLoginData: () => {
     set(() => initialState);

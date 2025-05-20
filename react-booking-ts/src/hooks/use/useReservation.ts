@@ -2,9 +2,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
   addReservation,
+  addReservationExtras,
+  getGuestReserveCount,
+  getReservationExtras,
   getReservationInformation,
   updateBookingStatus,
   updateTrackingStatus,
+  viewGuestReservations,
   viewReservations,
 } from '../api/ReserveAPI';
 
@@ -33,6 +37,13 @@ export const useGetReservation = () => {
   });
 
   return { reservationData, isPending };
+};
+
+export const useGetGuestReservations = () => {
+  const { mutate: viewGuestData, isPending } = useMutation({
+    mutationFn: viewGuestReservations,
+  });
+  return { viewGuestData, isPending };
 };
 
 export const useViewCustomerReservation = () => {
@@ -74,4 +85,34 @@ export const useUpdateBookingStatus = () => {
     },
   });
   return { isLoading, editBookingStatus };
+};
+
+export const useGetGuestReserveCount = () => {
+  const { mutate: isGetGuestReserveCount, isPending } = useMutation({
+    mutationFn: getGuestReserveCount,
+  });
+  return { isGetGuestReserveCount, isPending };
+};
+
+export const useAddReservationExtras = () => {
+  const queryClient = useQueryClient();
+  const { mutate: createReservationExtras, isPending } = useMutation({
+    mutationFn: addReservationExtras,
+    onSuccess: () => {
+      toast.success('Extras Added', { id: 'reservation' });
+      queryClient.invalidateQueries({ queryKey: ['extras'] });
+    },
+    onError: (error) => {
+      toast.error(error.message, { id: 'reservation' });
+      console.error(error.message);
+    },
+  });
+  return { isPending, createReservationExtras };
+};
+
+export const useGetGuestExtras = () => {
+  const { mutate: viewGuestExtras, isPending } = useMutation({
+    mutationFn: getReservationExtras,
+  });
+  return { viewGuestExtras, isPending };
 };

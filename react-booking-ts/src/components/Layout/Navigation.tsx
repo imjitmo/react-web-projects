@@ -1,24 +1,31 @@
 import { navIn } from '@/anim/variant';
 import { Button } from '@/components/ui/button';
+import { checkUserSession } from '@/hooks/api/AuthAPI';
 import { useUserLogout } from '@/hooks/use/useUsers';
 import { useStore } from '@/store/store';
 import { motion } from 'framer-motion';
 import { LucideNotebookPen } from 'lucide-react';
 import { useState } from 'react';
-import { FaAddressBook, FaBed, FaCalendarAlt, FaChartPie, FaSignOutAlt, FaUsersCog } from 'react-icons/fa';
+import { CgProfile } from 'react-icons/cg';
+import { FaBed, FaCalendarAlt, FaChartPie, FaSignOutAlt, FaUsersCog } from 'react-icons/fa';
+import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { IoQrCodeSharp } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
+import Details from '../Accounts/Details';
+import Image from '../Accounts/Image';
 import { DateTimeFormatter } from '../UiHooks/Formatter';
 import Modal from '../UiHooks/Modal';
 
 const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
   const [onLogout, setOnLogout] = useState(false);
-  const { displayName, userType, photo } = useStore(
+  const { userId, displayName, userType, photo, clearUserLoginData } = useStore(
     useShallow((state) => ({
+      userId: state.userId,
       displayName: state.displayName,
       userType: state.userType,
       photo: state.photo,
+      clearUserLoginData: state.clearUserLoginData,
     }))
   );
   const pathname = location.pathname.substring(1);
@@ -27,7 +34,12 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
   const { isLogoutUser } = useUserLogout();
 
   const handleLogout = async () => {
-    isLogoutUser();
+    const checkSession = await checkUserSession();
+    if (checkSession.session === null) {
+      clearUserLoginData();
+    } else {
+      isLogoutUser();
+    }
   };
   return (
     <motion.nav
@@ -35,13 +47,13 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
       animate={isNavOpen ? 'show' : 'hidden'}
       className={` ${
         isNavOpen ? '' : 'hidden'
-      } sticky top-0 left-0 shrink-0 bg-blue-950 min-w-[280px] max-w-[280px] min-h-screen backdrop-blur-2xl py-4 flex flex-col gap-2 text-slate-50`}
+      } fixed top-0 left-0  bg-blue-950 min-w-[280px] max-w-[280px] min-h-screen backdrop-blur-2xl py-4 flex flex-col gap-2 text-slate-50 z-[999]`}
     >
       <ul className="flex grow flex-col items-start justify-start gap-6 pl-6">
         <li className="flex flex-row gap-2 cursor-pointer">
           <div>
             <img
-              src="https://mxpqoufbrlvnquooiege.supabase.co/storage/v1/object/public/images/fossh.png"
+              src="https://mxpqoufbrlvnquooiege.supabase.co/storage/v1/object/public/images//softnet_logo.jpg"
               className="size-10 rounded-4xl"
               alt=""
             />
@@ -60,7 +72,8 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
                 pathname === 'dashboard' ? 'sidebar-active' : ''
               } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
             >
-              <FaChartPie className="size-6" /> {userRestriction ? 'Dashboard' : 'Profile'}
+              {userRestriction ? <FaChartPie className="size-6" /> : <CgProfile className="size-6" />}{' '}
+              {userRestriction ? 'Dashboard' : 'Profile'}
             </NavLink>
           </li>
           {userRestriction && (
@@ -85,7 +98,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
               <FaCalendarAlt className="size-6" /> <span>Reservations</span>
             </NavLink>
           </li>
-          {userRestriction && (
+          {/* {userRestriction && (
             <li>
               <NavLink
                 to="/guests"
@@ -96,7 +109,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
                 <FaAddressBook className="size-6" /> <span>Guest Management</span>
               </NavLink>
             </li>
-          )}
+          )} */}
           <li>
             <NavLink
               to={userRestriction ? '/rooms' : '/room'}
@@ -107,35 +120,48 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
               <FaBed className="size-6" /> {userRestriction ? 'Room Management' : 'Rooms'}
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/accounts"
-              className={`flex flex-row items-center gap-3 cursor-pointer ${
-                pathname === 'accounts' ? 'sidebar-active' : ''
-              } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
-            >
-              <FaUsersCog className="size-6" /> Account Management
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/scan"
-              className={`flex flex-row items-center gap-3 cursor-pointer ${
-                pathname === 'scan' ? 'sidebar-active' : ''
-              } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
-            >
-              <IoQrCodeSharp className="size-6" /> Scan
-            </NavLink>
-          </li>
+          {userRestriction && (
+            <>
+              <li>
+                <NavLink
+                  to="/accounts"
+                  className={`flex flex-row items-center gap-3 cursor-pointer ${
+                    pathname === 'accounts' ? 'sidebar-active' : ''
+                  } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
+                >
+                  <FaUsersCog className="size-6" /> Account Management
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/scan"
+                  className={`flex flex-row items-center gap-3 cursor-pointer ${
+                    pathname === 'scan' ? 'sidebar-active' : ''
+                  } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
+                >
+                  <IoQrCodeSharp className="size-6" /> Scan
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/reports"
+                  className={`flex flex-row items-center gap-3 cursor-pointer ${
+                    pathname === 'repots' ? 'sidebar-active' : ''
+                  } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
+                >
+                  <HiOutlineDocumentReport className="size-6" /> Reports
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </ul>
       <div className="flex flex-row items-center justify-center content-center place-content-center border-t-slate-500 border-t pt-2 px-2 gap-4">
         <div className="cursor-pointer rounded-4xl border-2 border-solid border-yellow-400">
-          <img src={photo ? photo : ''} className="size-8 rounded-4xl" alt="" />
+          <Image photo={photo ? photo : ''} id={userId ? userId : ''} />
         </div>
-        <div className="flex flex-col cursor-pointer grow">
-          <p>{displayName}</p>
-          <p className="capitalize text-slate-400 text-sm">{userType}</p>
+        <div className="grow">
+          <Details />
         </div>
         <div className="items-end">
           <Button

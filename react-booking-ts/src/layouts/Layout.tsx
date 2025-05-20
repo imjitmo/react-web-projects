@@ -22,7 +22,7 @@ const Layout = () => {
   );
 
   const [isNavOpen, setIsNavOpen] = useState<ShowSidebarProps['isNavOpen']>(true);
-
+  const [active, setActive] = useState(true);
   useEffect(() => {
     if (!userId) {
       navigate('/auth');
@@ -34,9 +34,11 @@ const Layout = () => {
       {isLoading && <div>Loading...</div>}
 
       <main className="min-h-screen w-full flex flex-row">
-        <Navigation isNavOpen={isNavOpen} />
+        <div className={`w-[350px] ${active ? '' : 'hidden'}`}>
+          <Navigation isNavOpen={isNavOpen} />
+        </div>
         <section className="w-full flex flex-col">
-          <Header setIsNavOpen={setIsNavOpen} />
+          <Header setIsNavOpen={setIsNavOpen} active={active} setActive={setActive} />
           <section className="w-full grow">
             <Outlet />
           </section>

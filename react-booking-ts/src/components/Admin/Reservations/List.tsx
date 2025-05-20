@@ -25,6 +25,8 @@ import Pagination from '@/hooks/utils/Pagination';
 import { differenceInCalendarDays } from 'date-fns';
 import { useState } from 'react';
 import { FiMoreHorizontal } from 'react-icons/fi';
+import Extras from './Extras';
+import Guest from './Guest';
 import Invoice from './Invoice';
 import View from './View';
 
@@ -37,11 +39,20 @@ const List = ({ searchTerm, status }: ListProps) => {
   const { reservationData, isPending } = useGetReservation();
   const [onView, setOnView] = useState(false);
   const [onInvoice, setOnInvoice] = useState(false);
+  const [onGuest, setOnGuest] = useState(false);
+  const [onExtras, setOnExtras] = useState(false);
+  const [invoiceId, setInvoiceId] = useState('');
+  const [viewId, setViewId] = useState('');
+  const [guestId, setGuestId] = useState('');
+  const [extrasId, setExtrasId] = useState('');
 
   // data filtering
   const reservationStatus = reservationData?.filter((reservation) => {
     if (status === 'active') {
-      return reservation.bookTracking !== 'checked out' && reservation.bookStatus === 'approved';
+      return (
+        (reservation.bookTracking !== 'checked out' && reservation.bookStatus === 'approved') ||
+        (reservation.bookTracking !== 'checkout' && reservation.bookStatus === 'request')
+      );
     } else if (status === 'past') {
       return reservation.bookTracking === 'checked out';
     } else if (status === 'pending') {
@@ -114,7 +125,7 @@ const List = ({ searchTerm, status }: ListProps) => {
                 <TableCell>{list.bookTracking}</TableCell>
                 <TableCell>{list.bookStatus}</TableCell>
                 <TableCell>
-                  <DropdownMenu key={i}>
+                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer">
                         <>
@@ -132,28 +143,50 @@ const List = ({ searchTerm, status }: ListProps) => {
                       <DropdownMenuLabel className="cursor-default">Actions</DropdownMenuLabel>
                       <DropdownMenuItem
                         className="cursor-pointer"
-                        onClick={() => setOnInvoice((prev) => !prev)}
+                        onClick={() => {
+                          setOnInvoice((prev) => !prev);
+                          setInvoiceId(list.id);
+                        }}
+                        disabled={!list.bookTracking}
                       >
                         View Invoice
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="cursor-pointer" disabled={!list.userId}>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setOnExtras((prev) => !prev);
+                          setExtrasId(list.id);
+                        }}
+                        disabled={
+                          list.bookStatus === 'pending' ||
+                          list.bookStatus === 'cancelled' ||
+                          list.bookTracking === 'checked out'
+                        }
+                      >
+                        Extras
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setOnGuest((prev) => !prev);
+                          setGuestId(list.userId);
+                        }}
+                        disabled={!list.userId}
+                      >
                         View Guest
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer" onClick={() => setOnView((prev) => !prev)}>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setOnView((prev) => !prev);
+                          setViewId(list.id);
+                        }}
+                      >
                         View Details
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  {onView && (
-                    <View setOnOpen={setOnView} onOpen={onView} key={list.id.substring(0, 4)} {...list} />
-                  )}
-                  <Invoice
-                    setOnOpen={setOnInvoice}
-                    onOpen={onInvoice}
-                    key={list.id.substring(0, 6)}
-                    {...list}
-                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -166,6 +199,10 @@ const List = ({ searchTerm, status }: ListProps) => {
           ) : null}
         </div>
       </div>
+      {onInvoice && <Invoice setOnOpen={setOnInvoice} onOpen={onInvoice} id={invoiceId} />}
+      {onView && <View setOnOpen={setOnView} onOpen={onView} id={viewId} />}
+      {onGuest && <Guest setOnOpen={setOnGuest} onOpen={onGuest} id={guestId} />}
+      {onExtras && <Extras setOnOpen={setOnExtras} onOpen={onExtras} id={extrasId} />}
     </div>
   );
 };

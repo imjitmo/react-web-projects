@@ -4,9 +4,7 @@ import supabase, { supabaseUrl } from './supabase';
 export const createModule = async (moduleData: ModuleCreationProps) => {
   const imageInstance = moduleData.moduleImg instanceof File ? moduleData.moduleImg.name : null;
   const imageInstanceName = imageInstance?.replace(/[^a-zA-Z0-9 -]*/g, '').toLocaleLowerCase();
-  const imageName = `${new Date().getTime()}_${Math.random()
-    .toString(36)
-    .slice(-8)}_${imageInstanceName?.substring(0, 8)}`;
+  const imageName = `${new Date().getTime()}_${imageInstanceName?.substring(0, 4).replace(/\s/g, '')}.pdf`;
   const imagePath = `${supabaseUrl}/storage/v1/object/public/modules/${imageName}`;
   const fileType = moduleData.moduleImg instanceof File ? moduleData.moduleImg.type : null;
 

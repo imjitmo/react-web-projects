@@ -1,19 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useRegisterUser } from '@/hooks/use/useUsers';
+import { useRegisterUser, useUserLogin } from '@/hooks/use/useUsers';
+import { useStore } from '@/store/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegEye, FaRegEyeSlash, FaSpinner } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 
 import * as z from 'zod';
+import { useShallow } from 'zustand/react/shallow';
 
 const passwordValidation = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 
 const SignUpSchema = z
   .object({
+    company: z.string().optional(),
     firstName: z
       .string({
         required_error: 'First name is required',
@@ -58,6 +63,7 @@ interface SignupProps {
 }
 
 const initialValues = {
+  company: '',
   firstName: '',
   middleName: '',
   lastName: '',
@@ -67,12 +73,32 @@ const initialValues = {
 };
 const Signup = ({ setAuthenticationType }: SignupProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const { isRegisterUser, isLoading } = useRegisterUser();
+  const { userId, userType, setUserLoginData } = useStore(
+    useShallow((state) => ({
+      userId: state.userId,
+      userType: state.userType,
+      setUserLoginData: state.setUserLoginData,
+    }))
+  );
+  const { isLoginUser } = useUserLogin();
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: initialValues,
     mode: 'onBlur',
   });
+
+  const handleZustandLoginData = (data: any) => {
+    setUserLoginData({
+      userId: data.userId,
+      email: data.user.email,
+      displayName: `${data.firstName} ${data.lastName}`,
+      userType: data.userType,
+      photo: data.photo,
+      signature: data.signature,
+    });
+  };
 
   const handleSubmit = async (values: z.infer<typeof SignUpSchema>) => {
     isRegisterUser(
@@ -81,17 +107,54 @@ const Signup = ({ setAuthenticationType }: SignupProps) => {
         userType: 'guest',
       },
       {
-        onSuccess: (data) => {
-          console.log(data);
+        onSuccess: () => {
+          isLoginUser(
+            {
+              email: values.email,
+              password: values.password,
+            },
+            {
+              onSuccess: (data) => {
+                handleZustandLoginData(data);
+              },
+            }
+          );
         },
       }
     );
     // console.log(values);
   };
 
+  useEffect(() => {
+    if (userId) {
+      if (userType === 'guest') {
+        navigate('/profile');
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  }, [userId, userType, navigate]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-4">
+        <FormField
+          control={form.control}
+          name="company"
+          render={({ field }) => {
+            return (
+              <FormItem className="w-full">
+                <FormLabel>
+                  Company Name <span className="text-xs italic">(optional)</span>
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="Company Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        ></FormField>
         <FormField
           control={form.control}
           name="firstName"
@@ -176,9 +239,9 @@ const Signup = ({ setAuthenticationType }: SignupProps) => {
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
                       {showPassword ? (
-                        <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
-                      ) : (
                         <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
                       )}
                       <span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
                     </Button>
