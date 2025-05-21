@@ -22,11 +22,13 @@ export const addReservation = async (reservationData: Reservation) => {
 export const viewReservations = async () => {
   const { data, error } = await supabase
     .from('tblReservation')
-    .select(`*, tblRooms(roomName, roomNumber, roomPrice)`);
+    .select(`*, tblRooms(roomName, roomNumber, roomPrice)`)
+    .order('created_at', { ascending: false });
   if (error) {
     console.error(error);
     throw new Error('Reservation could not be created');
   }
+
   return data;
 };
 

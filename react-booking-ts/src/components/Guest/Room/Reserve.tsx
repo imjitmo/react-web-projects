@@ -98,7 +98,6 @@ const Reserve = (roomData: reserveProps) => {
 
   const handleSubmit = (values: z.infer<typeof reservationSchema>) => {
     if (!date?.to || !date?.from) return setOnDateError(true);
-    console.log(values);
     const data: Reservation = {
       ...values,
       amenities: [
@@ -277,7 +276,7 @@ const Reserve = (roomData: reserveProps) => {
                       </div>
                       <div className="flex flex-row items-center justify-between">
                         <span className="text-md font-bold">Days of Stay:</span>
-                        <span className="text-md font-bold">{days}</span>
+                        <span className="text-md font-bold">{days ? days : ''}</span>
                         <span className="text-md font-bold">Total:</span>
                         <span className="text-md font-bold">{CurrencyFormatter(totalPrice)}</span>
                       </div>

@@ -95,111 +95,206 @@ const View = (props: ViewReservationProps) => {
     setOnAsk(true);
   };
 
-  const handleClickUpdate = async () => {
-    const trackingUpdate = !list.bookTracking ? 'checked in' : 'checked out';
-    editReservationStatus(
-      {
-        id: list.id,
-        bookTracking: trackingUpdate,
-        paymentType: trackingUpdate === 'checked out' ? onPaymentType : '',
-      },
-      {
-        onSuccess: () => {
-          userActionLogs({
-            action: `Update Book#${list.id} to ${trackingUpdate}`,
-            ...userLogData,
-          });
-          if (trackingUpdate === 'checked out') {
+  // const handleClickUpdate = async () => {
+  //   const trackingUpdate = !list.bookTracking ? 'checked in' : 'checked out';
+  //   editReservationStatus(
+  //     {
+  //       id: list.id,
+  //       bookTracking: !list.bookTracking ? 'checked in' : 'checked out',
+  //       paymentType: trackingUpdate === 'checked out' ? onPaymentType : '',
+  //     },
+  //     {
+  //       onSuccess: () => {
+  //         userActionLogs({
+  //           action: `Update Book#${list.id} to ${trackingUpdate}`,
+  //           ...userLogData,
+  //         });
+  //         if (trackingUpdate === 'checked out') {
+  //           editRoomStatus(
+  //             { id: list.roomId, status: 'preparing' },
+  //             {
+  //               onSuccess: () => {
+  //                 props.setOnOpen(false);
+  //               },
+  //             }
+  //           );
+  //         }
+  //       },
+  //     }
+  //   );
+  // };
+
+  // const handleClickStatusApproved = () => {
+  //   editBookingStatus(
+  //     { id: list.id, bookStatus: 'approved' },
+  //     {
+  //       onSuccess: () => {
+  //         console.log('test1');
+  //         editRoomStatus(
+  //           { id: list.roomId, status: 'reserved' },
+  //           {
+  //             onSuccess: () => {
+  //               console.log('test2');
+  //               userActionLogs(
+  //                 {
+  //                   action: `Update Book#${list.id} to 'approved'`,
+  //                   ...userLogData,
+  //                 },
+  //                 {
+  //                   onSuccess: () => {
+  //                     console.log('test3');
+  //                     props.setOnOpen(false);
+  //                   },
+  //                 }
+  //               );
+  //             },
+  //           }
+  //         );
+  //       },
+  //     }
+  //   );
+  // };
+
+  // const handleClickStatusCancelled = () => {
+  //   editBookingStatus(
+  //     { id: list.id, bookStatus: 'cancelled' },
+  //     {
+  //       onSuccess: () => {
+  //         userActionLogs(
+  //           {
+  //             action: `Update Book#${list.id} to cancelled`,
+  //             ...userLogData,
+  //           },
+  //           {
+  //             onSuccess: () => {
+  //               editRoomStatus(
+  //                 { id: list.roomId, status: 'preparing' },
+  //                 {
+  //                   onSuccess: () => {
+  //                     props.setOnOpen(false);
+  //                   },
+  //                 }
+  //               );
+  //             },
+  //           }
+  //         );
+  //       },
+  //     }
+  //   );
+  // };
+
+  const handleTransaction = async (type: string) => {
+    if (type === 'approve') {
+      return editBookingStatus(
+        { id: list.id, bookStatus: 'approved' },
+        {
+          onSuccess: () => {
             editRoomStatus(
-              { id: list.roomId, status: 'preparing' },
+              { id: list.roomId, status: 'reserved' },
               {
                 onSuccess: () => {
-                  props.setOnOpen(false);
+                  userActionLogs(
+                    {
+                      action: `Update Book#${list.id} to 'approved'`,
+                      ...userLogData,
+                    },
+                    {
+                      onSuccess: () => {
+                        setOnType('');
+                        setOnAsk(false);
+                        props.setOnOpen(false);
+                        console.log(props.onOpen);
+                      },
+                    }
+                  );
                 },
               }
             );
-          }
-        },
-      }
-    );
-  };
-
-  const handleClickStatusApproved = () => {
-    editBookingStatus(
-      { id: list.id, bookStatus: 'approved' },
-      {
-        onSuccess: () => {
-          userActionLogs(
-            {
-              action: `Update Book#${list.id} to 'approved'`,
-              ...userLogData,
-            },
-            {
-              onSuccess: () => {
-                editRoomStatus(
-                  { id: list.roomId, status: 'reserved' },
-                  {
-                    onSuccess: () => {
-                      props.setOnOpen(false);
-                    },
-                  }
-                );
-              },
-            }
-          );
-        },
-      }
-    );
-  };
-
-  const handleClickStatusCancelled = () => {
-    editBookingStatus(
-      { id: list.id, bookStatus: 'cancelled' },
-      {
-        onSuccess: () => {
-          userActionLogs(
-            {
-              action: `Update Book#${list.id} to cancelled`,
-              ...userLogData,
-            },
-            {
-              onSuccess: () => {
-                editRoomStatus(
-                  { id: list.roomId, status: 'preparing' },
-                  {
-                    onSuccess: () => {
-                      props.setOnOpen(false);
-                    },
-                  }
-                );
-              },
-            }
-          );
-        },
-      }
-    );
-  };
-
-  const handleTransaction = async () => {
-    if (onType === 'tracking') {
-      await handleClickUpdate();
-      setOnType('');
-      setOnAsk(false);
-      props.setOnOpen(false);
-      return;
-    } else if (onType === 'approve') {
-      await handleClickStatusApproved();
-      setOnType('');
-      setOnAsk(false);
-      props.setOnOpen(false);
-      return;
-    } else if (onType === 'cancel') {
-      await handleClickStatusCancelled();
-      setOnType('');
-      setOnAsk(false);
-      props.setOnOpen(false);
-      return;
+          },
+        }
+      );
     }
+    if (type === 'tracking') {
+      return editReservationStatus(
+        {
+          id: list.id,
+          bookTracking: !list.bookTracking ? 'checked in' : 'checked out',
+          paymentType: list.bookTracking === 'checked out' ? onPaymentType : '',
+        },
+        {
+          onSuccess: () => {
+            userActionLogs({
+              action: `Update Book#${list.id} to ${!list.bookTracking ? 'checked in' : 'checked out'}`,
+              ...userLogData,
+            });
+            setOnType('');
+            setOnAsk(false);
+            props.setOnOpen(false);
+            if (list.bookTracking === 'checked in') {
+              editRoomStatus(
+                { id: list.roomId, status: 'preparing' },
+                {
+                  onSuccess: () => {
+                    setOnType('');
+                    setOnAsk(false);
+                    props.setOnOpen(false);
+                  },
+                }
+              );
+            }
+          },
+        }
+      );
+    }
+    if (type === 'cancel') {
+      editBookingStatus(
+        { id: list.id, bookStatus: 'cancelled' },
+        {
+          onSuccess: () => {
+            userActionLogs(
+              {
+                action: `Update Book#${list.id} to cancelled`,
+                ...userLogData,
+              },
+              {
+                onSuccess: () => {
+                  editRoomStatus(
+                    { id: list.roomId, status: 'preparing' },
+                    {
+                      onSuccess: () => {
+                        setOnType('');
+                        setOnAsk(false);
+                        props.setOnOpen(false);
+                      },
+                    }
+                  );
+                },
+              }
+            );
+          },
+        }
+      );
+    }
+    // if (onType === 'tracking') {
+    //   await handleClickUpdate();
+    //   setOnType('');
+    //   setOnAsk(false);
+    //   props.setOnOpen(false);
+    //   return;
+    // } else if (onType === 'approve') {
+    //   console.log('approval');
+    //   await handleClickStatusApproved();
+    //   setOnType('');
+    //   setOnAsk(false);
+    //   props.setOnOpen(false);
+    //   return;
+    // } else if (onType === 'cancel') {
+    //   await handleClickStatusCancelled();
+    //   setOnType('');
+    //   setOnAsk(false);
+    //   props.setOnOpen(false);
+    //   return;
+    // }
   };
   return (
     <div>
@@ -345,7 +440,7 @@ const View = (props: ViewReservationProps) => {
               {onAsk && (
                 <div className="flex flex-row gap-2 items-center">
                   <span className="italic">Are you sure?</span>
-                  <Button className="w-[150px] bg-red-600" onClick={handleTransaction}>
+                  <Button className="w-[150px] bg-red-600" onClick={() => handleTransaction(onType)}>
                     Yes
                   </Button>
                   <Button className="w-[300px] bg-green-600" onClick={() => setOnAsk(false)}>

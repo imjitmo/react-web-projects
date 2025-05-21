@@ -94,8 +94,9 @@ const List = ({ searchTerm, status }: ListProps) => {
             <TableHead>Amount</TableHead>
             <TableHead>Extras</TableHead>
             <TableHead>Book Date</TableHead>
-            <TableHead>Tracking</TableHead>
-            <TableHead>Status</TableHead>
+
+            {status !== 'cancelled' && <TableHead>Tracking</TableHead>}
+            {status !== 'past' && status !== 'cancelled' && <TableHead>Status</TableHead>}
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -122,8 +123,10 @@ const List = ({ searchTerm, status }: ListProps) => {
                 </TableCell>
                 <TableCell>{extrasReducer(list.amenities)}</TableCell>
                 <TableCell>{TimestampTzFormatter(list.created_at)}</TableCell>
-                <TableCell>{list.bookTracking}</TableCell>
-                <TableCell>{list.bookStatus}</TableCell>
+
+                {status !== 'cancelled' && <TableCell>{list.bookTracking}</TableCell>}
+                {status !== 'past' && status !== 'cancelled' && <TableCell>{list.bookStatus}</TableCell>}
+
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

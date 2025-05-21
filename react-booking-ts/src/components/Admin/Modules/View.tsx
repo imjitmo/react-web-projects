@@ -45,7 +45,9 @@ const View = () => {
       <div className="flex flex-row justify-between">
         <h1 className="text-2xl font-bold">{onModuleName}</h1>
         <a href={onFileUrl[0].uri} target="_blank">
-          <Button>Download File</Button>
+          <Button className="text-slate-950 bg-yellow-400 hover:bg-blue-950 hover:text-slate-50">
+            Download File
+          </Button>
         </a>
       </div>
       <DocViewer

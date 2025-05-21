@@ -47,7 +47,7 @@ const Reservations = () => {
               onClick={() => setOnStatus('past')}
               disabled={onStatus === 'past'}
             >
-              <span>Past</span>
+              <span>Completed</span>
             </Button>
           </Tiptools>
           <Tiptools title="Cancelled Reservations" titleClassName="text-sm text-blue-950 dark:text-slate-50">
