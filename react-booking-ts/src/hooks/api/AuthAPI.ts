@@ -2,6 +2,18 @@ import { Users } from '../models/Users';
 import supabase from './supabase';
 
 export const registerUser = async (userData: Users) => {
+  const { data: checkUser, error: checkUserError } = await supabase
+    .from('userCreds')
+    .select('*')
+    .eq('email', userData.email);
+
+  if (checkUser) {
+    throw new Error('Email already exists. Please use a different email!');
+  }
+  if (checkUserError) {
+    throw checkUserError;
+  }
+
   const { data, error } = await supabase.auth.signUp({
     email: userData.email,
     password: userData.password,

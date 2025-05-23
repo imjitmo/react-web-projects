@@ -46,7 +46,7 @@ export const useRegisterUser = () => {
       return userData;
     },
     onError: (error) => {
-      throw error;
+      throw error.message;
     },
   });
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Loading from '@/components/Spinner/Loading';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -85,8 +86,10 @@ const initialValues = {
 const Add = () => {
   const [onOpen, setOnOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const { isRegisterUser, isLoading } = useRegisterUser();
   const { userActionLogs } = useUserLogs();
+  const [onError, setOnError] = useState<any>(null);
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: initialValues,
@@ -127,13 +130,19 @@ const Add = () => {
                 form.reset();
                 setOnOpen(false);
               },
+              onError: (error) => {
+                setOnError(error);
+              },
             }
           );
+        },
+        onError: (error) => {
+          console.log(error);
+          setOnError(error);
         },
       }
     );
   };
-
   return (
     <>
       <Button
@@ -200,6 +209,7 @@ const Add = () => {
                 {form.formState.errors.firstName && (
                   <p className="text-red-500">{form.formState.errors.firstName.message}</p>
                 )}
+
                 {form.formState.errors.lastName && (
                   <p className="text-red-500">{form.formState.errors.lastName.message}</p>
                 )}
@@ -285,6 +295,7 @@ const Add = () => {
                 {form.formState.errors.email && (
                   <p className="text-red-500">{form.formState.errors.email.message}</p>
                 )}
+                {onError && <p className="text-red-500">{onError}</p>}
                 {form.formState.errors.userType && (
                   <p className="text-red-500">{form.formState.errors.userType.message}</p>
                 )}
@@ -313,9 +324,9 @@ const Add = () => {
                           onClick={() => setShowPassword((prev) => !prev)}
                         >
                           {showPassword ? (
-                            <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
-                          ) : (
                             <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                          ) : (
+                            <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
                           )}
                           <span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
                         </Button>
@@ -335,7 +346,29 @@ const Add = () => {
                   <FormItem className="w-full">
                     <FormLabel>Repeat Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="Repeat Password" {...field} />
+                      <div className="relative">
+                        <Input
+                          type={showRepeatPassword ? 'text' : 'password'}
+                          placeholder="Repeat Password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-slate-950"
+                          onClick={() => setShowRepeatPassword((prev) => !prev)}
+                        >
+                          {showRepeatPassword ? (
+                            <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                          ) : (
+                            <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
+                          )}
+                          <span className="sr-only">
+                            {showRepeatPassword ? 'Hide password' : 'Show password'}
+                          </span>
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

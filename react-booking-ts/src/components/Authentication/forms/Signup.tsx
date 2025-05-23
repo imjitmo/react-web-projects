@@ -73,6 +73,7 @@ const initialValues = {
 };
 const Signup = ({ setAuthenticationType }: SignupProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const navigate = useNavigate();
   const { isRegisterUser, isLoading } = useRegisterUser();
   const { userId, userType, setUserLoginData } = useStore(
@@ -261,7 +262,29 @@ const Signup = ({ setAuthenticationType }: SignupProps) => {
               <FormItem className="w-full">
                 <FormLabel>Repeat Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="Repeat Password" {...field} />
+                  <div className="relative">
+                    <Input
+                      type={showRepeatPassword ? 'text' : 'password'}
+                      placeholder="Repeat Password"
+                      {...field}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-slate-950"
+                      onClick={() => setShowRepeatPassword((prev) => !prev)}
+                    >
+                      {showRepeatPassword ? (
+                        <FaRegEye className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <FaRegEyeSlash className="h-4 w-4" aria-hidden="true" />
+                      )}
+                      <span className="sr-only">
+                        {showRepeatPassword ? 'Hide password' : 'Show password'}
+                      </span>
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
