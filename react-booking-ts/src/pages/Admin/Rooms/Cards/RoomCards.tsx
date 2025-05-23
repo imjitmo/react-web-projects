@@ -98,7 +98,9 @@ const RoomCards = ({
             <Update roomData={{ id: roomId, ...roomData }} />
           </span>
           <span className="text-blue-950 dark:text-slate-50 cursor-pointer">
-            <Status roomId={roomId} roomStatus={roomStatus} roomNumber={roomNumber} roomName={roomName} />
+            {roomStatus !== 'reserved' && (
+              <Status roomId={roomId} roomStatus={roomStatus} roomNumber={roomNumber} roomName={roomName} />
+            )}
           </span>
         </div>
         <span
