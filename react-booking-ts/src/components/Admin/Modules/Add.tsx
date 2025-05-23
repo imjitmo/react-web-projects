@@ -24,12 +24,9 @@ const addModuleSchema = z.object({
     .min(1, { message: 'Module Name is required' })
     .max(50, { message: 'Module Name is too long' }),
   moduleImg: z
-    .instanceof(File, { message: 'ppt/pptx/ppsx is required' })
+    .instanceof(File, { message: 'pdf is required' })
     .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_FILE_TYPES.includes(file?.type),
-      'Only .ppt, .pptx, .ppsx formats are supported.'
-    ),
+    .refine((file) => ACCEPTED_FILE_TYPES.includes(file?.type), 'Only .pdf format is supported.'),
 });
 
 const initialValues = {

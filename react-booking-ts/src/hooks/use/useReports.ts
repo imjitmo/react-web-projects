@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { getReservationReports, getUserLogsReports } from '../api/Reports';
 
 export const useGetReservationReports = () => {
@@ -8,7 +7,6 @@ export const useGetReservationReports = () => {
     mutationFn: getReservationReports,
     onSuccess: (userData) => {
       queryClient.invalidateQueries({ queryKey: ['reports'] });
-      toast.success('Report Downloaded', { id: 'reports' });
       return userData;
     },
     onError: (error) => {
@@ -24,7 +22,6 @@ export const useGetUserLogsReports = () => {
     mutationFn: getUserLogsReports,
     onSuccess: (userData) => {
       queryClient.invalidateQueries({ queryKey: ['reports'] });
-      toast.success('Report Downloaded', { id: 'reports' });
       return userData;
     },
     onError: (error) => {

@@ -35,7 +35,7 @@ const addRoomSchema = z.object({
     .string({
       required_error: 'Room Type is required',
     })
-    .min(1, 'Dish Type is required')
+    .min(1, 'Room Type is required')
     .nonempty({ message: 'Room Type is required' }),
   roomPrice: z.coerce.number().min(1, { message: 'Room Price is required' }),
   roomBed: z.coerce.number().min(1, { message: 'Bed Count is required' }),

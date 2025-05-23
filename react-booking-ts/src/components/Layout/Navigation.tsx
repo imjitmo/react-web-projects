@@ -69,7 +69,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
             <NavLink
               to={userRestriction ? '/dashboard' : '/profile'}
               className={`flex flex-row items-center gap-3 cursor-pointer ${
-                pathname === 'dashboard' ? 'sidebar-active' : ''
+                pathname === 'dashboard' || pathname === 'profile' ? 'sidebar-active' : ''
               } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
             >
               {userRestriction ? <FaChartPie className="size-6" /> : <CgProfile className="size-6" />}{' '}
@@ -92,7 +92,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
             <NavLink
               to={userRestriction ? '/reservations' : '/reservation'}
               className={`flex flex-row items-center gap-3 cursor-pointer ${
-                pathname === 'reservations' ? 'sidebar-active' : ''
+                pathname === 'reservations' || pathname === 'reservation' ? 'sidebar-active' : ''
               } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
             >
               <FaCalendarAlt className="size-6" /> <span>Reservations</span>
@@ -114,7 +114,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
             <NavLink
               to={userRestriction ? '/rooms' : '/room'}
               className={`flex flex-row items-center gap-3 cursor-pointer ${
-                pathname === 'rooms' ? 'sidebar-active' : ''
+                pathname === 'rooms' || pathname === 'room' ? 'sidebar-active' : ''
               } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
             >
               <FaBed className="size-6" /> {userRestriction ? 'Room Management' : 'Rooms'}
@@ -146,7 +146,7 @@ const Navigation = ({ isNavOpen }: { isNavOpen: boolean }) => {
                 <NavLink
                   to="/reports"
                   className={`flex flex-row items-center gap-3 cursor-pointer ${
-                    pathname === 'repots' ? 'sidebar-active' : ''
+                    pathname === 'reports' ? 'sidebar-active' : ''
                   } hover:bg-yellow-400 hover:text-slate-950 hover:font-bold p-4 rounded-xl`}
                 >
                   <HiOutlineDocumentReport className="size-6" /> Reports

@@ -76,7 +76,6 @@ export const updateTrackingStatus = async (reservationData: ReservationUpdatePro
   if (error) {
     throw new Error('Reservation status could not be updated');
   }
-  console.log(reservationData);
   return data;
 };
 
