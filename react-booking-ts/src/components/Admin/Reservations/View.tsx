@@ -195,7 +195,7 @@ const View = (props: ViewReservationProps) => {
                 onSuccess: () => {
                   userActionLogs(
                     {
-                      action: `Update Book#${list.id} to 'approved'`,
+                      action: `Update Book#${list.id} to approved`,
                       ...userLogData,
                     },
                     {
